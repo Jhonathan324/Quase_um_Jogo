@@ -99,7 +99,6 @@ typedef struct Player
     int vida;
     int coracoes;
     float velocidade;
-    SDL_FRect retangulo;
 } Player;
 
 // Structs especicas para organizar dados

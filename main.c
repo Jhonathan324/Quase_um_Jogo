@@ -74,6 +74,7 @@ int main(void)
             geral.troca_reso = false;
             InitMenu(&geral, &menu, tamanhos);
             InitPause(&geral, &pause, tamanhos);
+            CalcularJogo(&geral, &jogo, tamanhos);
         }
 
         // Limpar a Tela

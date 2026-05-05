@@ -59,8 +59,8 @@ void GetTamanhos(TAMANHOS *tamanhos)
     tamanhos->tamanho_bloco[0]      = tamanhos->tamanho_tela[0] * (float)64 / 640;
     tamanhos->tamanho_bloco[1]      = tamanhos->tamanho_tela[1] * (float)64 / 360;
 
-    tamanhos->tamanho_jogador[0]    = tamanhos->tamanho_tela[0] * (float)36 / 640;
-    tamanhos->tamanho_jogador[1]    = tamanhos->tamanho_tela[1] * (float)36 / 360;
+    tamanhos->tamanho_jogador[0]    = tamanhos->tamanho_tela[0] * (float)64 / 640;
+    tamanhos->tamanho_jogador[1]    = tamanhos->tamanho_tela[1] * (float)48 / 360;
 
     tamanhos->tamanho_inimigo1[0]   = tamanhos->tamanho_tela[0] * (float)36 / 640;
     tamanhos->tamanho_inimigo1[1]   = tamanhos->tamanho_tela[1] * (float)36 / 360;
