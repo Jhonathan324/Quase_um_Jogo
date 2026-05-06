@@ -21,6 +21,7 @@ void InitJogo(VariveisGerais *geral, VariveisJogo *jogo, TAMANHOS tamanhos){
     jogo->cor_fundo = (SDL_Color)AZUL;
     jogo->velocidade_jogador_x = 0;
     jogo->velocidade_jogador_y = 0;
+    jogo->tempo = 0;
     memset(jogo->mapa,0,sizeof(jogo->mapa));
 
 }
@@ -40,14 +41,14 @@ void CalcularJogo(VariveisGerais *geral, VariveisJogo *jogo, TAMANHOS tamanhos){
     );
 }
 
-void CenaJogoLoop(VariveisGerais *geral, VariveisJogo *jogo)
+void CenaJogoLoop(VariveisGerais *geral, VariveisJogo *jogo, double delta_t)
 {
     const bool *teclado = SDL_GetKeyboardState(NULL);
-
     if (teclado[SDL_SCANCODE_ESCAPE])
         geral->cena = CENA_PAUSE;
 
-    CalcularPlayer(teclado, &jogo->jogador);
+    
+    CalcularPlayer(teclado, &jogo->jogador, delta_t*100);
 }
 
 void CenaJogoDesenhar(VariveisGerais *geral, VariveisJogo *jogo)
@@ -59,8 +60,6 @@ void CenaJogoDesenhar(VariveisGerais *geral, VariveisJogo *jogo)
     // Elementos
     DesenharPlayer(geral->renderizador, jogo->jogador);
 
-    // player
-    SDL_SetRenderDrawColor(geral->renderizador, 255, 0, 0, 255);
-    SDL_RenderFillRect(geral->renderizador, &jogo->jogador.retangulo_coli);
+    
 }
 

@@ -9,7 +9,7 @@
 
 enum ESTADO_PLAYER{
     IDLE,
-    PULO,
+    CORRIDA,
     ATAQUE,
     DANO,
 };
@@ -29,7 +29,11 @@ typedef struct PlayerInJogo
     SDL_FRect retangulo_coli_v;
     SDL_Texture *sprite_atlas;
     int estado_atual;
-    int frame;
+    int estado_passado;
+    double frame;
+    bool costas;
+    bool coli_h;
+    bool coli_v;
 }PlayerInJogo;
 
 typedef struct VariveisJogo
@@ -39,17 +43,18 @@ typedef struct VariveisJogo
     int velocidade_jogador_y;
     uint8_t mapa[TamanhosMapaX][TamanhosMapaY];
     PlayerInJogo jogador;
+    double tempo;
 } VariveisJogo;
 
 
 
 void InitJogo(VariveisGerais *geral, VariveisJogo *jogo, TAMANHOS tamanhos);
 void CalcularJogo(VariveisGerais *geral, VariveisJogo *jogo, TAMANHOS tamanhos);
-void CenaJogoLoop(VariveisGerais *geral, VariveisJogo *jogo);
+void CenaJogoLoop(VariveisGerais *geral, VariveisJogo *jogo, double delta_t);
 void CenaJogoDesenhar(VariveisGerais *geral, VariveisJogo *jogo);
 
 PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL_FRect retangulo_coli,  char *img);
-void CalcularPlayer(const bool *teclado, PlayerInJogo *player);
+void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_frame);
 void DesenharPlayer(SDL_Renderer *renderizador, PlayerInJogo player);
 
 #endif // JOGO_H_INCLUDED

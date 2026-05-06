@@ -30,9 +30,12 @@ int main(void)
     InitConf(&geral, &conf, tamanhos);
     conf.reso_inicial = tamanhos.escala;
 
+    Uint64 tempo_inicial = SDL_GetPerformanceCounter();
+    Uint64 tempo_final = SDL_GetPerformanceCounter();
+    double tempo;
     while (geral.rodando)
-    {
-
+    {   
+        tempo_inicial = SDL_GetPerformanceCounter();
         while (SDL_PollEvent(&geral.evento))
         {
             ModuloEvento(&geral);
@@ -47,7 +50,7 @@ int main(void)
             break;
 
         case (CENA_JOGO):
-            CenaJogoLoop(&geral, &jogo);
+            CenaJogoLoop(&geral, &jogo, tempo);
             CenaJogoDesenhar(&geral, &jogo);
             break;
 
@@ -80,6 +83,11 @@ int main(void)
         // Limpar a Tela
         SDL_RenderPresent(geral.renderizador);
         SDL_Delay(16); // ~60 FPS
+        tempo_final = SDL_GetPerformanceCounter();
+        tempo =
+        (double)(tempo_final - tempo_inicial) /
+        SDL_GetPerformanceFrequency();
+        //printf("Tempo: %f segundos\n", tempo);
     }
 
     // Saindo do jogo
