@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "gerais.h"
 #include "jogo.h"
 
 
@@ -15,7 +14,7 @@ void InitJogo(VariveisGerais *geral, VariveisJogo *jogo, TAMANHOS tamanhos){
     geral->renderizador, 
     (SDL_FRect){100,100,tamanhos.tamanho_jogador[0],tamanhos.tamanho_jogador[1]},
     (SDL_FRect){100,100,tamanhos.tamanho_jogador[0]/2,tamanhos.tamanho_jogador[1]*((float)2/3)},
-    "C:/Users/17898981/projetos/Teste_SDL3/assets/images/entities/player/Samurai.png"
+    "C:/Users/17898981/projetos/Teste_SDL3/assets/images/entities/player/Guerreiro.png"
     );
 
     jogo->cor_fundo = (SDL_Color)AZUL;
@@ -28,8 +27,8 @@ void InitJogo(VariveisGerais *geral, VariveisJogo *jogo, TAMANHOS tamanhos){
 
 void CalcularJogo(VariveisGerais *geral, VariveisJogo *jogo, TAMANHOS tamanhos){
     // a fazer
-    float tela_antiga_x = jogo->jogador.retangulo_img.w / ((float)64 / 640); 
-    float tela_antiga_y = jogo->jogador.retangulo_img.h / ((float)48 / 360);  
+    float tela_antiga_x = jogo->jogador.retangulo_img.w / ((float)MedidaImgPlayerX / 640); 
+    float tela_antiga_y = jogo->jogador.retangulo_img.h / ((float)MedidaImgPlayerY / 360);  
 
     float x = tamanhos.tamanho_tela[0] * ( (double)jogo->jogador.retangulo_coli.x/tela_antiga_x );
     float y = tamanhos.tamanho_tela[1] * ( (double)jogo->jogador.retangulo_coli.y/tela_antiga_y );
@@ -37,7 +36,7 @@ void CalcularJogo(VariveisGerais *geral, VariveisJogo *jogo, TAMANHOS tamanhos){
     geral->renderizador, 
     (SDL_FRect){x,y,tamanhos.tamanho_jogador[0],tamanhos.tamanho_jogador[1]},
     (SDL_FRect){x,y,tamanhos.tamanho_jogador[0]/2,tamanhos.tamanho_jogador[1]*((float)2/3)},
-    "C:/Users/17898981/projetos/Teste_SDL3/assets/images/entities/player/Samurai.png"
+    "C:/Users/17898981/projetos/Teste_SDL3/assets/images/entities/player/Guerreiro.png"
     );
 }
 

@@ -4,15 +4,49 @@
 
 #define TamanhosMapaX 512
 #define TamanhosMapaY 128
-#define MedidaImgPlayerX 64
-#define MedidaImgPlayerY 48
+#define MedidaImgPlayerX 120
+#define MedidaImgPlayerY 80
 
-enum ESTADO_PLAYER{
-    IDLE,
-    CORRIDA,
-    ATAQUE,
-    DANO,
-};
+//animação, quantidade de frames, tempo de execução
+#define TablePlayerAnim \
+    X(ATAQUE,            4) \
+    X(ATAQUE2,           6) \
+    X(ATAQUE2_MOVIMENTO, 6) \
+    X(ATAQUE_COMBO,      10) \
+    X(ATAQUE_MOVIMENTO_COMBO, 10) \
+    X(ATAQUE_MOVIMENTO, 4) \
+    X(AGACHAR,          1) \
+    X(AGACHAR_TODO,     3) \
+    X(AGACHAR_ATAQUE,   4) \
+    X(LEVANTAR,         1) \
+    X(CORRER_AGACHADO,  8) \
+    X(DASH,             2) \
+    X(MORRER,          10) \
+    X(MORRER_CORRENDO, 10) \
+    X(CAIR,             3) \
+    X(HIT,              1) \
+    X(IDLE,            10) \
+    X(PULAR,            3) \
+    X(PULO_TRANSICAO,   2) \
+    X(ROLAR,           12) \
+    X(CORRER,          10) \
+    X(DESLIZAR,         2)\
+    X(DESLIZAR_TODO,    4) \
+    X(DESLIZAR_TRANSICAO_FIM, 1) \
+    X(DESLIZAR_TRANSICAO_COMECO, 1) \
+    X(INVERTER_PASSO,   3) \
+    X(ESCALAR,          7) \
+    X(ESCALAR_MOVIMENTO,7) \
+    X(AGARRAR,          1) \
+    X(DESLIZAR_PAREDE,  3) \
+    
+
+#define X(type, quant) type,
+
+typedef enum {
+   TablePlayerAnim
+} ESTADO_PLAYER;
+#undef X
 
 typedef struct PlayerInJogo
 {
