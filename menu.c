@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include "gerais.h"
 
+#define QuantBotao 4
+
 void InitMenu(VariveisGerais *geral, VariveisMenu *menu, TAMANHOS tamanhos)
 {
     // fonte
@@ -34,6 +36,17 @@ void InitMenu(VariveisGerais *geral, VariveisMenu *menu, TAMANHOS tamanhos)
                   fonte,
                   (SDL_Color)PRETO);
 
+    menu->botao_criacao =
+        InitBotao(geral->renderizador,
+                  &(SDL_FRect){0, 0, tamanhos.tamanho_botao1[0], tamanhos.tamanho_botao1[1]}, // retangulo base
+                  "assets/images/ui/buttons/botão.png",
+                  "Criar Mapas",
+                  (SDL_Color){70, 70, 70, 255},
+                  (SDL_Color)SEMI_PRETO,
+                  CENA_CRIACAO,
+                  fonte,
+                  (SDL_Color)PRETO);
+
     menu->botao_conf =
         InitBotao(geral->renderizador,
                   &(SDL_FRect){0, 0, tamanhos.tamanho_botao1[0], tamanhos.tamanho_botao1[1]}, // retangulo base
@@ -58,13 +71,15 @@ void InitMenu(VariveisGerais *geral, VariveisMenu *menu, TAMANHOS tamanhos)
     // Necessario para alinhar os botões de forma mais pratica
     SDL_FRect *retangulos[] = {
         &menu->botao_iniciar.retangulo,
+        &menu->botao_criacao.retangulo,
         &menu->botao_conf.retangulo,
         &menu->botao_sair.retangulo};
-    CentralizarRectsInRectV(&menu->moldura.retangulo, retangulos, 3, 0.1, 0.2);
+    CentralizarRectsInRectV(&menu->moldura.retangulo, retangulos, QuantBotao, 0.1, 0.2);
 
     // Calculo das partes dos botões para as imagens
     CalcularBotaoPartes(&menu->botao_iniciar);
     CalcularBotaoPartes(&menu->botao_conf);
+    CalcularBotaoPartes(&menu->botao_criacao);
     CalcularBotaoPartes(&menu->botao_sair);
 }
 
@@ -74,9 +89,10 @@ void CenaMenuLoop(VariveisGerais *geral, VariveisMenu *menu)
     geral->ponto_mouse.x = geral->mouse_x;
     geral->ponto_mouse.y = geral->mouse_y;
 
-    int quant_botoes = 3;
+    int quant_botoes = QuantBotao;
     Botao *botoes[] = {
         &menu->botao_iniciar,
+        &menu->botao_criacao,
         &menu->botao_conf,
         &menu->botao_sair};
 
@@ -94,6 +110,7 @@ void CenaMenuDesenhar(VariveisGerais *geral, VariveisMenu *menu)
 {
     Botao *botoes[] = {
         &menu->botao_iniciar,
+        &menu->botao_criacao,
         &menu->botao_conf,
         &menu->botao_sair};
     // limpeza de tela
@@ -102,6 +119,6 @@ void CenaMenuDesenhar(VariveisGerais *geral, VariveisMenu *menu)
 
     // botões
     DesenharMoldura(geral->renderizador, menu->moldura);
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < QuantBotao; i++)
         DesenharBotao(geral->renderizador, *botoes[i]);
 }

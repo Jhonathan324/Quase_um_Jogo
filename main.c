@@ -10,7 +10,7 @@ int main(void)
 
     //iniacilização de tudo
     TAMANHOS tamanhos;
-    tamanhos.escala = 0;
+    tamanhos.escala = 3;
     VariveisGerais geral;
     InitGeral(&geral, &tamanhos);
 
@@ -31,7 +31,6 @@ int main(void)
     conf.reso_inicial = tamanhos.escala;
 
     Uint64 tempo_inicial = SDL_GetPerformanceCounter();
-    Uint64 tempo_final = SDL_GetPerformanceCounter();
     double tempo;
     while (geral.rodando)
     {   
@@ -83,11 +82,8 @@ int main(void)
         // Limpar a Tela
         SDL_RenderPresent(geral.renderizador);
         SDL_Delay(16); // ~60 FPS
-        tempo_final = SDL_GetPerformanceCounter();
-        tempo =
-        (double)(tempo_final - tempo_inicial) /
-        SDL_GetPerformanceFrequency();
-        //printf("Tempo: %f segundos\n", tempo);
+
+        tempo = (double)(SDL_GetPerformanceCounter() - tempo_inicial) / SDL_GetPerformanceFrequency();
     }
 
     // Saindo do jogo

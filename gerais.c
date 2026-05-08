@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "gerais.h"
+#define MedidaImgPlayerX 120
+#define MedidaImgPlayerY 80
+#define MedidaImgBloco 16
 
 // Para eu não me perder as funções deste .c esta organizado na mesma ordem das funções do gerais.h
 
@@ -56,11 +59,14 @@ void GetTamanhos(TAMANHOS *tamanhos)
     tamanhos->tamanho_botao1[0] = tamanhos->tamanho_tela[0] * (float)24 / 640;
     tamanhos->tamanho_botao1[1] = tamanhos->tamanho_tela[1] * (float)24 / 360;
 
-    tamanhos->tamanho_bloco[0]      = tamanhos->tamanho_tela[0] * (float)64 / 640;
-    tamanhos->tamanho_bloco[1]      = tamanhos->tamanho_tela[1] * (float)64 / 360;
+    tamanhos->tamanho_bloco[0]      = tamanhos->tamanho_tela[0] * (float)MedidaImgBloco / 640;
+    tamanhos->tamanho_bloco[1]      = tamanhos->tamanho_tela[1] * (float)MedidaImgBloco / 360;
 
-    tamanhos->tamanho_jogador[0]    = tamanhos->tamanho_tela[0] * (float)120 / 640;
-    tamanhos->tamanho_jogador[1]    = tamanhos->tamanho_tela[1] * (float)80 / 360;
+    tamanhos->tamanho_jogador[0]    = tamanhos->tamanho_tela[0] * (float)MedidaImgPlayerX / 640;
+    tamanhos->tamanho_jogador[1]    = tamanhos->tamanho_tela[1] * (float)MedidaImgPlayerY / 360;
+
+    tamanhos->tamanho_jogador_coli[0]    = tamanhos->tamanho_tela[0] * (float)21 / 640;
+    tamanhos->tamanho_jogador_coli[1]    = tamanhos->tamanho_tela[1] * (float)38 / 360;
 
     tamanhos->tamanho_inimigo1[0]   = tamanhos->tamanho_tela[0] * (float)64 / 640;
     tamanhos->tamanho_inimigo1[1]   = tamanhos->tamanho_tela[1] * (float)48 / 360;

@@ -27,21 +27,21 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_fram
 
     // Logica do Player
     movi_h = (-teclado[SDL_SCANCODE_A] + teclado[SDL_SCANCODE_D]) * player->acelera;
-    movi_v = (-teclado[SDL_SCANCODE_W] + teclado[SDL_SCANCODE_S]) * player->acelera;
+    movi_v = (-teclado[SDL_SCANCODE_W] + teclado[SDL_SCANCODE_S]) * player->acelera * 2;
 
     if(movi_h<0) player->costas = true;
     if(movi_h>0) player->costas = false;
     
     if(movi_h){ 
-        if (player->estado_passado != CORRER){
+        if (player->estado_passado != VMM_PLAYER_CORRER){
             player->frame=0;
         }
         player->estado_passado = player->estado_atual;
-        player->estado_atual = CORRER;
+        player->estado_atual = VMM_PLAYER_CORRER;
     }
     else{
         player->estado_passado = player->estado_atual;
-        player->estado_atual = IDLE;
+        player->estado_atual = VMM_PLAYER_IDLE;
     }
 
     
@@ -68,7 +68,9 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_fram
     player->retangulo_coli.x += player->velocidade_x;
     player->retangulo_coli.y += player->velocidade_y;
 
-    CentralizarRectInRect(&player->retangulo_coli, &player->retangulo_img);
+    
+    player->retangulo_img.y = player->retangulo_coli.y+player->retangulo_coli.h-player->retangulo_img.h;
+    player->retangulo_img.x = player->retangulo_coli.x -  (player->retangulo_img.w * ((float)44/MedidaImgPlayerX)) - (player->costas)*(player->retangulo_img.w * ((float)11/MedidaImgPlayerX)); 
 }
 
 void DesenharPlayer(SDL_Renderer *renderizador, PlayerInJogo player){
@@ -77,12 +79,50 @@ void DesenharPlayer(SDL_Renderer *renderizador, PlayerInJogo player){
     SDL_RenderFillRect(renderizador, &player.retangulo_coli);
 
     Uint64 frame_atual = player.frame / 10; 
-    #define X(type,quant) \
-         case(type):{SDL_RenderTextureRotated(renderizador, player.sprite_atlas,&(SDL_FRect){MedidaImgPlayerX*(frame_atual%quant),MedidaImgPlayerY*type,MedidaImgPlayerX,MedidaImgPlayerY}, \
+    #define X(index,quant) \
+         case(index):{ \
+         SDL_RenderTextureRotated(renderizador, player.sprite_atlas,&(SDL_FRect){MedidaImgPlayerX*(frame_atual%quant),MedidaImgPlayerY*index,MedidaImgPlayerX,MedidaImgPlayerY}, \
          &player.retangulo_img,0,0, player.costas ? SDL_FLIP_HORIZONTAL: 0);}break;
 
     switch(player.estado_atual){
-        TablePlayerAnim
+        TabelaPlayerAnim
     }
     #undef X
+}
+
+void DesenharBloco(SDL_Renderer *renderizador, Bloco bloco){
+    SDL_RenderTexture(renderizador, bloco.textura, &bloco.loc, &bloco.retangulo);
+
+}
+
+void DesenharMapa(SDL_Renderer *renderizador, Mapa mapa, Camera camera, int tamanho_bloco[2], int tamanho_tela[2]){
+    for(int i = 0 ; i*tamanho_bloco[1] < tamanho_tela[1]; i++){
+        for(int j = 0; j*tamanho_bloco[0] < tamanho_tela[0]; j++){
+            if(mapa.tiles[i][j]){ 
+                SDL_FRect src = MapaTiles(mapa.tiles[i][j]);
+                SDL_RenderTexture(renderizador, mapa.textura, &src , &(SDL_FRect){j*tamanho_bloco[0], i*tamanho_bloco[1], tamanho_bloco[0],tamanho_bloco[1]});
+            }
+        }
+    }
+}
+
+SDL_FRect MapaTiles(int n){
+    SDL_FRect rect = {
+        .w = MedidaImgBloco,
+        .h = MedidaImgBloco
+    };
+
+    #define X(index, x_loc, y_loc, tipo) \
+        case(index):{ \
+            rect.x = x_loc * MedidaImgBloco; \
+            rect.y = y_loc * MedidaImgBloco;  \
+        }break; 
+
+    switch(n-1){
+        TabelaBlocoAtlas
+    }
+
+    #undef X
+
+    return rect;
 }

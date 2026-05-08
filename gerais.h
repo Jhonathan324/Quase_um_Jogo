@@ -23,6 +23,7 @@ enum ESTADO_JOGO
     CENA_MENU,
     CENA_JOGO,
     CENA_PAUSE,
+    CENA_CRIACAO,
     CENA_CONF,
     CENA_CREDITOS, // algum dia eu vou usar
     CENA_SAIR,
@@ -88,6 +89,7 @@ typedef struct TAMANHOS
     float tamanho_menu[2];
     float tamanho_botao1[2];
     float tamanho_jogador[2];
+    float tamanho_jogador_coli[2];
     float tamanho_inimigo1[2];
     float tamanho_inimigo2[2];
     float tamanho_bloco[2];
@@ -126,6 +128,7 @@ typedef struct VariveisMenu
     SDL_Color cor_fundo;
     Moldura moldura;
     Botao botao_iniciar;
+    Botao botao_criacao;
     Botao botao_conf;
     Botao botao_sair;
     SDL_Texture *imagem;
