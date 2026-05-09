@@ -5,9 +5,8 @@
 
 1776124136 ated upstream
 
-1778100430 source:c:\users\17898981\projetos\teste_sdl3\main.c
+1778261786 source:c:\users\17898981\projetos\teste_sdl3\main.c
 	<stdio.h>
-	<stdbool.h>
 	"jogo.h"
 
 1776386976 shed changes
@@ -16,31 +15,23 @@
 	<stdio.h>
 	"gerais.h"
 
-1778016868 c:\users\17898981\projetos\teste_sdl3\gerais.h
+1778261923 c:\users\17898981\projetos\teste_sdl3\gerais.h
 	<SDL3/SDL.h>
 	<SDL3/SDL_ttf.h>
 	<SDL3_image/SDL_image.h>
 
-1778018293 source:c:\users\17898981\projetos\teste_sdl3\gerais.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
+1778261628 source:c:\users\17898981\projetos\teste_sdl3\gerais.c
 	"gerais.h"
 
-1777931285 source:c:\users\17898981\projetos\teste_sdl3\jogo.c
+1778113259 source:c:\users\17898981\projetos\teste_sdl3\jogo.c
 	<stdio.h>
 	<stdbool.h>
-	"gerais.h"
 	"jogo.h"
 
-1777930445 source:c:\users\17898981\projetos\teste_sdl3\pause.c
-	<stdio.h>
-	<stdbool.h>
+1778261716 source:c:\users\17898981\projetos\teste_sdl3\pause.c
 	"gerais.h"
 
-1777930437 source:c:\users\17898981\projetos\teste_sdl3\menu.c
-	<stdio.h>
-	<stdbool.h>
+1778261710 source:c:\users\17898981\projetos\teste_sdl3\menu.c
 	"gerais.h"
 
 1777930922 source:c:\users\17898981\projetos\teste_sdl3\geral.c
@@ -48,11 +39,13 @@
 	<stdbool.h>
 	"gerais.h"
 
-1777930505 source:c:\users\17898981\projetos\teste_sdl3\conf.c
-	<stdio.h>
-	<stdbool.h>
+1778261610 source:c:\users\17898981\projetos\teste_sdl3\conf.c
 	"gerais.h"
 
-1778110263 c:\users\17898981\projetos\teste_sdl3\jogo.h
+1778262019 c:\users\17898981\projetos\teste_sdl3\jogo.h
 	"gerais.h"
+
+1778261200 source:c:\users\17898981\projetos\teste_sdl3\jogofuncoes.c
+	"jogo.h"
+	<stdio.h>
 

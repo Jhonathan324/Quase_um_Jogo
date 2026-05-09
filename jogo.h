@@ -48,7 +48,7 @@ typedef enum {
     VMMA_SEM_COLI,
     VMMA_GRAMA_ON,
     VMMA_PEDRA_ON,
-} tipos;
+} TiposVMMA;
 
 
 #define TabelaBlocoAtlas \
@@ -117,15 +117,15 @@ typedef struct PlayerInJogo
 {
     float vida;
     int coracoes;
-    float velocidade_x;
-    float velocidade_y;
-    float acelera;
-    float vel_max_x;
-    float vel_max_y;
+    double velocidade_x;
+    double velocidade_y;
+    double acelera;
+    double vel_max_x;
+    double vel_max_y;
     SDL_FRect retangulo_img;
-    SDL_FRect retangulo_coli;
-    SDL_FRect retangulo_coli_h;
-    SDL_FRect retangulo_coli_v;
+    SDL_Rect retangulo_coli;
+    SDL_Rect retangulo_coli_h;
+    SDL_Rect retangulo_coli_v;
     SDL_Texture *sprite_atlas;
     int estado_atual;
     int estado_passado;
@@ -155,8 +155,6 @@ typedef struct Camera {
 typedef struct VariveisJogo
 {
     SDL_Color cor_fundo;
-    int velocidade_jogador_x;
-    int velocidade_jogador_y;
     Mapa mapa;
     PlayerInJogo jogador;
     double tempo;
@@ -176,9 +174,13 @@ void DesenharBloco(SDL_Renderer *renderizador, Bloco bloco);
 void DesenharMapa(SDL_Renderer *renderizador, Mapa mapa, Camera camera, int tamanho_bloco[2], int tamanhos_tela[2]);
 SDL_FRect MapaTiles(int n);
 
-PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL_FRect retangulo_coli,  char *img);
+PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL_Rect retangulo_coli,  char *img);
 void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_frame);
 void DesenharPlayer(SDL_Renderer *renderizador, PlayerInJogo player);
+
+
+TiposVMMA CalcularTipoVMMA(int n);
+void ColisaoPlayerMapa(PlayerInJogo *jogador, Mapa Mapa, int tamanho_bloco[2], int tamanho_tela[2]);
 
 //Criação de mapa 
 void SalvarMapa(Mapa *c);

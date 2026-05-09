@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 
-PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL_FRect retangulo_coli,  char *img){
+PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL_Rect retangulo_coli,  char *img){
     PlayerInJogo player = {
     100.0,
     3,
@@ -22,12 +22,12 @@ PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL
 }
 
 void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_frame){
-    double movi_v = 0, movi_h = 0;
+    double movi_v = true, movi_h = 0;
     player->frame += delta_frame;
 
     // Logica do Player
-    movi_h = (-teclado[SDL_SCANCODE_A] + teclado[SDL_SCANCODE_D]) * player->acelera;
-    movi_v = (-teclado[SDL_SCANCODE_W] + teclado[SDL_SCANCODE_S]) * player->acelera * 2;
+    movi_h = (teclado[SDL_SCANCODE_D] - teclado[SDL_SCANCODE_A]);
+    
 
     if(movi_h<0) player->costas = true;
     if(movi_h>0) player->costas = false;
@@ -43,15 +43,18 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_fram
         player->estado_passado = player->estado_atual;
         player->estado_atual = VMM_PLAYER_IDLE;
     }
-
     
-
+    
     if(!movi_h) player->velocidade_x = 0;
-    if(!movi_v) player->velocidade_y = 0;
-
-    player->velocidade_x += movi_h * delta_frame * delta_frame;
-    player->velocidade_y += movi_v * delta_frame * delta_frame;
-
+    
+    player->velocidade_x += player->acelera * delta_frame * movi_h;
+    player->velocidade_y += player->acelera * delta_frame * movi_v;
+    
+    if(player->coli_v){
+        movi_v = false;
+        player->velocidade_y = false;
+        player->retangulo_coli_v = player->retangulo_coli;
+    }
     // vericando para a velocidade não passar do maximo
     if (player->velocidade_x < player->vel_max_x*-1)
         player->velocidade_x = player->vel_max_x*-1;
@@ -64,19 +67,31 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_fram
 
     if (player->velocidade_y > player->vel_max_y)
         player->velocidade_y = player->vel_max_y;
+
+    printf("%f\n",player->velocidade_x);
+    player->retangulo_coli_h.x += player->velocidade_x * delta_frame;
+    player->retangulo_coli_v.y += player->velocidade_y * delta_frame;
+        
+    player->retangulo_coli.x = player->retangulo_coli_h.x;
+    player->retangulo_coli.y = player->retangulo_coli_v.y;
+
+    player->retangulo_coli_h = player->retangulo_coli;
+    player->retangulo_coli_v = player->retangulo_coli;
     
-    player->retangulo_coli.x += player->velocidade_x;
-    player->retangulo_coli.y += player->velocidade_y;
 
     
-    player->retangulo_img.y = player->retangulo_coli.y+player->retangulo_coli.h-player->retangulo_img.h;
+    player->retangulo_img.y = player->retangulo_coli.y + player->retangulo_coli.h-player->retangulo_img.h;
     player->retangulo_img.x = player->retangulo_coli.x -  (player->retangulo_img.w * ((float)44/MedidaImgPlayerX)) - (player->costas)*(player->retangulo_img.w * ((float)11/MedidaImgPlayerX)); 
 }
 
 void DesenharPlayer(SDL_Renderer *renderizador, PlayerInJogo player){
     // se tiver em teste eu não comento
     SDL_SetRenderDrawColor(renderizador, 255, 0, 0, 255);
-    SDL_RenderFillRect(renderizador, &player.retangulo_coli);
+    SDL_RenderFillRect(renderizador, &(SDL_FRect){
+        player.retangulo_coli.x,
+        player.retangulo_coli.y,
+        player.retangulo_coli.w,
+        player.retangulo_coli.h});
 
     Uint64 frame_atual = player.frame / 10; 
     #define X(index,quant) \
@@ -94,6 +109,30 @@ void DesenharBloco(SDL_Renderer *renderizador, Bloco bloco){
     SDL_RenderTexture(renderizador, bloco.textura, &bloco.loc, &bloco.retangulo);
 
 }
+
+void ColisaoPlayerMapa(PlayerInJogo *jogador, Mapa mapa, int tamanho_bloco[2], int tamanho_tela[2]){
+    for(int i = 0 ; i*tamanho_bloco[1] < tamanho_tela[1]; i++){
+        for(int j = 0; j*tamanho_bloco[0] < tamanho_tela[0]; j++){
+            if(mapa.tiles[i][j]){ 
+                TiposVMMA tipo_de_coli = CalcularTipoVMMA(mapa.tiles[i][j]);
+                switch (tipo_de_coli){
+                    case VMMA_GRAMA_ON:
+                    case VMMA_PEDRA_ON:{
+                        SDL_Rect retangulo = {j*tamanho_bloco[0], i*tamanho_bloco[1], tamanho_bloco[0], tamanho_bloco[1]};
+                        if(SDL_HasRectIntersection(&retangulo, &jogador->retangulo_coli_v))
+                            jogador->coli_v = true;
+
+                        if(SDL_HasRectIntersection(&retangulo, &jogador->retangulo_coli_h))
+                            jogador->coli_h = true;
+                    }break;
+                        
+                }
+                
+            }
+        }
+    }
+}
+
 
 void DesenharMapa(SDL_Renderer *renderizador, Mapa mapa, Camera camera, int tamanho_bloco[2], int tamanho_tela[2]){
     for(int i = 0 ; i*tamanho_bloco[1] < tamanho_tela[1]; i++){
@@ -125,4 +164,20 @@ SDL_FRect MapaTiles(int n){
     #undef X
 
     return rect;
+}
+
+TiposVMMA CalcularTipoVMMA(int n){
+    TiposVMMA x;
+    #define X(index, x_loc, y_loc, tipo) \
+    case(index):{ \
+        x = tipo; \
+    }break; 
+
+    switch(n-1){
+        TabelaBlocoAtlas
+    }
+
+    #undef X
+    
+    return x;
 }

@@ -14,13 +14,11 @@ void InitJogo(VariveisGerais *geral, VariveisJogo *jogo, TAMANHOS tamanhos){
     jogo->jogador = InitPlayer(
     geral->renderizador, 
     (SDL_FRect){100,100,tamanhos.tamanho_jogador[0],tamanhos.tamanho_jogador[1]},
-    (SDL_FRect){100,100,tamanhos.tamanho_jogador_coli[0],tamanhos.tamanho_jogador_coli[1]},
+    (SDL_Rect){100,100,tamanhos.tamanho_jogador_coli[0],tamanhos.tamanho_jogador_coli[1]},
     "C:/Users/17898981/projetos/Teste_SDL3/assets/images/entities/player/Guerreiro.png"
     );
 
     jogo->cor_fundo = (SDL_Color)AZUL;
-    jogo->velocidade_jogador_x = 0;
-    jogo->velocidade_jogador_y = 0;
     jogo->tempo = 0;
     jogo->camera.x = 0;
     jogo->camera.y = 0;
@@ -55,7 +53,7 @@ void CalcularJogo(VariveisGerais *geral, VariveisJogo *jogo, TAMANHOS tamanhos){
     jogo->jogador = InitPlayer(
     geral->renderizador, 
     (SDL_FRect){x,y,tamanhos.tamanho_jogador[0],tamanhos.tamanho_jogador[1]},
-    (SDL_FRect){x,y,tamanhos.tamanho_jogador[0]/2,tamanhos.tamanho_jogador[1]*((float)2/3)},
+    (SDL_Rect){x,y,tamanhos.tamanho_jogador[0]/2,tamanhos.tamanho_jogador[1]*((float)2/3)},
     "C:/Users/17898981/projetos/Teste_SDL3/assets/images/entities/player/Guerreiro.png"
     );
 
@@ -69,7 +67,7 @@ void CenaJogoLoop(VariveisGerais *geral, VariveisJogo *jogo, double delta_t)
     if (teclado[SDL_SCANCODE_ESCAPE])
         geral->cena = CENA_PAUSE;
 
-    
+    ColisaoPlayerMapa(&jogo->jogador, jogo->mapa, jogo->tamanho_bloco, geral->resolucao_atual);
     CalcularPlayer(teclado, &jogo->jogador, delta_t*100);
 }
 
