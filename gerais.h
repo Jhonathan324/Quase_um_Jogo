@@ -12,10 +12,16 @@
 #define VERDE {20, 255, 20, 255}
 #define AZUL {20, 20, 25, 255}
 #define SEMI_PRETO {0, 0, 0, 128}
+
+
 #define EscalaMoldura 16
 #define EscalaMarcador 16
 #define EscalaBotao 8
 #define CantoFixo 48
+
+#define MedidaImgPlayerX 120
+#define MedidaImgPlayerY 80
+#define MedidaImgBloco 16
 
 // enuns
 enum ESTADO_JOGO
@@ -88,11 +94,12 @@ typedef struct TAMANHOS
     float tamanho_tela[2];
     float tamanho_menu[2];
     float tamanho_botao1[2];
+    float tamanho_botao2[2];
     float tamanho_jogador[2];
     float tamanho_jogador_coli[2];
     float tamanho_inimigo1[2];
     float tamanho_inimigo2[2];
-    float tamanho_bloco[2];
+    float tamanho_bloco1[2];
 } TAMANHOS;
 
 // Structs abstratas
@@ -100,7 +107,6 @@ typedef struct Player
 {
     int vida;
     int coracoes;
-    float velocidade;
 } Player;
 
 // Structs especicas para organizar dados
@@ -173,40 +179,45 @@ void CentralizarRectsInRectV(SDL_FRect *pai, SDL_FRect *filho[], int n, float bo
 // Funções para criação de elementos dinamicos
 CampoTexto InitTexto(SDL_Renderer *renderizador, SDL_FRect *retangulo, SDL_Color cor_fundo, char *texto, char *imagem, TTF_Font *fonte, SDL_Color cor_fonte, bool alinhado);
 void DesenharTexto(SDL_Renderer *renderizador, CampoTexto texto);
+void DestruirTexto(CampoTexto *texto);
 
 Moldura InitMoldura(SDL_Renderer *renderizador, SDL_FRect *retangulo, char *file);
 void CalcularMolduraPartes(Moldura *moldura, float tamanhos_canto);
 void DesenharMoldura(SDL_Renderer *renderizador, Moldura moldura);
+void DestruirMoldura(Moldura *moldura);
 
 Marcador InitMarcador(SDL_Renderer *renderizador, SDL_FRect *retangulo, bool ativo, char *imagem1, SDL_Color cor1, SDL_Color cor2);
 void DesenharMarcador(SDL_Renderer *renderizador, Marcador marcador);
 bool VerificarMarcador(Marcador *marcador, SDL_Point mouse, bool click);
+void DestruirMarcador(Marcador *marcador);
 
 Botao InitBotao(SDL_Renderer *renderizador, SDL_FRect *retangulo, char *imagem, char *texto, SDL_Color cor1, SDL_Color cor2, int indice, TTF_Font *fonte, SDL_Color cor_fonte);
 void CalcularBotaoPartes(Botao *botao);
 void DesenharBotao(SDL_Renderer *renderizador, Botao botao);
 bool VerificarBotao(Botao *botao, SDL_Point mouse, bool click);
+void DestruirBotao(Botao *botao);
 
 BotaoExpansivo InitBotaoExpansivo(SDL_Renderer *renderizador, SDL_FRect *retangulo, char *imagem, char *texto, char *textos[], SDL_Color cor, SDL_Color cor2, int indice, TTF_Font *fonte, SDL_Color cor_fonte, int n);
 void CalcularBotaoExpansivoPartes(BotaoExpansivo *botao);
 void DesenharBotaoExpansivo(SDL_Renderer *renderizador, BotaoExpansivo botao);
+void DestruirBotaoExpansivo(BotaoExpansivo *botao);
 
 // Funções só pra tratamento de eventos
 void ModuloEvento(VariveisGerais *geral);
-void InitGeral(VariveisGerais *geral, TAMANHOS *tamanhos);
+void InitCenaGeral(VariveisGerais *geral, TAMANHOS *tamanhos);
 void CalcularGeral(VariveisGerais *geral, TAMANHOS *tamanhos);
 
 // Funções para cenas em especico
-void InitMenu(VariveisGerais *geral, VariveisMenu *menu, TAMANHOS tamanhos);
-void CenaMenuLoop(VariveisGerais *geral, VariveisMenu *menu);
-void CenaMenuDesenhar(VariveisGerais *geral, VariveisMenu *menu);
+void InitCenaMenu(VariveisGerais *geral, VariveisMenu *menu, TAMANHOS tamanhos);
+void LoopCenaMenu(VariveisGerais *geral, VariveisMenu *menu);
+void DesenharCenaMenu(VariveisGerais geral, VariveisMenu menu);
 
-void InitPause(VariveisGerais *geral, VariveisPause *pause, TAMANHOS tamanhos);
-void CenaPauseLoop(VariveisGerais *geral, VariveisPause *pause);
-void CenaPauseDesenhar(VariveisGerais *geral, VariveisPause *pause);
+void InitCenaPause(VariveisGerais *geral, VariveisPause *pause, TAMANHOS tamanhos);
+void LoopCenaPause(VariveisGerais *geral, VariveisPause *pause);
+void DesenharCenaPause(VariveisGerais geral, VariveisPause pause);
 
-void InitConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS tamanhos);
-void CenaConfLoop(VariveisGerais *geral, VariveisConf *conf, TAMANHOS *tamanhos);
-void CenaConfDesenhar(VariveisGerais geral, VariveisConf conf);
+void InitCenaConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS tamanhos);
+void LoopCenaConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS *tamanhos);
+void DesenharCenaConf(VariveisGerais geral, VariveisConf conf);
 
 #endif // GERAIS_H_INCLUDED

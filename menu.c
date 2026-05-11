@@ -4,7 +4,7 @@
 
 #define QuantBotao 4
 
-void InitMenu(VariveisGerais *geral, VariveisMenu *menu, TAMANHOS tamanhos)
+void InitCenaMenu(VariveisGerais *geral, VariveisMenu *menu, TAMANHOS tamanhos)
 {
     // fonte
     TTF_Font *fonte = TTF_OpenFont("assets/fonts/font1.fon", tamanhos.tamanho_botao1[1]);
@@ -25,6 +25,10 @@ void InitMenu(VariveisGerais *geral, VariveisMenu *menu, TAMANHOS tamanhos)
     CalcularMolduraPartes(&menu->moldura, 48);
 
     // Criação dos botões
+    DestruirBotao(&menu->botao_conf);
+    DestruirBotao(&menu->botao_criacao);
+    DestruirBotao(&menu->botao_iniciar);
+    DestruirBotao(&menu->botao_sair);
     menu->botao_iniciar =
         InitBotao(geral->renderizador,
                   &(SDL_FRect){0, 0, tamanhos.tamanho_botao1[0], tamanhos.tamanho_botao1[1]}, // retangulo base
@@ -83,7 +87,7 @@ void InitMenu(VariveisGerais *geral, VariveisMenu *menu, TAMANHOS tamanhos)
     CalcularBotaoPartes(&menu->botao_sair);
 }
 
-void CenaMenuLoop(VariveisGerais *geral, VariveisMenu *menu)
+void LoopCenaMenu(VariveisGerais *geral, VariveisMenu *menu)
 {
     SDL_GetMouseState(&geral->mouse_x, &geral->mouse_y);
     geral->ponto_mouse.x = geral->mouse_x;
@@ -94,10 +98,10 @@ void CenaMenuLoop(VariveisGerais *geral, VariveisMenu *menu)
         &menu->botao_iniciar,
         &menu->botao_criacao,
         &menu->botao_conf,
-        &menu->botao_sair};
+        &menu->botao_sair
+    };
 
-    for (int i = 0; i < quant_botoes; i++)
-    {
+    for (int i = 0; i < quant_botoes; i++){
         if(VerificarBotao(botoes[i],geral->ponto_mouse,geral->botao_mouse_direito)){
             geral->cena_passada = geral->cena;
             geral->cena = botoes[i]->indice;
@@ -106,19 +110,19 @@ void CenaMenuLoop(VariveisGerais *geral, VariveisMenu *menu)
 
 }
 
-void CenaMenuDesenhar(VariveisGerais *geral, VariveisMenu *menu)
-{
+void DesenharCenaMenu(VariveisGerais geral, VariveisMenu menu){
     Botao *botoes[] = {
-        &menu->botao_iniciar,
-        &menu->botao_criacao,
-        &menu->botao_conf,
-        &menu->botao_sair};
+        &menu.botao_iniciar,
+        &menu.botao_criacao,
+        &menu.botao_conf,
+        &menu.botao_sair};
+    
     // limpeza de tela
-    SDL_SetRenderDrawColor(geral->renderizador, menu->cor_fundo.r, menu->cor_fundo.g, menu->cor_fundo.b, menu->cor_fundo.a);
-    SDL_RenderClear(geral->renderizador);
+    SDL_SetRenderDrawColor(geral.renderizador, menu.cor_fundo.r, menu.cor_fundo.g, menu.cor_fundo.b, menu.cor_fundo.a);
+    SDL_RenderClear(geral.renderizador);
 
     // botões
-    DesenharMoldura(geral->renderizador, menu->moldura);
+    DesenharMoldura(geral.renderizador, menu.moldura);
     for (int i = 0; i < QuantBotao; i++)
-        DesenharBotao(geral->renderizador, *botoes[i]);
+        DesenharBotao(geral.renderizador, *botoes[i]);
 }

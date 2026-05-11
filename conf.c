@@ -2,13 +2,16 @@
 #include <stdbool.h>
 #include "gerais.h"
 
-void InitConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS tamanhos)
+void InitCenaConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS tamanhos)
 {
 
     // fonte
     TTF_Font *fonte = TTF_OpenFont("assets/fonts/font1.fon", tamanhos.tamanho_tela[1] / 10);
 
     // fundo
+    if(conf->imagem){
+        SDL_DestroyTexture(conf->imagem);
+    }
     conf->imagem = IMG_LoadTexture(geral->renderizador, "assets/imagens/UI/backgrounds/conf.png");
 
     // Criação da moldura para os botões
@@ -20,10 +23,13 @@ void InitConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS tamanhos)
     SDL_FRect rect_janela = {0, 20, janela_w, janela_h};
     CentralizarRectInRect(&rect_janela, &rect_moldura);
 
+    DestruirMoldura(&conf->moldura);
     conf->moldura = InitMoldura(geral->renderizador, &rect_moldura, "assets/images/ui/panels/moldura de madeira.png");
     CalcularMolduraPartes(&conf->moldura, CantoFixo);
 
     //Textos
+    DestruirTexto(&conf->texto_reso);
+    DestruirTexto(&conf->texto_full);
     conf->texto_reso = InitTexto(geral->renderizador, 
         &(SDL_FRect){conf->moldura.retangulo.x + CantoFixo - 12,
             conf->moldura.retangulo.y + CantoFixo,
@@ -51,6 +57,9 @@ void InitConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS tamanhos)
     conf->texto_full.retangulo.x = conf->moldura.retangulo.x + conf->moldura.retangulo.w - conf->texto_full.retangulo.w - CantoFixo*((float)2/3);
 
     // Botão para sair das configurações
+    DestruirBotao(&conf->botao_sair);
+    DestruirMarcador(&conf->troca_fullscreen);
+    DestruirBotaoExpansivo(&conf->botao_reso);
     conf->botao_sair =
     InitBotao(geral->renderizador,
         &(SDL_FRect){
@@ -107,7 +116,7 @@ void InitConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS tamanhos)
     CalcularBotaoExpansivoPartes(&conf->botao_reso);
 }
 
-void CenaConfLoop(VariveisGerais *geral, VariveisConf *conf, TAMANHOS *tamanhos)
+void LoopCenaConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS *tamanhos)
 {   
     // obtendo a localização do mouese
     SDL_GetMouseState(&geral->mouse_x, &geral->mouse_y);
@@ -134,7 +143,7 @@ void CenaConfLoop(VariveisGerais *geral, VariveisConf *conf, TAMANHOS *tamanhos)
     if(VerificarMarcador(&conf->troca_fullscreen,geral->ponto_mouse, geral->botao_mouse_direito)){
         geral->fullscrean = !geral->fullscrean;
         CalcularGeral(geral, tamanhos);
-        InitConf(geral, conf, *tamanhos);
+        InitCenaConf(geral, conf, *tamanhos);
     }
 
     if(VerificarBotao(botoes[1],geral->ponto_mouse,geral->botao_mouse_direito)){
@@ -147,15 +156,15 @@ void CenaConfLoop(VariveisGerais *geral, VariveisConf *conf, TAMANHOS *tamanhos)
                 else{
                     tamanhos->escala = i;
                     CalcularGeral(geral, tamanhos);
-                    InitConf(geral, conf, *tamanhos);
+                    InitCenaConf(geral, conf, *tamanhos);
                 }
             }
         }
     }
-    
+
 }
 
-void CenaConfDesenhar(VariveisGerais geral, VariveisConf conf)
+void DesenharCenaConf(VariveisGerais geral, VariveisConf conf)
 {
     // isso vai ser pratico mais para frente - eu sei disso -
     Botao *botoes[] = {&conf.botao_sair};

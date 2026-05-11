@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include "gerais.h"
 
-void InitPause(VariveisGerais *geral, VariveisPause *pause, TAMANHOS tamanhos)
+void InitCenaPause(VariveisGerais *geral, VariveisPause *pause, TAMANHOS tamanhos)
 {
     // fonte
     TTF_Font *fonte = TTF_OpenFont("assets/fonts/font1.fon", tamanhos.tamanho_tela[1] / 10);
@@ -19,25 +19,44 @@ void InitPause(VariveisGerais *geral, VariveisPause *pause, TAMANHOS tamanhos)
     SDL_FRect rect_janela = {0, 20, janela_w, janela_h};
     CentralizarRectInRect(&rect_janela, &rect_moldura); // centralização do pause com base na tela
 
-    pause->moldura = InitMoldura(geral->renderizador, &rect_moldura, "assets/images/ui/panels/moldura de madeira.png");
+    pause->moldura = InitMoldura(
+        geral->renderizador, 
+        &rect_moldura, 
+        "assets/images/ui/panels/moldura de madeira.png"
+    );
+    
     CalcularMolduraPartes(&pause->moldura,48);
 
     // Criação do pause
     // Criação dos botões
+    DestruirBotao(&pause->botao_conf);
+    DestruirBotao(&pause->botao_iniciar);
+    DestruirBotao(&pause->botao_sair);
+    
     pause->botao_iniciar =
         InitBotao(geral->renderizador,
-                  &(SDL_FRect){0, 0, tamanhos.tamanho_botao1[0], tamanhos.tamanho_botao1[1]}, // retangulo base
-                  "assets/images/ui/buttons/botão.png",
-                  "Continuar",
-                  (SDL_Color){70, 70, 70, 255},
-                  (SDL_Color)SEMI_PRETO,
-                   CENA_JOGO,
-                   fonte,
-                  (SDL_Color)PRETO);
+                &(SDL_FRect){
+                    0,
+                    0,
+                    tamanhos.tamanho_botao1[0],
+                    tamanhos.tamanho_botao1[1]
+                }, // retangulo base
+                "assets/images/ui/buttons/botão.png",
+                "Continuar",
+                (SDL_Color){70, 70, 70, 255},
+                (SDL_Color)SEMI_PRETO,
+                CENA_JOGO,
+                fonte,
+                (SDL_Color)PRETO);
 
     pause->botao_conf =
         InitBotao(geral->renderizador,
-                  &(SDL_FRect){0, 0, tamanhos.tamanho_botao1[0], tamanhos.tamanho_botao1[1]}, // retangulo base
+                  &(SDL_FRect){
+                    0, 
+                    0, 
+                    tamanhos.tamanho_botao1[0], 
+                    tamanhos.tamanho_botao1[1]
+                    }, // retangulo base
                   "assets/images/ui/buttons/botão.png",
                   "Configuracoes",
                   (SDL_Color){70, 70, 70, 255},
@@ -48,19 +67,26 @@ void InitPause(VariveisGerais *geral, VariveisPause *pause, TAMANHOS tamanhos)
 
     pause->botao_sair =
         InitBotao(geral->renderizador,
-                  &(SDL_FRect){0, 0, tamanhos.tamanho_botao1[0], tamanhos.tamanho_botao1[1]}, // retangulo base
+                  &(SDL_FRect){
+                    0,
+                    0, 
+                    tamanhos.tamanho_botao1[0],
+                    tamanhos.tamanho_botao1[1]
+                  }, // retangulo base
                   "assets/images/ui/buttons/botão.png",
                   "Menu Inicial",
                   (SDL_Color){70, 70, 70, 255},
                   (SDL_Color)SEMI_PRETO,
-                  CENA_MENU, fonte,
+                  CENA_MENU, 
+                  fonte,
                   (SDL_Color)PRETO);
 
     // Necessario para alinhar os botões de forma mais pratica
     SDL_FRect *retangulos[] = {
         &pause->botao_iniciar.retangulo,
         &pause->botao_conf.retangulo,
-        &pause->botao_sair.retangulo};
+        &pause->botao_sair.retangulo
+    };
     CentralizarRectsInRectV(&pause->moldura.retangulo, retangulos, 3, 0.1, 0.2);
 
     //Calculo das partes dos botões para as imagens
@@ -69,8 +95,7 @@ void InitPause(VariveisGerais *geral, VariveisPause *pause, TAMANHOS tamanhos)
     CalcularBotaoPartes(&pause->botao_sair);
 }
 
-void CenaPauseLoop(VariveisGerais *geral, VariveisPause *pause)
-{
+void LoopCenaPause(VariveisGerais *geral, VariveisPause *pause){
     SDL_GetMouseState(&geral->mouse_x, &geral->mouse_y);
     geral->ponto_mouse.x = geral->mouse_x;
     geral->ponto_mouse.y = geral->mouse_y;
@@ -90,19 +115,19 @@ void CenaPauseLoop(VariveisGerais *geral, VariveisPause *pause)
     }
 }
 
-void CenaPauseDesenhar(VariveisGerais *geral, VariveisPause *pause)
+void DesenharCenaPause(VariveisGerais geral, VariveisPause pause)
 {
     Botao *botoes[] = {
-        &pause->botao_iniciar,
-        &pause->botao_conf,
-        &pause->botao_sair};
+        &pause.botao_iniciar,
+        &pause.botao_conf,
+        &pause.botao_sair};
 
     // limpeza de tela
-    // SDL_SetRenderDrawColor(geral->renderizador, pause->cor_fundo.r, pause->cor_fundo.g, pause->cor_fundo.b, pause->cor_fundo.a);
-    // SDL_RenderClear(geral->renderizador);
+    // SDL_SetRenderDrawColor(geral.renderizador, pause.cor_fundo.r, pause.cor_fundo.g, pause.cor_fundo.b, pause.cor_fundo.a);
+    // SDL_RenderClear(geral.renderizador);
 
     // botões
-    DesenharMoldura(geral->renderizador, pause->moldura);
+    DesenharMoldura(geral.renderizador, pause.moldura);
     for (int i = 0; i < 3; i++)
-        DesenharBotao(geral->renderizador, *botoes[i]);
+        DesenharBotao(geral.renderizador, *botoes[i]);
 }

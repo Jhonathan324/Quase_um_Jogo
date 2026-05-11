@@ -10,30 +10,30 @@ int main(void)
 
     //iniacilização de tudo
     TAMANHOS tamanhos;
-    tamanhos.escala = 3;
+    tamanhos.escala = 0;
     VariveisGerais geral;
-    InitGeral(&geral, &tamanhos);
+    InitCenaGeral(&geral, &tamanhos);
 
     //iniciazação das variaveis da cena menu
     VariveisMenu menu = {AZUL}; // cor de fundo
-    InitMenu(&geral, &menu, tamanhos);
+    InitCenaMenu(&geral, &menu, tamanhos);
 
     //iniciazação das variaveis da cena pause
     VariveisPause pause = {SEMI_PRETO}; // cor de fundo
-    InitPause(&geral, &pause, tamanhos);
+    InitCenaPause(&geral, &pause, tamanhos);
 
     //iniciazação das variaveis da cena jogo
     VariveisJogo jogo;
-    InitJogo(&geral, &jogo, tamanhos);
+    InitCenaJogo(&geral, &jogo, tamanhos);
     //iniciazação das variaveis da cena da conf
     VariveisConf conf;
-    InitConf(&geral, &conf, tamanhos);
+    InitCenaConf(&geral, &conf, tamanhos);
     conf.reso_inicial = tamanhos.escala;
 
     Uint64 tempo_inicial = SDL_GetPerformanceCounter();
     double tempo;
     while (geral.rodando)
-    {   
+    {
         tempo_inicial = SDL_GetPerformanceCounter();
         while (SDL_PollEvent(&geral.evento))
         {
@@ -44,23 +44,23 @@ int main(void)
         {
         // Cenas
         case (CENA_MENU):
-            CenaMenuLoop(&geral, &menu);
-            CenaMenuDesenhar(&geral, &menu);
+            LoopCenaMenu(&geral, &menu);
+            DesenharCenaMenu(geral, menu);
             break;
 
         case (CENA_JOGO):
-            CenaJogoLoop(&geral, &jogo, tempo);
-            CenaJogoDesenhar(&geral, &jogo);
+            LoopCenaJogo(&geral, &jogo, tempo);
+            DesenharCenaJogo(geral, jogo);
             break;
 
         case (CENA_PAUSE):
-            CenaPauseLoop(&geral, &pause);
-            CenaPauseDesenhar(&geral, &pause);
+            LoopCenaPause(&geral, &pause);
+            DesenharCenaPause(geral, pause);
             break;
 
         case (CENA_CONF):
-            CenaConfLoop(&geral, &conf, &tamanhos);
-            CenaConfDesenhar(geral, conf);
+            LoopCenaConf(&geral, &conf, &tamanhos);
+            DesenharCenaConf(geral, conf);
             break;
 
         case (CENA_SAIR):
@@ -74,15 +74,14 @@ int main(void)
 
         if (geral.troca_reso ){
             geral.troca_reso = false;
-            InitMenu(&geral, &menu, tamanhos);
-            InitPause(&geral, &pause, tamanhos);
-            CalcularJogo(&geral, &jogo, tamanhos);
+            InitCenaMenu(&geral, &menu, tamanhos);
+            InitCenaPause(&geral, &pause, tamanhos);
+            CalcularCenaJogo(&geral, &jogo, tamanhos);
         }
 
         // Limpar a Tela
         SDL_RenderPresent(geral.renderizador);
         SDL_Delay(16); // ~60 FPS
-
         tempo = (double)(SDL_GetPerformanceCounter() - tempo_inicial) / SDL_GetPerformanceFrequency();
     }
 

@@ -39,6 +39,9 @@
 		<Unit filename="conf.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="gera_mapa.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="gerais.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -56,6 +59,7 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="mapa.h" />
 		<Unit filename="menu.c">
 			<Option compilerVar="CC" />
 		</Unit>
