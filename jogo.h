@@ -117,6 +117,8 @@ typedef struct PlayerInJogo
 		int coracoes;
 		int estado_atual;
 		int estado_passado;
+		int pulo;
+		int coyote_time;
 		bool costas;
 		bool coli_h;
 		bool coli_v;
@@ -176,12 +178,13 @@ void DesenharMapa(SDL_Renderer *renderizador, Mapa mapa, Camera camera, int tama
 SDL_FRect MapaTiles(int n);
 
 PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL_Rect retangulo_coli,  char *img);
-void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_frame, Camera *camera);
+void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_frame, Camera *camera, Mapa mapa, int tamanho_bloco[2], int tamanhos_tela[2]);
 void DesenharPlayer(SDL_Renderer *renderizador, PlayerInJogo player, Camera camera);
 
 
 TiposVMMA CalcularTipoVMMA(int n);
-void ColisaoPlayerMapa(PlayerInJogo *jogador, Mapa Mapa, int tamanho_bloco[2], int tamanho_tela[2]);
+void ColisaoPlayerMapaH(PlayerInJogo *jogador, Mapa Mapa, int tamanho_bloco[2], int tamanho_tela[2]);
+void ColisaoPlayerMapaV(PlayerInJogo *jogador, Mapa Mapa, int tamanho_bloco[2], int tamanho_tela[2]);
 
 
 //Criação de Mapa

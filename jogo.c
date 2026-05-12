@@ -37,9 +37,12 @@ void InitCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, TAMANHOS tamanhos){
 
     /* Debug
     for(int i = 0; i<TamanhosMapaX; i++){
+        if(rand()%2) jogo->mapa.tiles[7][i] = 0;
         //jogo->mapa.tiles[7][i] = rand()%3+2;
-        jogo->mapa.tiles[8][i] = rand()%3+7;
+        //jogo->mapa.tiles[8][i] = rand()%3+7;
     }
+    for(int i = 0; i<3; i++)
+    jogo->mapa.tiles[7][5+i] = rand()%3+7;
     SalvarMapa(&jogo->mapa);
     */
 
@@ -74,8 +77,8 @@ void LoopCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, double delta_t)
     //player
     //if(jogo->jogador.retangulo_coli.x > geral->resolucao_atual[0]*0.8) jogo->camera.x = jogo->jogador.retangulo_coli.x - geral->resolucao_atual[0]*0.8;
     jogo->camera.x = jogo->jogador.retangulo_coli.x - geral->resolucao_atual[0]/2;
-    ColisaoPlayerMapa(&jogo->jogador, jogo->mapa, jogo->tamanho_bloco, geral->resolucao_atual);
-    CalcularPlayer(teclado, &jogo->jogador, delta_t*100, &jogo->camera);
+    jogo->camera.y = jogo->jogador.retangulo_coli.y - geral->resolucao_atual[1]/2;
+    CalcularPlayer(teclado, &jogo->jogador, delta_t*100, &jogo->camera, jogo->mapa, jogo->tamanho_bloco, geral->resolucao_atual);
 }
 
 void DesenharCenaJogo(VariveisGerais geral, VariveisJogo jogo)
