@@ -24,6 +24,9 @@ void InitCenaGeral(VariveisGerais *geral, TAMANHOS *tamanhos){
     geral->resolucao_atual[0] = tamanhos->tamanho_tela[0];
     geral->resolucao_atual[1] = tamanhos->tamanho_tela[1];
     geral->troca_reso         = false;
+    geral->botao_mouse_direito = false;
+    geral->botao_mouse_esquerdo = false;
+    geral->botao_mouse_meio = false;
 }
 
 void CalcularGeral(VariveisGerais *geral, TAMANHOS *tamanhos){

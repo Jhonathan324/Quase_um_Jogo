@@ -6,7 +6,7 @@
 typedef struct VariaveisMapa{
     SDL_Color cor_fundo;
     SDL_FRect selecao;
-    SDL_Rect selecao_coli;
+    SDL_Point selecao_coli;
     int rolada;
     Marcador *marcador;
     Camera camera;

@@ -628,22 +628,34 @@ void DestruirBotaoExpansivo(BotaoExpansivo *botao){
     }
 }
 
-void ModuloEvento(VariveisGerais *jogo)
+void ModuloEvento(VariveisGerais *geral)
 {
-    if (jogo->evento.type == SDL_EVENT_QUIT)
+    if (geral->evento.type == SDL_EVENT_QUIT)
     {
-        jogo->rodando = false;
+        geral->rodando = false;
     }
-    if (jogo->evento.type == SDL_EVENT_MOUSE_BUTTON_DOWN){
-        if(jogo->evento.button.button == SDL_BUTTON_LEFT)
-            jogo->botao_mouse_esquerdo = true;
+    //mouse
+	SDL_GetMouseState(&geral->mouse_x, &geral->mouse_y);
+    geral->ponto_mouse.x = geral->mouse_x;
+    geral->ponto_mouse.y = geral->mouse_y;
 
-        if(jogo->evento.button.button == SDL_BUTTON_RIGHT)
-            jogo->botao_mouse_direito = true;
+    
+    if (geral->evento.type == SDL_EVENT_MOUSE_BUTTON_DOWN){
+        if(geral->evento.button.button == SDL_BUTTON_LEFT)
+            geral->botao_mouse_esquerdo = true;
+
+        if(geral->evento.button.button == SDL_BUTTON_RIGHT)
+            geral->botao_mouse_direito = true;
+
+        if(geral->evento.button.button == SDL_BUTTON_MIDDLE){
+            geral->botao_mouse_meio = true;
+            
+        }
     }
-    else{
-        jogo->botao_mouse_esquerdo = false;
-         jogo->botao_mouse_direito = false;
+    else if(geral->evento.type == SDL_EVENT_MOUSE_BUTTON_UP){
+        geral->botao_mouse_esquerdo = false;
+        geral->botao_mouse_direito = false;
+        geral->botao_mouse_meio = false;
     }
 
     

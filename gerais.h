@@ -127,8 +127,10 @@ typedef struct VariveisGerais
     int cena_passada;
     bool rodando;
     float mouse_x, mouse_y;
+    float mouse_x_back, mouse_y_back;
     int botao_mouse_direito;
     int botao_mouse_esquerdo;
+    int botao_mouse_meio;
     Player jogador;
     int resolucao_atual[2];
     bool fullscrean;

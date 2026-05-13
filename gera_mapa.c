@@ -66,16 +66,10 @@ void InitCenaMapa(SDL_Renderer *renderizador, VariaveisMapa *mapa, TAMANHOS tama
 	mapa->tamanho_bloco[1] = tamanhos.tamanho_bloco1[1];
 	mapa->selecao.w = tamanhos.tamanho_bloco1[0];
 	mapa->selecao.h = tamanhos.tamanho_bloco1[1];
-
-	mapa->selecao_coli.w = tamanhos.tamanho_bloco1[0];
-	mapa->selecao_coli.h = tamanhos.tamanho_bloco1[1];
 }
 
 void LoopCenaMapa(VariveisGerais *geral, VariaveisMapa *mapa){
-	//mouse
-	SDL_GetMouseState(&geral->mouse_x, &geral->mouse_y);
-    geral->ponto_mouse.x = geral->mouse_x;
-    geral->ponto_mouse.y = geral->mouse_y;
+	
 
 	//teclado
 	const bool *teclado = SDL_GetKeyboardState(NULL);
@@ -90,11 +84,21 @@ void LoopCenaMapa(VariveisGerais *geral, VariaveisMapa *mapa){
 	mapa->camera.x += movimento_h;
 	mapa->camera.y += movimento_v;
 
-	mapa->selecao.x = (geral->ponto_mouse.x/mapa->tamanho_bloco[0]) * mapa->tamanho_bloco[0] - (mapa->camera.x % mapa->tamanho_bloco[0]);
-	mapa->selecao.y = (geral->ponto_mouse.y/mapa->tamanho_bloco[1]) * mapa->tamanho_bloco[1] - (mapa->camera.y % mapa->tamanho_bloco[1]);
+	mapa->selecao.x = ((geral->ponto_mouse.x+mapa->camera.x )/mapa->tamanho_bloco[0]) * mapa->tamanho_bloco[0] - mapa->camera.x;
+	mapa->selecao.y = ((geral->ponto_mouse.y+mapa->camera.y )/mapa->tamanho_bloco[1]) * mapa->tamanho_bloco[1] - mapa->camera.y;
 
-	mapa->selecao_coli.x = mapa->selecao.x;
-	mapa->selecao_coli.y = mapa->selecao.y;
+	mapa->selecao_coli.x = (geral->ponto_mouse.x+mapa->camera.x )/mapa->tamanho_bloco[0];
+	mapa->selecao_coli.y = (geral->ponto_mouse.y+mapa->camera.y )/mapa->tamanho_bloco[1];
+
+	if(geral->botao_mouse_esquerdo){
+		mapa->mapa.tiles[mapa->selecao_coli.y][mapa->selecao_coli.x] = 1;
+		//printf("x:%d y:%d\n", mapa->selecao_coli.x, mapa->selecao_coli.y);
+	}
+	if(geral->botao_mouse_meio){
+		mapa->camera.x = geral->mouse_x - geral->mouse_x_back;
+		mapa->camera.y = geral->mouse_y - geral->mouse_y_back;
+		printf("ta\n");
+	}
 }
 
 

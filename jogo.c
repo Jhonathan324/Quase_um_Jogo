@@ -66,8 +66,10 @@ void CalcularCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, TAMANHOS tamanh
     jogo->tamanho_bloco[1] = tamanhos.tamanho_bloco1[1];
 }
 
-void LoopCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, double delta_t)
-{
+void LoopCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, double delta_t){
+    
+
+
     //teclado
     const bool *teclado = SDL_GetKeyboardState(NULL);
     if (teclado[SDL_SCANCODE_ESCAPE])
