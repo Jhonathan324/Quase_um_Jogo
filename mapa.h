@@ -3,17 +3,32 @@
 
 #include "jogo.h"
 
+typedef struct MarcadorBloco{
+    SDL_FRect retangulo;
+    bool sobre;
+    bool ativo;
+    SDL_Color cor1;
+    SDL_Color cor2;
+    SDL_FRect partes[3][3];
+} MarcadorBloco;
+
 typedef struct VariaveisMapa{
     SDL_Color cor_fundo;
     SDL_FRect selecao;
     SDL_Point selecao_coli;
+    SDL_Point selecao_coli_back;
+    SDL_Point selecao_coli_preencimento;
     int rolada;
-    Marcador *marcador;
-    Camera camera;
-    Mapa mapa;
+    int bloco_uso;
     int velocidade;
     int tamanho_bloco[2];
-
+    bool preencher;
+    Mapa mapa;
+    Camera camera;
+    Camera camera_back;
+    Botao botao_salvar;
+    Moldura moldura_bloco;
+    MarcadorBloco marcador[50];
 }VariaveisMapa;
 
 void InitCenaMapa(SDL_Renderer *renderizador, VariaveisMapa *mapa, TAMANHOS tamanhos);

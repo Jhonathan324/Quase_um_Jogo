@@ -131,6 +131,7 @@ typedef struct VariveisGerais
     int botao_mouse_direito;
     int botao_mouse_esquerdo;
     int botao_mouse_meio;
+    int botao_mouse_gira;
     Player jogador;
     int resolucao_atual[2];
     bool fullscrean;

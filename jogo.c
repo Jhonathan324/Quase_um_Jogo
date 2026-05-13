@@ -72,8 +72,10 @@ void LoopCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, double delta_t){
 
     //teclado
     const bool *teclado = SDL_GetKeyboardState(NULL);
-    if (teclado[SDL_SCANCODE_ESCAPE])
+    if (teclado[SDL_SCANCODE_ESCAPE]){
+        geral->cena_passada = geral->cena;
         geral->cena = CENA_PAUSE;
+    }
 
     //player
     if(-jogo->camera.x+jogo->jogador.retangulo_coli.x + jogo->jogador.retangulo_coli.w > geral->resolucao_atual[0]*0.6) jogo->camera.x = jogo->jogador.retangulo_coli.x  + jogo->jogador.retangulo_coli.w - geral->resolucao_atual[0]*0.6;

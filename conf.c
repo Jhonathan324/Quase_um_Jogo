@@ -31,10 +31,10 @@ void InitCenaConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS tamanhos)
     DestruirTexto(&conf->texto_reso);
     DestruirTexto(&conf->texto_full);
     conf->texto_reso = InitTexto(geral->renderizador, 
-        &(SDL_FRect){conf->moldura.retangulo.x + CantoFixo - 12,
+        &(SDL_FRect){conf->moldura.retangulo.x + CantoFixo -10,
             conf->moldura.retangulo.y + CantoFixo,
             tamanhos.tamanho_botao1[0],
-            tamanhos.tamanho_botao1[1]},
+            tamanhos.tamanho_botao1[1]/2},
         (SDL_Color){0,0,0,0},
         "Resolução",
         NULL,
@@ -44,9 +44,9 @@ void InitCenaConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS tamanhos)
     );
     conf->texto_full = InitTexto(geral->renderizador, 
         &(SDL_FRect){0,
-            conf->moldura.retangulo.y+ CantoFixo,
+            conf->moldura.retangulo.y + CantoFixo,
             tamanhos.tamanho_botao1[0],
-            tamanhos.tamanho_botao1[1]},
+            tamanhos.tamanho_botao1[1]/2},
         (SDL_Color){0,0,0,0},
         "Tela Cheia",
         NULL,
@@ -54,7 +54,7 @@ void InitCenaConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS tamanhos)
         (SDL_Color)PRETO,
         false
     );
-    conf->texto_full.retangulo.x = conf->moldura.retangulo.x + conf->moldura.retangulo.w - conf->texto_full.retangulo.w - CantoFixo*((float)2/3);
+    conf->texto_full.retangulo.x = conf->moldura.retangulo.x + conf->moldura.retangulo.w - conf->texto_full.retangulo.w - CantoFixo/2;
 
     // Botão para sair das configurações
     DestruirBotao(&conf->botao_sair);
@@ -77,7 +77,7 @@ void InitCenaConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS tamanhos)
     CalcularBotaoPartes(&conf->botao_sair);
 
     conf->troca_fullscreen = InitMarcador(geral->renderizador ,&(SDL_FRect){
-        conf->texto_full.retangulo.x+CantoFixo*((float)1/3),
+        conf->texto_full.retangulo.x+CantoFixo*((float)2/3),
         conf->texto_full.retangulo.y + conf->texto_full.retangulo.h ,
         tamanhos.tamanho_botao1[1],
         tamanhos.tamanho_botao1[1]},

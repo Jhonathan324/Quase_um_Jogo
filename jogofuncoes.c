@@ -147,13 +147,14 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_fram
 }
 
 void DesenharPlayer(SDL_Renderer *renderizador, PlayerInJogo player, Camera camera ){
-	// se tiver em teste eu não comento
+	/* se tiver em teste eu não comento
 	SDL_SetRenderDrawColor(renderizador, 255, 0, 0, 255);
 	SDL_RenderFillRect(renderizador, &(SDL_FRect){
 		player.retangulo_coli.x-camera.x,
 		player.retangulo_coli.y-camera.y,
 		player.retangulo_coli.w,
 		player.retangulo_coli.h});
+	*/
 
 	Uint64 frame_atual = player.frame / 10; 
 	#define X(index,quant) \
@@ -213,8 +214,13 @@ void ColisaoPlayerMapaH(PlayerInJogo *jogador, Mapa mapa, int tamanho_bloco[2], 
 
 
 void DesenharMapa(SDL_Renderer *renderizador, Mapa mapa, Camera camera, int tamanho_bloco[2], int tamanho_tela[2]){
-	for(int i = camera.y/tamanho_bloco[1]; i*tamanho_bloco[1] < tamanho_tela[1] + camera.y && i < TamanhosMapaY; i++){
-		for(int j = camera.x/tamanho_bloco[0]; j*tamanho_bloco[0] < tamanho_tela[0] + camera.x && j < TamanhosMapaX; j++){
+	int i = camera.y/tamanho_bloco[1];
+	
+	if(i<0) i = 0;
+	for(; i*tamanho_bloco[1] < tamanho_tela[1] + camera.y && i < TamanhosMapaY; i++){
+		int j = camera.x/tamanho_bloco[0];
+		if(j<0) j = 0;
+		for(; j*tamanho_bloco[0] < tamanho_tela[0] + camera.x && j < TamanhosMapaX; j++){
 			if(mapa.tiles[i][j]){ 
 				SDL_FRect src = MapaTiles(mapa.tiles[i][j]);
 				SDL_RenderTexture(renderizador, mapa.textura, &src , &(SDL_FRect){j*tamanho_bloco[0] - camera.x, i*tamanho_bloco[1] - camera.y, tamanho_bloco[0],tamanho_bloco[1]});

@@ -649,8 +649,10 @@ void ModuloEvento(VariveisGerais *geral)
 
         if(geral->evento.button.button == SDL_BUTTON_MIDDLE){
             geral->botao_mouse_meio = true;
-            
         }
+    }
+    else if(geral->evento.type == SDL_EVENT_MOUSE_WHEEL){
+        geral->botao_mouse_gira = geral->evento.wheel.y;
     }
     else if(geral->evento.type == SDL_EVENT_MOUSE_BUTTON_UP){
         geral->botao_mouse_esquerdo = false;
@@ -658,5 +660,6 @@ void ModuloEvento(VariveisGerais *geral)
         geral->botao_mouse_meio = false;
     }
 
+    
     
 }

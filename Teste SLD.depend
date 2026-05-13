@@ -16,7 +16,7 @@
 	<stdio.h>
 	"gerais.h"
 
-1778617066 c:\users\17898981\projetos\teste_sdl3\gerais.h
+1778676623 c:\users\17898981\projetos\teste_sdl3\gerais.h
 	<SDL3/SDL.h>
 	<SDL3/SDL_ttf.h>
 	<SDL3_image/SDL_image.h>
@@ -38,7 +38,7 @@
 	<stdbool.h>
 	"gerais.h"
 
-1778521253 source:c:\users\17898981\projetos\teste_sdl3\menu.c
+1778614222 source:c:\users\17898981\projetos\teste_sdl3\menu.c
 	<stdio.h>
 	<stdbool.h>
 	"gerais.h"

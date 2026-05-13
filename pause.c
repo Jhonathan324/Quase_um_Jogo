@@ -106,9 +106,11 @@ void LoopCenaPause(VariveisGerais *geral, VariveisPause *pause){
         &pause->botao_conf,
         &pause->botao_sair};
 
+    
     for (int i = 0; i < quant_botoes; i++)
     {
         if(VerificarBotao(botoes[i],geral->ponto_mouse,geral->botao_mouse_esquerdo)){
+            botoes[0]->indice =  geral->cena_passada;
             geral->cena_passada = geral->cena;
             geral->cena = botoes[i]->indice;
         }

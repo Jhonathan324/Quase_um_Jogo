@@ -27,6 +27,7 @@ void InitCenaGeral(VariveisGerais *geral, TAMANHOS *tamanhos){
     geral->botao_mouse_direito = false;
     geral->botao_mouse_esquerdo = false;
     geral->botao_mouse_meio = false;
+    geral->botao_mouse_gira = false;
 }
 
 void CalcularGeral(VariveisGerais *geral, TAMANHOS *tamanhos){
