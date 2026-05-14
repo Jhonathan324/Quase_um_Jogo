@@ -73,6 +73,7 @@ void LoopCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, double delta_t){
     //teclado
     const bool *teclado = SDL_GetKeyboardState(NULL);
     if (teclado[SDL_SCANCODE_ESCAPE]){
+        geral->cena_continuar = geral->cena;
         geral->cena_passada = geral->cena;
         geral->cena = CENA_PAUSE;
     }

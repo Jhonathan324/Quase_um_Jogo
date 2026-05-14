@@ -125,6 +125,7 @@ typedef struct VariveisGerais
     SDL_Point ponto_mouse;
     int cena;
     int cena_passada;
+    int cena_continuar;
     bool rodando;
     float mouse_x, mouse_y;
     float mouse_x_back, mouse_y_back;

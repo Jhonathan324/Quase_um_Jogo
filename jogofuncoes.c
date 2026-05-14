@@ -84,7 +84,8 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_fram
 				player->estado_passado = player->estado_atual;
 			}
 			player->velocidade_y -= player->acelera * delta_frame * 20;
-			player->pulo--;
+			player->pulo-= delta_frame;
+			if(player->pulo < 0 ) player->pulo = 0;
 		}
 		else if(player->coyote_time > 1){
 			player->frame=0;
@@ -100,7 +101,7 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_fram
 	else{
 		player->coyote_time = false;
 		if(teclado[SDL_SCANCODE_SPACE] && player->estado_atual && !player->pulo){
-			player->pulo = 20;
+			player->pulo = 40;
 		}
 		if(movi_h){ 
 			if (player->estado_passado != VMM_PLAYER_CORRER){

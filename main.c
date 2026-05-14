@@ -91,6 +91,7 @@ int main(void)
             geral.troca_reso = false;
             InitCenaMenu(&geral, &menu, tamanhos);
             InitCenaPause(&geral, &pause, tamanhos);
+            InitCenaMapa(geral.renderizador, &mapa, tamanhos);
             CalcularCenaJogo(&geral, &jogo, tamanhos);
         }
 

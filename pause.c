@@ -45,7 +45,7 @@ void InitCenaPause(VariveisGerais *geral, VariveisPause *pause, TAMANHOS tamanho
                 "Continuar",
                 (SDL_Color){70, 70, 70, 255},
                 (SDL_Color)SEMI_PRETO,
-                CENA_JOGO,
+                geral->cena_continuar,
                 fonte,
                 (SDL_Color)PRETO);
 
@@ -109,8 +109,8 @@ void LoopCenaPause(VariveisGerais *geral, VariveisPause *pause){
     
     for (int i = 0; i < quant_botoes; i++)
     {
+        if(geral->cena_passada != CENA_CONF && geral->cena_passada != CENA_MENU) botoes[0]->indice =  geral->cena_passada;
         if(VerificarBotao(botoes[i],geral->ponto_mouse,geral->botao_mouse_esquerdo)){
-            botoes[0]->indice =  geral->cena_passada;
             geral->cena_passada = geral->cena;
             geral->cena = botoes[i]->indice;
         }

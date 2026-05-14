@@ -27,7 +27,9 @@ typedef struct VariaveisMapa{
     Camera camera;
     Camera camera_back;
     Botao botao_salvar;
+    Botao botao_carregar;
     Moldura moldura_bloco;
+    Marcador marcador_preencher;
     MarcadorBloco marcador[50];
 }VariaveisMapa;
 

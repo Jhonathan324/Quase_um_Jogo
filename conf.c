@@ -130,6 +130,7 @@ void LoopCenaConf(VariveisGerais *geral, VariveisConf *conf, TAMANHOS *tamanhos)
     };
 
     if(VerificarBotao(botoes[0],geral->ponto_mouse,geral->botao_mouse_esquerdo)){
+        
         int temp = geral->cena;
         geral->cena = geral->cena_passada;
         geral->cena_passada=temp;

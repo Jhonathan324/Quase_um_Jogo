@@ -40,16 +40,6 @@ void CarregarMapa(Mapa *c, int n) {
 	}
 }
 
-MarcadorBloco InitMarcadorBloco(SDL_Renderer *renderizador, SDL_FRect *retangulo, bool ativo, SDL_Color cor1, SDL_Color cor2){
-    MarcadorBloco marcador = {
-        *retangulo,
-        false,
-        ativo,
-        cor1,
-        cor2,
-    };
-    return marcador;
-}
 
 bool VerificarMarcadorBloco(MarcadorBloco *marcador, SDL_Point mouse, int rolada){
     // Cria um retangulo para verificar as colisões como o mouse
@@ -84,6 +74,8 @@ void InitCenaMapa(SDL_Renderer *renderizador, VariaveisMapa *mapa, TAMANHOS tama
 	// Mapa mapa
 	mapa->mapa.n = 0;
 	CarregarMapa(&mapa->mapa, 0);
+
+	if(mapa->mapa.textura) SDL_DestroyTexture(mapa->mapa.textura);
 	mapa->mapa.textura = IMG_LoadTexture(renderizador,"C:/Users/17898981/projetos/Teste_SDL3/assets/images/world/tiles/Tiles.png");
 	SDL_SetTextureScaleMode(mapa->mapa.textura, SDL_SCALEMODE_NEAREST);
 
@@ -102,12 +94,14 @@ void InitCenaMapa(SDL_Renderer *renderizador, VariaveisMapa *mapa, TAMANHOS tama
 		tamanhos.tamanho_bloco1[0] + 10,
 		tamanhos.tamanho_tela[1]
 	};
+	DestruirMoldura(&mapa->moldura_bloco);
 	mapa->moldura_bloco = InitMoldura(renderizador, &rect_moldura, "assets/images/ui/panels/moldura de madeira.png");
     CalcularMolduraPartes(&mapa->moldura_bloco, CantoFixo);
+	DestruirBotao(&mapa->botao_salvar);
 	mapa->botao_salvar =
 	InitBotao(renderizador,
         &(SDL_FRect){
-            tamanhos.tamanho_tela[0] - CantoFixo,
+            tamanhos.tamanho_tela[0] - CantoFixo*2,
             tamanhos.tamanho_tela[1] - tamanhos.tamanho_botao1[1] - CantoFixo,
             tamanhos.tamanho_botao1[0],
             tamanhos.tamanho_botao1[1]}, // retangulo base
@@ -120,18 +114,49 @@ void InitCenaMapa(SDL_Renderer *renderizador, VariaveisMapa *mapa, TAMANHOS tama
     mapa->botao_salvar.retangulo.x -= mapa->botao_salvar.retangulo.w;
     CalcularBotaoPartes(&mapa->botao_salvar);
 
-	#define X(index, x_loc, y_loc, tipo)                             \
-	mapa->marcador[ index ] = InitMarcadorBloco(                     \
-		renderizador,                                                \
-		&(SDL_FRect){                                                \
+	DestruirBotao(&mapa->botao_carregar);
+	mapa->botao_carregar =
+	InitBotao(renderizador,
+        &(SDL_FRect){
+            tamanhos.tamanho_tela[0] - CantoFixo*2,
+            tamanhos.tamanho_tela[1] - tamanhos.tamanho_botao1[1] - CantoFixo,
+            tamanhos.tamanho_botao1[0],
+            tamanhos.tamanho_botao1[1]}, // retangulo base
+        "assets/images/ui/buttons/botão.png",
+        "Carregar",
+        (SDL_Color){70, 70, 70, 255},
+        (SDL_Color){30, 30, 30, 255},
+        CENA_MENU, fonte,
+        (SDL_Color)PRETO);
+    mapa->botao_carregar.retangulo.x -= mapa->botao_carregar.retangulo.w*2;
+    CalcularBotaoPartes(&mapa->botao_carregar);
+
+
+	mapa->marcador_preencher = InitMarcador(
+		renderizador,
+	    &(SDL_FRect){
+			mapa->botao_carregar.retangulo.x - CantoFixo-tamanhos.tamanho_botao1[0],
+			mapa->botao_carregar.retangulo.y,
+			tamanhos.tamanho_botao1[0],
+			tamanhos.tamanho_botao1[1]},
+		0,
+		"assets/images/ui/buttons/marcador.png",
+		(SDL_Color)SEMI_PRETO, 
+		(SDL_Color)SEMI_PRETO
+	);
+
+
+	#define X(index, x_loc, y_loc, tipo)                                 \
+	mapa->marcador[ index ] = (MarcadorBloco){                           \
+		.ativo = false,													 \
+		.cor1 = (SDL_Color)PRETO,									     \
+		.cor2 = (SDL_Color)BRANCO,							             \
+		.retangulo = (SDL_FRect){                                        \
 			tamanhos.tamanho_tela[0]-tamanhos.tamanho_bloco1[0] -15 + 1, \
-			tamanhos.tamanho_bloco1[1] * index,                      \
-			tamanhos.tamanho_bloco1[0]        ,                      \
-			tamanhos.tamanho_bloco1[1]}       ,                      \
-		0,													         \
-		(SDL_Color)PRETO,									         \
-		(SDL_Color)BRANCO								             \
-		);                                                       
+			tamanhos.tamanho_bloco1[1] * index,                          \
+			tamanhos.tamanho_bloco1[0]        ,                          \
+			tamanhos.tamanho_bloco1[1]}                                  \
+	};                                                       
 	
 	TabelaBlocoAtlas
 
@@ -144,7 +169,8 @@ void LoopCenaMapa(VariveisGerais *geral, VariaveisMapa *mapa){
 	//teclado
 	const bool *teclado = SDL_GetKeyboardState(NULL);
 	if (teclado[SDL_SCANCODE_ESCAPE]){
-		geral->cena_passada = geral->cena;
+		geral->cena_continuar = CENA_CRIACAO;
+		geral->cena_passada = CENA_CRIACAO;
         geral->cena = CENA_PAUSE;
 	}
 
@@ -156,8 +182,7 @@ void LoopCenaMapa(VariveisGerais *geral, VariaveisMapa *mapa){
 	mapa->camera.x += movimento_h;
 	mapa->camera.y += movimento_v;
 
-	mapa->camera.y -= geral->botao_mouse_gira * mapa->velocidade;
-	geral->botao_mouse_gira = false;
+	
 
 	mapa->selecao.x = ((geral->ponto_mouse.x+mapa->camera.x )/mapa->tamanho_bloco[0]) * mapa->tamanho_bloco[0] - mapa->camera.x;
 	mapa->selecao.y = ((geral->ponto_mouse.y+mapa->camera.y )/mapa->tamanho_bloco[1]) * mapa->tamanho_bloco[1] - mapa->camera.y;
@@ -169,6 +194,34 @@ void LoopCenaMapa(VariveisGerais *geral, VariaveisMapa *mapa){
 	if(VerificarBotao(&mapa->botao_salvar, geral->ponto_mouse, geral->botao_mouse_esquerdo)){
 		SalvarMapa(&mapa->mapa);
 	}
+	if(VerificarBotao(&mapa->botao_carregar, geral->ponto_mouse, geral->botao_mouse_esquerdo)){
+		CarregarMapa(&mapa->mapa, mapa->mapa.n);
+	}
+	if(VerificarMarcador(&mapa->marcador_preencher, geral->ponto_mouse, geral->botao_mouse_esquerdo)){
+		printf("preenchimento\n");
+	}
+	if(geral->mouse_x > mapa->moldura_bloco.retangulo.x){
+		mapa->rolada += geral->botao_mouse_gira * 20;
+		geral->botao_mouse_gira = false;
+	}
+	else if(teclado[SDL_SCANCODE_LCTRL]){
+		mapa->tamanho_bloco[0] += geral->botao_mouse_gira * 2;
+		mapa->tamanho_bloco[1] += geral->botao_mouse_gira * 2;
+		mapa->selecao.w = mapa->tamanho_bloco[0];
+		mapa->selecao.h = mapa->tamanho_bloco[1];
+		geral->botao_mouse_gira = false;
+	}
+	else{
+		if(teclado[SDL_SCANCODE_LSHIFT]){
+			mapa->camera.x -= geral->botao_mouse_gira * mapa->velocidade;
+			geral->botao_mouse_gira = false;
+		}
+		else{
+			mapa->camera.y -= geral->botao_mouse_gira * mapa->velocidade;
+			geral->botao_mouse_gira = false;
+		}
+	}
+
 	if(geral->botao_mouse_esquerdo && !mapa->botao_salvar.sobre && geral->mouse_x > mapa->moldura_bloco.retangulo.x){
 		//printf("canau\n");
 		#define X(index, x_loc, y_loc, tipo)                                                  \
@@ -181,12 +234,16 @@ void LoopCenaMapa(VariveisGerais *geral, VariaveisMapa *mapa){
 		#undef X
 	}
 	else if(geral->botao_mouse_esquerdo && !mapa->botao_salvar.sobre){
-		if(1){
+		if(mapa->marcador_preencher.ativo){
 			mapa->selecao_coli_preencimento.x = mapa->selecao_coli.x;
 			mapa->selecao_coli_preencimento.y = mapa->selecao_coli.y;
 			mapa->preencher = true;
+		}
+		else{
+			mapa->mapa.tiles[mapa->selecao_coli.y][mapa->selecao_coli.x] = mapa->bloco_uso;
+		}
 		//printf("x:%d y:%d\n", mapa->selecao_coli.x, mapa->selecao_coli.y);
-	}
+	
 	}
 	if(geral->botao_mouse_direito){
 		mapa->mapa.tiles[mapa->selecao_coli.y][mapa->selecao_coli.x] = 0;
@@ -268,12 +325,7 @@ void DesenharCenaMapa(VariveisGerais geral, VariaveisMapa mapa){
 
 	#undef X
 	
-
-
-
-
-
-
 	DesenharBotao(geral.renderizador, mapa.botao_salvar);
-
+	DesenharBotao(geral.renderizador, mapa.botao_carregar);
+	DesenharMarcador(geral.renderizador, mapa.marcador_preencher);
 }

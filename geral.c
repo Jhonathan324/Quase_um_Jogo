@@ -20,6 +20,7 @@ void InitCenaGeral(VariveisGerais *geral, TAMANHOS *tamanhos){
     geral->fullscrean         = false;
     geral->rodando            = true;
     geral->cena               = CENA_MENU;
+    geral->cena_continuar     = CENA_JOGO;
     geral->renderizador       = SDL_CreateRenderer(geral->janela, NULL);
     geral->resolucao_atual[0] = tamanhos->tamanho_tela[0];
     geral->resolucao_atual[1] = tamanhos->tamanho_tela[1];
