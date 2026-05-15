@@ -29,6 +29,7 @@ void InitCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, Tamanhos tamanhos){
         (SDL_FRect){tamanhos.bloco1[0]*4,65*tamanhos.bloco1[1] - tamanhos.inimigo1[1],tamanhos.inimigo1[0],tamanhos.inimigo1[1]},
         (SDL_Rect) {tamanhos.bloco1[0]*4,65*tamanhos.bloco1[1] - tamanhos.inimigo1[1],tamanhos.inimigo1[0]*5,tamanhos.inimigo1[1]},
         (SDL_Rect) {tamanhos.bloco1[0]*4,65*tamanhos.bloco1[1] - tamanhos.inimigo1[1],tamanhos.inimigo1[0],tamanhos.inimigo1[1]},
+        50,
         10,
         PORCO_NORMAL
     );

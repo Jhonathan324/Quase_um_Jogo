@@ -72,21 +72,20 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
 
 	// Logica do Player
 	movi_h = (teclado[SDL_SCANCODE_D] - teclado[SDL_SCANCODE_A]);
+	/*
+	*/
 	if(jogador->ataque){
 		jogador->ataque -= delta_frame;
 		if(jogador->ataque < 0) jogador->ataque = 0;
-		printf("%d\n",jogador->retangulo_dano.x);
-		jogador->retangulo_dano.w = tamanho_bloco[0] = 0;
-		
+		jogador->retangulo_dano.w = 0;
 	}
 	if(teclado[SDL_SCANCODE_F] && !jogador->ataque){
 		jogador->ataque = 40;
-		jogador->retangulo_dano.x = jogador->retangulo_coli.x;
-		if(!jogador->costas)jogador->retangulo_dano.x += jogador->retangulo_coli.w;
+		jogador->retangulo_dano.w = tamanho_bloco[0]*2;
+		jogador->retangulo_dano.h = tamanho_bloco[1]*2;
 		jogador->retangulo_dano.y = jogador->retangulo_coli.y;
-		jogador->retangulo_dano.w = tamanho_bloco[0];
-		jogador->retangulo_dano.h = tamanho_bloco[1];
-
+		if  ( jogador->costas)jogador->retangulo_dano.x = jogador->retangulo_coli.x - jogador->retangulo_dano.w*1.2;
+		else                  jogador->retangulo_dano.x = jogador->retangulo_coli.x + jogador->retangulo_coli.w*1.2;
 	}
 	
 
@@ -119,109 +118,170 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
 	jogador->retangulo_coli_h = jogador->retangulo_coli;
 	jogador->retangulo_coli_v.x = jogador->retangulo_coli.x;
 
-	if(!jogador->tempo_hit){
-	if(!jogador->coli_v) {
-		if(jogador->pulo) {
-			if(jogador->estado_atual != VMM_PLAYER_PULAR && jogador->estado_atual != VMM_PLAYER_PULO_TRANSICAO && jogador->estado_atual != VMM_PLAYER_CAIR){
-				jogador->frame=0;
-				jogador->estado_passado = jogador->estado_atual;
-				jogador->estado_atual = VMM_PLAYER_PULAR;
+
+	// eu poderia fazer de uma forma mais organizada, mais isso me custaria um tempo que eu não tenho. Fica para projetos futuros.
+	if (!jogador->tempo_hit)
+	{
+		if (!jogador->coli_v)
+		{
+			if (jogador->pulo)
+			{
+				if (jogador->ataque)
+				{
+					if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2)
+					{
+						jogador->frame = 0;
+					}
+					jogador->estado_passado = jogador->estado_atual;
+					jogador->estado_atual = VMM_PLAYER_ATAQUE2_MOVIMENTO;
+				}
+				else
+				{
+					if (jogador->estado_atual != VMM_PLAYER_PULAR && jogador->estado_atual != VMM_PLAYER_PULO_TRANSICAO && jogador->estado_atual != VMM_PLAYER_CAIR)
+					{
+						jogador->frame = 0;
+						jogador->estado_passado = jogador->estado_atual;
+						jogador->estado_atual = VMM_PLAYER_PULAR;
+					}
+					else if (jogador->estado_atual == VMM_PLAYER_PULAR && jogador->pulo < 4)
+					{
+						jogador->frame = 0;
+						jogador->estado_passado = jogador->estado_atual;
+						jogador->estado_atual = VMM_PLAYER_PULO_TRANSICAO;
+					}
+					else
+					{
+						jogador->estado_passado = jogador->estado_atual;
+					}
+				}
+				jogador->velocidade_y -= jogador->acelera * delta_frame * (jogador->pulo / 6);
+				jogador->pulo -= delta_frame;
+				if (jogador->pulo < 0)
+					jogador->pulo = 0;
 			}
-			else if(jogador->estado_atual == VMM_PLAYER_PULAR && jogador->pulo < 4){
-				jogador->frame=0;
-				jogador->estado_passado = jogador->estado_atual;
-				jogador->estado_atual = VMM_PLAYER_PULO_TRANSICAO;
+			else if (jogador->coyote_time > 1)
+			{
+				if (jogador->ataque)
+				{
+					if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2)
+					{
+						jogador->frame = 0;
+					}
+					jogador->estado_passado = jogador->estado_atual;
+					jogador->estado_atual = VMM_PLAYER_ATAQUE2_MOVIMENTO;
+				}
+				else
+				{
+					jogador->frame = 0;
+					jogador->estado_passado = jogador->estado_atual;
+					jogador->estado_atual = VMM_PLAYER_CAIR;
+				}
 			}
-			else{
+			else
+			{
 				jogador->estado_passado = jogador->estado_atual;
 			}
-			jogador->velocidade_y -= jogador->acelera * delta_frame*(jogador->pulo/6);
-			jogador->pulo -= delta_frame;
-			if(jogador->pulo < 0 ) jogador->pulo = 0;
+			if (jogador->estado_atual != VMM_PLAYER_CAIR)
+				jogador->coyote_time++;
+			jogador->velocidade_y += jogador->acelera * delta_frame * movi_v;
 		}
-		else if(jogador->coyote_time > 1){
-			jogador->frame=0;
-			jogador->estado_passado = jogador->estado_atual;
-			jogador->estado_atual = VMM_PLAYER_CAIR;
+		else
+		{
+			jogador->coyote_time = false;
+			if (teclado[SDL_SCANCODE_SPACE] && jogador->estado_atual && !jogador->pulo)
+			{
+				jogador->pulo = 50;
+			}
+			if (movi_h)
+			{
+				if (jogador->ataque)
+				{
+					if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2)
+					{
+						jogador->frame = 0;
+					}
+					jogador->estado_passado = jogador->estado_atual;
+					jogador->estado_atual = VMM_PLAYER_ATAQUE2_MOVIMENTO;
+				}
+				else
+				{
+					if (jogador->estado_passado != VMM_PLAYER_CORRER)
+					{
+						jogador->frame = 0;
+					}
+					jogador->estado_passado = jogador->estado_atual;
+					jogador->estado_atual = VMM_PLAYER_CORRER;
+				}
+			}
+			else
+			{
+				if (jogador->ataque)
+				{
+					if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2)
+					{
+						jogador->frame = 0;
+					}
+					jogador->estado_passado = jogador->estado_atual;
+					jogador->estado_atual = VMM_PLAYER_ATAQUE2;
+				}
+				else
+				{
+					if (jogador->estado_passado != VMM_PLAYER_IDLE)
+					{
+						jogador->frame = 0;
+					}
+					jogador->estado_passado = jogador->estado_atual;
+					jogador->estado_atual = VMM_PLAYER_IDLE;
+				}
+			}
 		}
-		else{
-			jogador->estado_passado = jogador->estado_atual;
-		}
-		if(jogador->estado_atual != VMM_PLAYER_CAIR) jogador->coyote_time++;
-		jogador->velocidade_y += jogador->acelera * delta_frame * movi_v;
 	}
-	else {
-		jogador->coyote_time = false;
-		if(teclado[SDL_SCANCODE_SPACE] && jogador->estado_atual && !jogador->pulo){
-			jogador->pulo = 50;
-		}
-		if(movi_h){ 
-			if(jogador->ataque){
-				if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2){
-						jogador->frame=0;
-				}
-				jogador->estado_passado = jogador->estado_atual;
-				jogador->estado_atual = VMM_PLAYER_ATAQUE2_MOVIMENTO;
-			}
-			else{
-			if (jogador->estado_passado != VMM_PLAYER_CORRER){
-					jogador->frame=0;
-			}
-			jogador->estado_passado = jogador->estado_atual;
-			jogador->estado_atual = VMM_PLAYER_CORRER;
-		}
-		}
-		else{
-			if(jogador->ataque){
-				if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2){
-					jogador->frame=0;
-				}
-				jogador->estado_passado = jogador->estado_atual;
-				jogador->estado_atual = VMM_PLAYER_ATAQUE2;
-			}
-			else{
-				if (jogador->estado_passado != VMM_PLAYER_IDLE){
-						jogador->frame=0;
-				}
-				jogador->estado_passado = jogador->estado_atual;
-				jogador->estado_atual = VMM_PLAYER_IDLE;
-			}
-		}
-	}}
-	if(jogador->dano_sofrido){
-		if(jogador->dano_sofrido > 0){
-			//printf("frame: %f\n", delta_frame);
-			//printf("tempo: %f\n", jogador->tempo_safe);
-			if(jogador->dano_sofrido > delta_frame && jogador->tempo_safe){
+	if (jogador->dano_sofrido)
+	{
+		if (jogador->dano_sofrido > 0)
+		{
+			// printf("frame: %f\n", delta_frame);
+			// printf("tempo: %f\n", jogador->tempo_safe);
+			if (jogador->dano_sofrido > delta_frame && jogador->tempo_safe)
+			{
 				jogador->dano_sofrido -= delta_frame;
 				jogador->vida -= delta_frame;
 			}
-			else{
-				jogador->vida-=jogador->dano_sofrido;
+			else
+			{
+				jogador->vida -= jogador->dano_sofrido;
 				jogador->dano_sofrido = 0;
 			}
 		}
-		else{
-			jogador->dano_sofrido=0;
+		else
+		{
+			jogador->dano_sofrido = 0;
 		}
 	}
-	if(jogador->tempo_hit){
+	if (jogador->tempo_hit)
+	{
 		jogador->retangulo_coli_v = jogador->retangulo_coli;
 		jogador->retangulo_coli_h = jogador->retangulo_coli;
 		movi_h = false;
 		movi_v = false;
 		jogador->velocidade_x = 0;
 		jogador->velocidade_y = 0;
-		if(jogador->tempo_hit > delta_frame) jogador->tempo_hit-=delta_frame;
-		else jogador->tempo_hit=0;
+		if (jogador->tempo_hit > delta_frame)
+			jogador->tempo_hit -= delta_frame;
+		else
+			jogador->tempo_hit = 0;
 		jogador->estado_atual = VMM_PLAYER_HIT;
 	}
-	else if(jogador-> estado_atual == VMM_PLAYER_HIT){
+	else if (jogador->estado_atual == VMM_PLAYER_HIT)
+	{
 		jogador->estado_atual = jogador->estado_passado;
 	}
-	if(jogador->tempo_safe){
-		if(jogador->tempo_safe>delta_frame)jogador->tempo_safe-=delta_frame;
-		else jogador->tempo_safe=0;
+	if (jogador->tempo_safe)
+	{
+		if (jogador->tempo_safe > delta_frame)
+			jogador->tempo_safe -= delta_frame;
+		else
+			jogador->tempo_safe = 0;
 	}
 
 
@@ -263,7 +323,7 @@ void DesenharPlayer(SDL_Renderer *renderizador, PlayerInJogo jogador, Camera cam
 		jogador.retangulo_coli.y-camera.y,
 		jogador.retangulo_coli.w,
 		jogador.retangulo_coli.h});
-	*/
+		*/
 	SDL_SetRenderDrawColor(renderizador, 0, 255, 0, 255);
 	SDL_RenderFillRect(renderizador, &(SDL_FRect){
 		jogador.retangulo_dano.x-camera.x,
@@ -292,7 +352,7 @@ void DesenharPlayer(SDL_Renderer *renderizador, PlayerInJogo jogador, Camera cam
 	#undef X
 }
 
-Inimigo InitInimigo(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL_Rect retangulo_area, SDL_Rect retangulo_coli, float dano, int index){
+Inimigo InitInimigo(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL_Rect retangulo_area, SDL_Rect retangulo_coli, float vida, float dano, int index){
 	Inimigo inimigo = {
 		.index			  = index,
 		.estado_atual     = 0,
@@ -300,7 +360,7 @@ Inimigo InitInimigo(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL_Rec
 		.costas           = 0,
 		.coli_h           = 0,
 		.coli_v           = 0,
-		.vida             = 100.0,
+		.vida             = vida,
 		.dano             = dano,
 		.frame            = 0,
 		.tempo_safe       = 0,
@@ -329,9 +389,11 @@ void CalcularInimigo(Inimigo *inimigo, double delta_frame, Camera *camera, Mapa 
 	//printf("area %d\n",inimigo->retangulo_area.x );
 	//printf("area + w %d\n",inimigo->retangulo_area.x + inimigo->retangulo_area.w );
 	//inimigo->costas = true;
-	movi_h = (inimigo->costas ? -1 : 1);
+	if(!inimigo->tempo_safe)movi_h = (inimigo->costas ? -1 : 1);
+
 	if(inimigo->retangulo_coli.x > inimigo->retangulo_area.x + inimigo->retangulo_area.w) inimigo->costas = true;
 	if(inimigo->retangulo_coli.x < inimigo->retangulo_area.x) inimigo->costas = false;
+
 
 
 	//if(movi_h<0) inimigo->costas = true;
@@ -354,6 +416,8 @@ void CalcularInimigo(Inimigo *inimigo, double delta_frame, Camera *camera, Mapa 
 
 	ColisaoInimigoMapaH(inimigo, mapa, tamanho_bloco, tamanhos_tela, *camera);
 	if(inimigo->coli_h){
+		inimigo->costas = !inimigo->costas;
+		//printf("vefica coli ini\n");
 		inimigo->velocidade_x = false;
 		inimigo->retangulo_coli_h = inimigo->retangulo_coli;
 		inimigo->posicao_x = inimigo->retangulo_coli.x;
@@ -446,7 +510,7 @@ void ColisaoPlayerInimigo(PlayerInJogo *jogador, Inimigo *inimigo){
 	if(SDL_HasRectIntersection(&jogador->retangulo_dano, &inimigo->retangulo_coli) && !inimigo->tempo_safe){
 		inimigo->tempo_safe = 40;
 		inimigo->vida -= jogador->dano;
-		printf("vida inimigo: %f", inimigo->vida);
+		printf("vida inimigo: %f\n", inimigo->vida);
 	}
 	else if(SDL_HasRectIntersection(&jogador->retangulo_coli, &inimigo->retangulo_coli) && !jogador->tempo_safe) {
 		
