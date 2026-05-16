@@ -166,7 +166,7 @@ Moldura InitMoldura(SDL_Renderer *renderizador, SDL_FRect *retangulo, char *file
 
 void DesenharMoldura(SDL_Renderer *renderizador, Moldura moldura)
 {
-    SDL_RenderTexture9GridTiled(
+    SDL_RenderTexture9Grid(
         renderizador,
         moldura.textura,
         NULL,
@@ -175,8 +175,7 @@ void DesenharMoldura(SDL_Renderer *renderizador, Moldura moldura)
         EscalaMoldura,
         EscalaMoldura,
         2.0f,
-        &moldura.retangulo,
-        2.0f
+        &moldura.retangulo
     );
     
 }
@@ -311,7 +310,7 @@ void DesenharBotao(SDL_Renderer *renderizador, Botao botao)
     else
     {
         
-        SDL_RenderTexture9GridTiled(
+        SDL_RenderTexture9Grid(
             renderizador,
             botao.imagem,
             NULL,
@@ -320,8 +319,7 @@ void DesenharBotao(SDL_Renderer *renderizador, Botao botao)
             EscalaBotao,
             EscalaBotao,
             3.0f,
-            &botao.retangulo,
-            3.0f
+            &botao.retangulo
         );
         
 
@@ -454,7 +452,7 @@ void DesenharBotaoExpansivo(SDL_Renderer *renderizador, BotaoExpansivo botao)
     else
     {
             {
-                SDL_RenderTexture9GridTiled(
+                SDL_RenderTexture9Grid(
                 renderizador,
                 botao.botao_pai.imagem,
                 NULL,
@@ -463,8 +461,7 @@ void DesenharBotaoExpansivo(SDL_Renderer *renderizador, BotaoExpansivo botao)
                 EscalaBotao,
                 EscalaBotao,
                 3.0f,
-                &botao.botao_pai.retangulo,
-                3.0f
+                &botao.botao_pai.retangulo
             );
     }
     if(botao.expandido){
@@ -502,7 +499,7 @@ void DesenharBotaoExpansivo(SDL_Renderer *renderizador, BotaoExpansivo botao)
         }
         else
             {
-                SDL_RenderTexture9GridTiled(
+                SDL_RenderTexture9Grid(
                 renderizador,
                 botao.botao_filho[i1].imagem,
                 NULL,
@@ -511,8 +508,7 @@ void DesenharBotaoExpansivo(SDL_Renderer *renderizador, BotaoExpansivo botao)
                 EscalaBotao,
                 EscalaBotao,
                 3.0f,
-                &botao.botao_filho[i1].retangulo,
-                3.0f
+                &botao.botao_filho[i1].retangulo
             );
             if(botao.botao_filho[i1].sobre ){
             SDL_SetRenderDrawBlendMode(

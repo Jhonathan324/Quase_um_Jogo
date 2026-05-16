@@ -1,0 +1,1 @@
+/nix/store/g9s4lqf3vskig9nf0xml65d8ikaj5py1-sdl3-ttf-3.2.2/include/SDL3_ttf/SDL_ttf.h

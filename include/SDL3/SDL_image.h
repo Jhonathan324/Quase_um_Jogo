@@ -1,0 +1,1 @@
+/nix/store/cpqwclxqv36y8h5gbv0b5bd6n00a72f7-sdl3-image-3.2.4-dev/include/SDL3_image/SDL_image.h
