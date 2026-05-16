@@ -6,6 +6,10 @@ SDL3_TTF=/nix/store/g9s4lqf3vskig9nf0xml65d8ikaj5py1-sdl3-ttf-3.2.2
 
 export LD_LIBRARY_PATH=$SDL3_LIB/lib:$SDL3_IMG/lib:$SDL3_TTF/lib
 
+export XDG_RUNTIME_DIR=/tmp/xdg-runtime-$$
+mkdir -p "$XDG_RUNTIME_DIR"
+chmod 700 "$XDG_RUNTIME_DIR"
+
 DISPLAY_NUM=:99
 VNC_PORT=5900
 WEB_PORT=5000

@@ -12,7 +12,7 @@ void InitCenaConf(VariveisGerais *geral, VariveisConf *conf, Tamanhos tamanhos)
     if(conf->imagem){
         SDL_DestroyTexture(conf->imagem);
     }
-    conf->imagem = IMG_LoadTexture(geral->renderizador, "assets/imagens/UI/backgrounds/conf.png");
+    conf->imagem = IMG_LoadTexture(geral->renderizador, "assets/imagens/ui/backgrounds/conf.png");
 
     // Criação da moldura para os botões
     SDL_FRect rect_moldura = {0, 0, tamanhos.menu[0], tamanhos.menu[1]};
