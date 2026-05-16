@@ -1,0 +1,12 @@
+/home/runner/workspace/wasm_deps/build/SDL3_image/CMakeFiles/SDL3_image-static.dir
+/home/runner/workspace/wasm_deps/build/SDL3_image/CMakeFiles/uninstall.dir
+/home/runner/workspace/wasm_deps/build/SDL3_image/CMakeFiles/showanim.dir
+/home/runner/workspace/wasm_deps/build/SDL3_image/CMakeFiles/showimage.dir
+/home/runner/workspace/wasm_deps/build/SDL3_image/CMakeFiles/package.dir
+/home/runner/workspace/wasm_deps/build/SDL3_image/CMakeFiles/package_source.dir
+/home/runner/workspace/wasm_deps/build/SDL3_image/CMakeFiles/edit_cache.dir
+/home/runner/workspace/wasm_deps/build/SDL3_image/CMakeFiles/rebuild_cache.dir
+/home/runner/workspace/wasm_deps/build/SDL3_image/CMakeFiles/list_install_components.dir
+/home/runner/workspace/wasm_deps/build/SDL3_image/CMakeFiles/install.dir
+/home/runner/workspace/wasm_deps/build/SDL3_image/CMakeFiles/install/local.dir
+/home/runner/workspace/wasm_deps/build/SDL3_image/CMakeFiles/install/strip.dir

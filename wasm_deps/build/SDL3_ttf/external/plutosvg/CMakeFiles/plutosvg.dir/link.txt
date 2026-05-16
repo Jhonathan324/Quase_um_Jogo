@@ -1,0 +1,2 @@
+/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emar qc libplutosvg.a CMakeFiles/plutosvg.dir/source/plutosvg.c.o
+/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emranlib libplutosvg.a

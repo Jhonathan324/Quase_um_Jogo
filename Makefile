@@ -29,13 +29,56 @@ OBJ_RELEASE = obj/Release
 OBJS_DEBUG   = $(patsubst %.c,$(OBJ_DEBUG)/%.o,$(SRCS))
 OBJS_RELEASE = $(patsubst %.c,$(OBJ_RELEASE)/%.o,$(SRCS))
 
-.PHONY: all debug release clean
+# ── WebAssembly (Emscripten) ──────────────────────────────────────────────
+EM_CACHE     = /home/runner/emcache
+EMCC         = EM_CACHE=$(EM_CACHE) emcc
+
+IMG_SRC_INC  = wasm_deps/src/SDL3_image-3.2.4/include
+
+IMG_WASM_LIB      = wasm_deps/build/SDL3_image/libSDL3_image.a
+TTF_WASM_LIB      = wasm_deps/build/SDL3_ttf/libSDL3_ttf.a
+FT_WASM_LIB       = wasm_deps/build/SDL3_ttf/external/freetype/libfreetype.a
+PLUTOSVG_WASM_LIB = wasm_deps/build/SDL3_ttf/external/plutosvg/libplutosvg.a
+PLUTOVG_WASM_LIB  = wasm_deps/build/SDL3_ttf/external/plutovg/libplutovg.a
+
+CFLAGS_WASM = \
+	-Wall \
+	-O2 \
+	-Iinclude \
+	-I$(SDL3_TTF)/include/SDL3_ttf \
+	-I$(IMG_SRC_INC) \
+	--use-port=sdl3
+
+LDFLAGS_WASM = \
+	--use-port=sdl3 \
+	$(IMG_WASM_LIB) \
+	$(TTF_WASM_LIB) \
+	$(FT_WASM_LIB) \
+	$(PLUTOSVG_WASM_LIB) \
+	$(PLUTOVG_WASM_LIB) \
+	-s ALLOW_MEMORY_GROWTH=1 \
+	-s INITIAL_MEMORY=67108864 \
+	-s USE_WEBGL2=1 \
+	-s MIN_WEBGL_VERSION=2 \
+	-s EXIT_RUNTIME=0 \
+	-s STACK_SIZE=524288 \
+	--preload-file assets \
+	--preload-file map
+
+OUT_WASM  = bin/wasm/game.html
+OBJ_WASM  = obj/wasm
+OBJS_WASM = $(patsubst %.c,$(OBJ_WASM)/%.o,$(SRCS))
+
+# ── Targets ───────────────────────────────────────────────────────────────
+.PHONY: all debug release wasm clean
 
 all: debug
 
 debug: $(OUT_DEBUG)
 
 release: $(OUT_RELEASE)
+
+wasm: $(OUT_WASM)
 
 $(OUT_DEBUG): $(OBJS_DEBUG)
 	@mkdir -p bin/Debug
@@ -47,6 +90,11 @@ $(OUT_RELEASE): $(OBJS_RELEASE)
 	$(CC) $^ $(LDFLAGS) -s -o $@
 	@echo "[RELEASE] Compilado: $@"
 
+$(OUT_WASM): $(OBJS_WASM)
+	@mkdir -p bin/wasm
+	$(EMCC) $^ $(LDFLAGS_WASM) -o $@
+	@echo "[WASM] Compilado: $@"
+
 $(OBJ_DEBUG)/%.o: %.c
 	@mkdir -p $(OBJ_DEBUG)
 	$(CC) $(CFLAGS_DEBUG) -c $< -o $@
@@ -55,6 +103,10 @@ $(OBJ_RELEASE)/%.o: %.c
 	@mkdir -p $(OBJ_RELEASE)
 	$(CC) $(CFLAGS_RELEASE) -c $< -o $@
 
+$(OBJ_WASM)/%.o: %.c
+	@mkdir -p $(OBJ_WASM)
+	$(EMCC) $(CFLAGS_WASM) -c $< -o $@
+
 clean:
-	rm -rf obj/ bin/Debug/game bin/Release/game
+	rm -rf obj/ bin/Debug/game bin/Release/game bin/wasm/
 	@echo "Limpo."

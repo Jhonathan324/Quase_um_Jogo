@@ -1,5 +1,7 @@
 {pkgs}: {
   deps = [
+    pkgs.cmake
+    pkgs.emscripten
     pkgs.novnc
     pkgs.x11vnc
     pkgs.xorg.xorgserver

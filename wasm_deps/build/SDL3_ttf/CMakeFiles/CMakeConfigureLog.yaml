@@ -1,0 +1,399 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:200 (message)"
+      - "CMakeLists.txt:15 (project)"
+    message: |
+      The target system is: Emscripten - 1 - x86
+      The host system is: Linux - 6.14.11 - x86_64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:15 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out.js"
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out.wasm"
+      
+      The C compiler identification could not be found in:
+        /home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/3.31.6/CompilerIdC/a.out.js
+      
+      The C compiler identification is Clang, found in:
+        /home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/3.31.6/CompilerIdC/a.out.wasm
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:15 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-Ena6YC"
+      binary: "/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-Ena6YC"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/runner/workspace/wasm_deps/src/SDL3_ttf-3.2.2/cmake;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-Ena6YC'
+        
+        Run Build Command(s): /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E env VERBOSE=1 /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make -f Makefile cmTC_6ca2e/fast
+        /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make  -f CMakeFiles/cmTC_6ca2e.dir/build.make CMakeFiles/cmTC_6ca2e.dir/build
+        make[1]: Entering directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-Ena6YC'
+        Building C object CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o
+        /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc   -v -MD -MT CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -c /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+         /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/emcache/sysroot -resource-dir=/nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/lib/clang/20/ -idirafter/home/runner/emcache/sysroot/include -iwithsysroot/include/c++/v1 -DEMSCRIPTEN -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -v -MD -MT CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o.d -oCMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -c /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+        clang version 20.1.6
+        Target: wasm32-unknown-emscripten
+        Thread model: posix
+        InstalledDir: /nix/store/mfxgi8wh11n6b8rx4l04qshnv73xazka-clang-20.1.6/bin
+         (in-process)
+         "/nix/store/mfxgi8wh11n6b8rx4l04qshnv73xazka-clang-20.1.6/bin/clang-20" -cc1 -triple wasm32-unknown-emscripten -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=none -ffp-contract=on -fno-rounding-math -mconstructor-aliases -target-cpu generic -fvisibility=hidden -debugger-tuning=gdb -fdebug-compilation-dir=/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-Ena6YC -v -fcoverage-compilation-dir=/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-Ena6YC -resource-dir /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/lib/clang/20/ -dependency-file CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -sys-header-deps -idirafter /home/runner/emcache/sysroot/include -iwithsysroot /include/c++/v1 -D EMSCRIPTEN -isysroot /home/runner/emcache/sysroot -internal-isystem /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/lib/clang/20/include -internal-isystem /home/runner/emcache/sysroot/include/wasm32-emscripten -internal-isystem /home/runner/emcache/sysroot/include -source-date-epoch 315532800 -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fignore-exceptions -iwithsysroot/include/fakesdl -iwithsysroot/include/compat -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr -o CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -x c /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+        clang -cc1 version 20.1.6 based upon LLVM 20.1.6 default target x86_64-unknown-linux-gnu
+        ignoring nonexistent directory "/home/runner/emcache/sysroot/include/wasm32-emscripten"
+        ignoring duplicate directory "/home/runner/emcache/sysroot/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /home/runner/emcache/sysroot/include/c++/v1
+         /home/runner/emcache/sysroot/include/fakesdl
+         /home/runner/emcache/sysroot/include/compat
+         /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/lib/clang/20/include
+         /home/runner/emcache/sysroot/include
+        End of search list.
+        Linking C executable cmTC_6ca2e.js
+        /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6ca2e.dir/link.txt --verbose=1
+         /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/bin/clang --version
+         /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/bin/wasm-ld -o cmTC_6ca2e.wasm CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -L/home/runner/emcache/sysroot/lib/wasm32-emscripten -L/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/src/lib -lGL-getprocaddr -lal -lhtml5 -lstubs-debug -lnoexit -lc-debug -ldlmalloc-debug -lcompiler_rt -lc++-noexcept -lc++abi-debug-noexcept -lsockets -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr /tmp/tmpuphb1ntulibemscripten_js_symbols.so --strip-debug --export=emscripten_stack_get_end --export=emscripten_stack_get_free --export=emscripten_stack_get_base --export=emscripten_stack_get_current --export=emscripten_stack_init --export=_emscripten_stack_alloc --export=__wasm_call_ctors --export=_emscripten_stack_restore --export-if-defined=__start_em_asm --export-if-defined=__stop_em_asm --export-if-defined=__start_em_lib_deps --export-if-defined=__stop_em_lib_deps --export-if-defined=__start_em_js --export-if-defined=__stop_em_js --export-if-defined=main --export-if-defined=__main_argc_argv --export-if-defined=fflush --export-table -z stack-size=65536 --no-growable-memory --initial-heap=16777216 --no-entry --stack-first --table-base=1
+         /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/bin/llvm-objcopy cmTC_6ca2e.wasm cmTC_6ca2e.wasm '--remove-section=.debug*' --remove-section=producers --remove-section=name
+         /nix/store/a1kxazxkgw7mjbjgisvah95p1r3n5ykl-nodejs-22.16.0/bin/node /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/tools/compiler.mjs -
+        /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc  -v @CMakeFiles/cmTC_6ca2e.dir/objects1.rsp -o cmTC_6ca2e.js
+        make[1]: Leaving directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-Ena6YC'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:182 (message)"
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:15 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/home/runner/emcache/sysroot/include/c++/v1]
+          add: [/home/runner/emcache/sysroot/include/fakesdl]
+          add: [/home/runner/emcache/sysroot/include/compat]
+          add: [/nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/lib/clang/20/include]
+          add: [/home/runner/emcache/sysroot/include]
+        end of search list found
+        collapse include dir [/home/runner/emcache/sysroot/include/c++/v1] ==> [/home/runner/emcache/sysroot/include/c++/v1]
+        collapse include dir [/home/runner/emcache/sysroot/include/fakesdl] ==> [/home/runner/emcache/sysroot/include/fakesdl]
+        collapse include dir [/home/runner/emcache/sysroot/include/compat] ==> [/home/runner/emcache/sysroot/include/compat]
+        collapse include dir [/nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/lib/clang/20/include] ==> [/nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/lib/clang/20/include]
+        collapse include dir [/home/runner/emcache/sysroot/include] ==> [/home/runner/emcache/sysroot/include]
+        implicit include dirs: [/home/runner/emcache/sysroot/include/c++/v1;/home/runner/emcache/sysroot/include/fakesdl;/home/runner/emcache/sysroot/include/compat;/nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/lib/clang/20/include;/home/runner/emcache/sysroot/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:15 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
+        ignore line: [Change Dir: '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-Ena6YC']
+        ignore line: []
+        ignore line: [Run Build Command(s): /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E env VERBOSE=1 /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make -f Makefile cmTC_6ca2e/fast]
+        ignore line: [/nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make  -f CMakeFiles/cmTC_6ca2e.dir/build.make CMakeFiles/cmTC_6ca2e.dir/build]
+        ignore line: [make[1]: Entering directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-Ena6YC']
+        ignore line: [Building C object CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc   -v -MD -MT CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -c /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [ /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/bin/clang -target wasm32-unknown-emscripten -fignore-exceptions -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=/home/runner/emcache/sysroot -resource-dir=/nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/lib/clang/20/ -idirafter/home/runner/emcache/sysroot/include -iwithsysroot/include/c++/v1 -DEMSCRIPTEN -Xclang -iwithsysroot/include/fakesdl -Xclang -iwithsysroot/include/compat -v -MD -MT CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o.d -oCMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -c /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [clang version 20.1.6]
+        ignore line: [Target: wasm32-unknown-emscripten]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /nix/store/mfxgi8wh11n6b8rx4l04qshnv73xazka-clang-20.1.6/bin]
+        ignore line: [ (in-process)]
+        ignore line: [ "/nix/store/mfxgi8wh11n6b8rx4l04qshnv73xazka-clang-20.1.6/bin/clang-20" -cc1 -triple wasm32-unknown-emscripten -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=none -ffp-contract=on -fno-rounding-math -mconstructor-aliases -target-cpu generic -fvisibility=hidden -debugger-tuning=gdb -fdebug-compilation-dir=/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-Ena6YC -v -fcoverage-compilation-dir=/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-Ena6YC -resource-dir /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/lib/clang/20/ -dependency-file CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -sys-header-deps -idirafter /home/runner/emcache/sysroot/include -iwithsysroot /include/c++/v1 -D EMSCRIPTEN -isysroot /home/runner/emcache/sysroot -internal-isystem /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/lib/clang/20/include -internal-isystem /home/runner/emcache/sysroot/include/wasm32-emscripten -internal-isystem /home/runner/emcache/sysroot/include -source-date-epoch 315532800 -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fignore-exceptions -iwithsysroot/include/fakesdl -iwithsysroot/include/compat -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr -o CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -x c /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [clang -cc1 version 20.1.6 based upon LLVM 20.1.6 default target x86_64-unknown-linux-gnu]
+        ignore line: [ignoring nonexistent directory "/home/runner/emcache/sysroot/include/wasm32-emscripten"]
+        ignore line: [ignoring duplicate directory "/home/runner/emcache/sysroot/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /home/runner/emcache/sysroot/include/c++/v1]
+        ignore line: [ /home/runner/emcache/sysroot/include/fakesdl]
+        ignore line: [ /home/runner/emcache/sysroot/include/compat]
+        ignore line: [ /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/lib/clang/20/include]
+        ignore line: [ /home/runner/emcache/sysroot/include]
+        ignore line: [End of search list.]
+        ignore line: [Linking C executable cmTC_6ca2e.js]
+        ignore line: [/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6ca2e.dir/link.txt --verbose=1]
+        ignore line: [ /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/bin/clang --version]
+        link line: [ /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/bin/wasm-ld -o cmTC_6ca2e.wasm CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o -L/home/runner/emcache/sysroot/lib/wasm32-emscripten -L/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/src/lib -lGL-getprocaddr -lal -lhtml5 -lstubs-debug -lnoexit -lc-debug -ldlmalloc-debug -lcompiler_rt -lc++-noexcept -lc++abi-debug-noexcept -lsockets -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr /tmp/tmpuphb1ntulibemscripten_js_symbols.so --strip-debug --export=emscripten_stack_get_end --export=emscripten_stack_get_free --export=emscripten_stack_get_base --export=emscripten_stack_get_current --export=emscripten_stack_init --export=_emscripten_stack_alloc --export=__wasm_call_ctors --export=_emscripten_stack_restore --export-if-defined=__start_em_asm --export-if-defined=__stop_em_asm --export-if-defined=__start_em_lib_deps --export-if-defined=__stop_em_lib_deps --export-if-defined=__start_em_js --export-if-defined=__stop_em_js --export-if-defined=main --export-if-defined=__main_argc_argv --export-if-defined=fflush --export-table -z stack-size=65536 --no-growable-memory --initial-heap=16777216 --no-entry --stack-first --table-base=1]
+          arg [/nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/bin/wasm-ld] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_6ca2e.wasm] ==> ignore
+          arg [CMakeFiles/cmTC_6ca2e.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [-L/home/runner/emcache/sysroot/lib/wasm32-emscripten] ==> dir [/home/runner/emcache/sysroot/lib/wasm32-emscripten]
+          arg [-L/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/src/lib] ==> dir [/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/src/lib]
+          arg [-lGL-getprocaddr] ==> lib [GL-getprocaddr]
+          arg [-lal] ==> lib [al]
+          arg [-lhtml5] ==> lib [html5]
+          arg [-lstubs-debug] ==> lib [stubs-debug]
+          arg [-lnoexit] ==> lib [noexit]
+          arg [-lc-debug] ==> lib [c-debug]
+          arg [-ldlmalloc-debug] ==> lib [dlmalloc-debug]
+          arg [-lcompiler_rt] ==> lib [compiler_rt]
+          arg [-lc++-noexcept] ==> lib [c++-noexcept]
+          arg [-lc++abi-debug-noexcept] ==> lib [c++abi-debug-noexcept]
+          arg [-lsockets] ==> lib [sockets]
+          arg [-mllvm] ==> ignore
+          arg [-combiner-global-alias-analysis=false] ==> ignore
+          arg [-mllvm] ==> ignore
+          arg [-enable-emscripten-sjlj] ==> ignore
+          arg [-mllvm] ==> ignore
+          arg [-disable-lsr] ==> ignore
+          arg [/tmp/tmpuphb1ntulibemscripten_js_symbols.so] ==> ignore
+          arg [--strip-debug] ==> ignore
+          arg [--export=emscripten_stack_get_end] ==> ignore
+          arg [--export=emscripten_stack_get_free] ==> ignore
+          arg [--export=emscripten_stack_get_base] ==> ignore
+          arg [--export=emscripten_stack_get_current] ==> ignore
+          arg [--export=emscripten_stack_init] ==> ignore
+          arg [--export=_emscripten_stack_alloc] ==> ignore
+          arg [--export=__wasm_call_ctors] ==> ignore
+          arg [--export=_emscripten_stack_restore] ==> ignore
+          arg [--export-if-defined=__start_em_asm] ==> ignore
+          arg [--export-if-defined=__stop_em_asm] ==> ignore
+          arg [--export-if-defined=__start_em_lib_deps] ==> ignore
+          arg [--export-if-defined=__stop_em_lib_deps] ==> ignore
+          arg [--export-if-defined=__start_em_js] ==> ignore
+          arg [--export-if-defined=__stop_em_js] ==> ignore
+          arg [--export-if-defined=main] ==> ignore
+          arg [--export-if-defined=__main_argc_argv] ==> ignore
+          arg [--export-if-defined=fflush] ==> ignore
+          arg [--export-table] ==> ignore
+          arg [-zstack-size=65536] ==> ignore
+          arg [--no-growable-memory] ==> ignore
+          arg [--initial-heap=16777216] ==> ignore
+          arg [--no-entry] ==> ignore
+          arg [--stack-first] ==> ignore
+          arg [--table-base=1] ==> ignore
+        ignore line: [ /nix/store/qpjn220pg7cqlc8xwhg6z355an2bj6hn-emscripten-llvm-4.0.8/bin/llvm-objcopy cmTC_6ca2e.wasm cmTC_6ca2e.wasm '--remove-section=.debug*' --remove-section=producers --remove-section=name]
+        ignore line: [ /nix/store/a1kxazxkgw7mjbjgisvah95p1r3n5ykl-nodejs-22.16.0/bin/node /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/tools/compiler.mjs -]
+        ignore line: [/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc  -v @CMakeFiles/cmTC_6ca2e.dir/objects1.rsp -o cmTC_6ca2e.js]
+        ignore line: [make[1]: Leaving directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-Ena6YC']
+        ignore line: []
+        ignore line: []
+        collapse library dir [/home/runner/emcache/sysroot/lib/wasm32-emscripten] ==> [/home/runner/emcache/sysroot/lib/wasm32-emscripten]
+        collapse library dir [/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/src/lib] ==> [/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/src/lib]
+        implicit libs: [GL-getprocaddr;al;html5;stubs-debug;noexit;c-debug;dlmalloc-debug;compiler_rt;c++-noexcept;c++abi-debug-noexcept;sockets]
+        implicit objs: []
+        implicit dirs: [/home/runner/emcache/sysroot/lib/wasm32-emscripten;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/src/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "cmake/sdlcpu.cmake:93 (try_compile)"
+      - "CMakeLists.txt:129 (SDL_DetectTargetCPUArchitectures)"
+    directories:
+      source: "/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeTmp/SDL_detect_arch/CMakeFiles/CMakeTmp"
+      binary: "/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeTmp/SDL_detect_arch/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/runner/workspace/wasm_deps/src/SDL3_ttf-3.2.2/cmake;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules"
+      CMAKE_POSITION_INDEPENDENT_CODE: "OFF"
+    buildResult:
+      variable: "SDL_CPU_CHECK_ALL"
+      cached: true
+      stdout: |
+        Change Dir: '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeTmp/SDL_detect_arch/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E env VERBOSE=1 /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make -f Makefile cmTC_83669/fast
+        /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make  -f CMakeFiles/cmTC_83669.dir/build.make CMakeFiles/cmTC_83669.dir/build
+        make[1]: Entering directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeTmp/SDL_detect_arch/CMakeFiles/CMakeTmp'
+        Building C object CMakeFiles/cmTC_83669.dir/SDL_detect_arch.c.o
+        /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc    -MD -MT CMakeFiles/cmTC_83669.dir/SDL_detect_arch.c.o -MF CMakeFiles/cmTC_83669.dir/SDL_detect_arch.c.o.d -o CMakeFiles/cmTC_83669.dir/SDL_detect_arch.c.o -c /home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeTmp/SDL_detect_arch.c
+        Linking C static library libcmTC_83669.a
+        /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -P CMakeFiles/cmTC_83669.dir/cmake_clean_target.cmake
+        /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E cmake_link_script CMakeFiles/cmTC_83669.dir/link.txt --verbose=1
+        /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emar qc libcmTC_83669.a CMakeFiles/cmTC_83669.dir/SDL_detect_arch.c.o
+        /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emranlib libcmTC_83669.a
+        make[1]: Leaving directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeTmp/SDL_detect_arch/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CheckSymbolExists.cmake:163 (try_compile)"
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CheckSymbolExists.cmake:68 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "CMakeLists.txt:134 (check_symbol_exists)"
+    checks:
+      - "Looking for __GLIBC__"
+    directories:
+      source: "/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-HHLgs8"
+      binary: "/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-HHLgs8"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/runner/workspace/wasm_deps/src/SDL3_ttf-3.2.2/cmake;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules"
+      CMAKE_POSITION_INDEPENDENT_CODE: "OFF"
+    buildResult:
+      variable: "LIBC_IS_GLIBC"
+      cached: true
+      stdout: |
+        Change Dir: '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-HHLgs8'
+        
+        Run Build Command(s): /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E env VERBOSE=1 /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make -f Makefile cmTC_44642/fast
+        /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make  -f CMakeFiles/cmTC_44642.dir/build.make CMakeFiles/cmTC_44642.dir/build
+        make[1]: Entering directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-HHLgs8'
+        Building C object CMakeFiles/cmTC_44642.dir/CheckSymbolExists.c.o
+        /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc    -MD -MT CMakeFiles/cmTC_44642.dir/CheckSymbolExists.c.o -MF CMakeFiles/cmTC_44642.dir/CheckSymbolExists.c.o.d -o CMakeFiles/cmTC_44642.dir/CheckSymbolExists.c.o -c /home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-HHLgs8/CheckSymbolExists.c
+        /home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-HHLgs8/CheckSymbolExists.c:8:19: error: use of undeclared identifier '__GLIBC__'
+            8 |   return ((int*)(&__GLIBC__))[argc];
+              |                   ^
+        1 error generated.
+        make[1]: *** [CMakeFiles/cmTC_44642.dir/build.make:82: CMakeFiles/cmTC_44642.dir/CheckSymbolExists.c.o] Error 1
+        make[1]: Leaving directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-HHLgs8'
+        make: *** [Makefile:134: cmTC_44642/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake:108 (try_compile)"
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CheckCSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "cmake/PrivateSdlFunctions.cmake:269 (check_c_source_compiles)"
+      - "cmake/PrivateSdlFunctions.cmake:289 (check_linker_support_version_script)"
+      - "CMakeLists.txt:223 (sdl_target_link_option_version_file)"
+    checks:
+      - "Performing Test LINKER_SUPPORTS_VERSION_SCRIPT"
+    directories:
+      source: "/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-ODzDiU"
+      binary: "/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-ODzDiU"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/runner/workspace/wasm_deps/src/SDL3_ttf-3.2.2/cmake;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules"
+      CMAKE_POSITION_INDEPENDENT_CODE: "OFF"
+    buildResult:
+      variable: "LINKER_SUPPORTS_VERSION_SCRIPT"
+      cached: true
+      stdout: |
+        Change Dir: '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-ODzDiU'
+        
+        Run Build Command(s): /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E env VERBOSE=1 /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make -f Makefile cmTC_b8035/fast
+        /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make  -f CMakeFiles/cmTC_b8035.dir/build.make CMakeFiles/cmTC_b8035.dir/build
+        make[1]: Entering directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-ODzDiU'
+        Building C object CMakeFiles/cmTC_b8035.dir/src.c.o
+        /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc -DLINKER_SUPPORTS_VERSION_SCRIPT   -MD -MT CMakeFiles/cmTC_b8035.dir/src.c.o -MF CMakeFiles/cmTC_b8035.dir/src.c.o.d -o CMakeFiles/cmTC_b8035.dir/src.c.o -c /home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-ODzDiU/src.c
+        Linking C executable cmTC_b8035.js
+        /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b8035.dir/link.txt --verbose=1
+        emcc: warning: ignoring unsupported linker flag: `--version-script=/home/runner/workspace/wasm_deps/build/SDL3_ttf/dummy.sym` [-Wlinkflags]
+        /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc -Wl,--version-script=/home/runner/workspace/wasm_deps/build/SDL3_ttf/dummy.sym @CMakeFiles/cmTC_b8035.dir/objects1.rsp -o cmTC_b8035.js
+        make[1]: Leaving directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-ODzDiU'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CheckIncludeFile.cmake:99 (try_compile)"
+      - "external/freetype/CMakeLists.txt:316 (check_include_file)"
+    checks:
+      - "Looking for unistd.h"
+    directories:
+      source: "/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-9hKJ8m"
+      binary: "/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-9hKJ8m"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/runner/workspace/wasm_deps/src/SDL3_ttf-3.2.2/cmake;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/home/runner/workspace/wasm_deps/src/SDL3_ttf-3.2.2/external/freetype/builds/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "OFF"
+    buildResult:
+      variable: "HAVE_UNISTD_H"
+      cached: true
+      stdout: |
+        Change Dir: '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-9hKJ8m'
+        
+        Run Build Command(s): /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E env VERBOSE=1 /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make -f Makefile cmTC_ad683/fast
+        /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make  -f CMakeFiles/cmTC_ad683.dir/build.make CMakeFiles/cmTC_ad683.dir/build
+        make[1]: Entering directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-9hKJ8m'
+        Building C object CMakeFiles/cmTC_ad683.dir/CheckIncludeFile.c.o
+        /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc    -MD -MT CMakeFiles/cmTC_ad683.dir/CheckIncludeFile.c.o -MF CMakeFiles/cmTC_ad683.dir/CheckIncludeFile.c.o.d -o CMakeFiles/cmTC_ad683.dir/CheckIncludeFile.c.o -c /home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-9hKJ8m/CheckIncludeFile.c
+        Linking C executable cmTC_ad683.js
+        /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ad683.dir/link.txt --verbose=1
+        /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc @CMakeFiles/cmTC_ad683.dir/objects1.rsp -o cmTC_ad683.js
+        make[1]: Leaving directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-9hKJ8m'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/share/cmake-3.31/Modules/CheckIncludeFile.cmake:99 (try_compile)"
+      - "external/freetype/CMakeLists.txt:317 (check_include_file)"
+    checks:
+      - "Looking for fcntl.h"
+    directories:
+      source: "/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-gdv0yk"
+      binary: "/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-gdv0yk"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emscan-deps"
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/runner/workspace/wasm_deps/src/SDL3_ttf-3.2.2/cmake;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/cmake/Modules;/home/runner/workspace/wasm_deps/src/SDL3_ttf-3.2.2/external/freetype/builds/cmake"
+      CMAKE_POSITION_INDEPENDENT_CODE: "OFF"
+    buildResult:
+      variable: "HAVE_FCNTL_H"
+      cached: true
+      stdout: |
+        Change Dir: '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-gdv0yk'
+        
+        Run Build Command(s): /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E env VERBOSE=1 /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make -f Makefile cmTC_6f746/fast
+        /nix/store/8dl5ryfna3hjqhvnkw7srm6wnka6agxl-gnumake-4.4.1/bin/make  -f CMakeFiles/cmTC_6f746.dir/build.make CMakeFiles/cmTC_6f746.dir/build
+        make[1]: Entering directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-gdv0yk'
+        Building C object CMakeFiles/cmTC_6f746.dir/CheckIncludeFile.c.o
+        /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc    -MD -MT CMakeFiles/cmTC_6f746.dir/CheckIncludeFile.c.o -MF CMakeFiles/cmTC_6f746.dir/CheckIncludeFile.c.o.d -o CMakeFiles/cmTC_6f746.dir/CheckIncludeFile.c.o -c /home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-gdv0yk/CheckIncludeFile.c
+        Linking C executable cmTC_6f746.js
+        /nix/store/29ax4k0a83zhz43lb73cv610d95wdsx1-cmake-3.31.6/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6f746.dir/link.txt --verbose=1
+        /nix/store/hxmxpb71x3f891nn4fdcg8pvmh2pmg0s-emscripten-4.0.8/share/emscripten/emcc @CMakeFiles/cmTC_6f746.dir/objects1.rsp -o cmTC_6f746.js
+        make[1]: Leaving directory '/home/runner/workspace/wasm_deps/build/SDL3_ttf/CMakeFiles/CMakeScratch/TryCompile-gdv0yk'
+        
+      exitCode: 0
+...
