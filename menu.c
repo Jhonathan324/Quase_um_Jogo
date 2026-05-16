@@ -11,14 +11,14 @@ void InitCenaMenu(VariveisGerais *geral, VariveisMenu *menu, Tamanhos tamanhos)
 
     // fundo
     if(menu->imagem) SDL_DestroyTexture(menu->imagem);
-    menu->imagem = IMG_LoadTexture(geral->renderizador, "assets/imagens/ui/background/menu inicial.png");
+    menu->imagem = IMG_LoadTexture(geral->renderizador, "assets/imagens/ui/background/menu Inicial.png");
     SDL_SetTextureScaleMode(menu->imagem, SDL_SCALEMODE_NEAREST);
 
     // Criação do menu para os botões
     SDL_FRect rect_moldura = {tamanhos.menu[1]*0.1, geral->resolucao_atual[1]-tamanhos.menu[1]*0.9, tamanhos.menu[0], tamanhos.menu[1]};
 
     // obtenção do rect da janela
-    int janela_x, janela_y, janela_w, janela_h;
+    int janela_w, janela_h;
     SDL_GetWindowSize(geral->janela, &janela_w, &janela_h);
     //SDL_FRect rect_janela = {0, 20, janela_w, janela_h};
     //CentralizarRectInRect(&rect_janela, &rect_moldura); // centralização do menu com base na tela

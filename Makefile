@@ -18,7 +18,7 @@ LDFLAGS = \
 	-L$(SDL3_IMG_LIB)/lib -lSDL3_image \
 	-L$(SDL3_TTF)/lib     -lSDL3_ttf
 
-CFLAGS_DEBUG   = $(CFLAGS_COMMON) -g -O0
+CFLAGS_DEBUG   = $(CFLAGS_COMMON) -g -O0 -Wno-cpp
 CFLAGS_RELEASE = $(CFLAGS_COMMON) -O2
 
 OUT_DEBUG   = bin/Debug/game

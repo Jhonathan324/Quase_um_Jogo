@@ -281,12 +281,6 @@ Botao InitBotao(SDL_Renderer *renderizador, SDL_FRect *retangulo, char *imagem, 
         textura_texto,                                              // textura texto
         imagem ? IMG_LoadTexture(renderizador, imagem) : NULL};    // textura da imagem
 
-    float tamanho_canto;
-    if (retangulo->h >= retangulo->w)
-        tamanho_canto = retangulo->w / 2;
-    else
-        tamanho_canto = retangulo->h / 2;
-
     // imagem
     if (botao.imagem) SDL_SetTextureScaleMode(botao.imagem, SDL_SCALEMODE_NEAREST);
     return botao;
@@ -413,12 +407,6 @@ BotaoExpansivo InitBotaoExpansivo(SDL_Renderer *renderizador, SDL_FRect *retangu
         cor2,
         textura_texto,                                              // textura texto
         imagem ? IMG_LoadTexture(renderizador, imagem) : NULL};    // textura da imagem
-
-    float tamanho_canto;
-    if (retangulo->h >= retangulo->w)
-        tamanho_canto = retangulo->w / 2;
-    else
-        tamanho_canto = retangulo->h / 2;
 
     // imagem
     if (botao.imagem) SDL_SetTextureScaleMode(botao.imagem, SDL_SCALEMODE_NEAREST);

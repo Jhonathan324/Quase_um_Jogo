@@ -14,7 +14,7 @@ void InitCenaPause(VariveisGerais *geral, VariveisPause *pause, Tamanhos tamanho
     SDL_FRect rect_moldura = {0, 0, tamanhos.menu[0], tamanhos.menu[1]};
 
     // obtenção do rect da janela
-    int janela_x, janela_y, janela_w, janela_h;
+    int janela_w, janela_h;
     SDL_GetWindowSize(geral->janela, &janela_w, &janela_h);
     SDL_FRect rect_janela = {0, 20, janela_w, janela_h};
     CentralizarRectInRect(&rect_janela, &rect_moldura); // centralização do pause com base na tela
