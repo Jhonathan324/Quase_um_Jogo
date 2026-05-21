@@ -548,7 +548,8 @@ void ColisaoPlayerMapaV(PlayerInJogo *jogador, Mapa mapa, int tamanho_bloco[2], 
 				TiposVMMA tipo_de_coli = CalcularTipoVMMA(mapa.tiles[i][j]);
 				switch (tipo_de_coli){
 					case VMMA_GRAMA_ON:
-					case VMMA_PEDRA_ON:{
+					case VMMA_PEDRA_ON:
+					case VMMA_MADEIRA_ON:{
 							SDL_Rect retangulo = {j*tamanho_bloco[0], i*tamanho_bloco[1], tamanho_bloco[0], tamanho_bloco[1]};
 							if(SDL_HasRectIntersection(&retangulo, &jogador->retangulo_coli_v))
 									jogador->coli_v = true;
