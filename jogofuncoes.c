@@ -41,6 +41,7 @@ PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL
 		.costas           = 0,
 		.coli_h           = 0,
 		.coli_v           = 0,
+		.coli_v_m		  = 0,
 		.vida             = vida,
 		.dano             = 10,
 		.dano_sofrido     = 0,
@@ -110,7 +111,7 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
 
 	// É necessario divirdir em dois para não ser possivel bugar nas quinas do blocos
 	ColisaoPlayerMapaV(jogador, mapa, tamanho_bloco, tamanhos_tela, *camera);
-	if(jogador->coli_v){
+	if(jogador->coli_v ){
 		movi_v = false;
 		jogador->velocidade_y = false;
 		jogador->retangulo_coli_v = jogador->retangulo_coli;
@@ -126,7 +127,12 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
 		jogador->retangulo_coli_h = jogador->retangulo_coli;
 		jogador->posicao_x = jogador->retangulo_coli.x;
 	}
-	else jogador->velocidade_x += jogador->acelera * delta_frame * movi_h;
+	else {
+		jogador->velocidade_x += jogador->acelera * delta_frame * movi_h;
+		//if(jogador->coli_v_m){
+		//	jogador->velocidade_y -= jogador->acelera * delta_frame;
+		//}
+	}
 	jogador->retangulo_coli.x = jogador->retangulo_coli_h.x;
 	jogador->retangulo_coli_h = jogador->retangulo_coli;
 	jogador->retangulo_coli_v.x = jogador->retangulo_coli.x;
@@ -323,6 +329,7 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
 	jogador->retangulo_img.y = jogador->retangulo_coli.y + jogador->retangulo_coli.h-jogador->retangulo_img.h - camera->y;
 	jogador->retangulo_img.x = jogador->retangulo_coli.x -  (jogador->retangulo_img.w * ((float)44/MedidaImgPlayerX)) - (jogador->costas)*(jogador->retangulo_img.w * ((float)11/MedidaImgPlayerX)) - camera->x; 
 	jogador->coli_v = false;
+	jogador->coli_v_m = false;
 	jogador->coli_h = false;
 }
 
@@ -330,19 +337,33 @@ void DesenharPlayer(SDL_Renderer *renderizador, PlayerInJogo jogador, Camera cam
 
 
 	/* se tiver em teste eu não comento
-	SDL_SetRenderDrawColor(renderizador, 255, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderizador, 0, 255, 0, 255);
 	SDL_RenderFillRect(renderizador, &(SDL_FRect){
+		jogador.retangulo_dano.x-camera.x,
+		jogador.retangulo_dano.y-camera.y,
+		jogador.retangulo_dano.w,
+		jogador.retangulo_dano.h});
+	*/
+	SDL_SetRenderDrawColor(renderizador, 255, 0, 0, 255);
+	SDL_RenderRect(renderizador, &(SDL_FRect){
 		jogador.retangulo_coli.x-camera.x,
 		jogador.retangulo_coli.y-camera.y,
 		jogador.retangulo_coli.w,
 		jogador.retangulo_coli.h});
-		SDL_SetRenderDrawColor(renderizador, 0, 255, 0, 255);
-		SDL_RenderFillRect(renderizador, &(SDL_FRect){
-			jogador.retangulo_dano.x-camera.x,
-			jogador.retangulo_dano.y-camera.y,
-			jogador.retangulo_dano.w,
-			jogador.retangulo_dano.h});
-			*/
+		
+	SDL_SetRenderDrawColor(renderizador, 0, 255, 0, 255);
+	SDL_RenderRect(renderizador, &(SDL_FRect){
+		jogador.retangulo_coli_h.x-camera.x,
+		jogador.retangulo_coli_h.y-camera.y,
+		jogador.retangulo_coli_h.w,
+		jogador.retangulo_coli_h.h});
+
+	SDL_SetRenderDrawColor(renderizador, 0, 0, 255, 255);
+	SDL_RenderRect(renderizador, &(SDL_FRect){
+		jogador.retangulo_coli_v.x-camera.x,
+		jogador.retangulo_coli_v.y-camera.y,
+		jogador.retangulo_coli_v.w,
+		jogador.retangulo_coli_v.h});
 
 	Uint64 frame_atual = jogador.frame / 10; 
 	
@@ -554,6 +575,14 @@ void ColisaoPlayerMapaV(PlayerInJogo *jogador, Mapa mapa, int tamanho_bloco[2], 
 							if(SDL_HasRectIntersection(&retangulo, &jogador->retangulo_coli_v))
 									jogador->coli_v = true;
 					}break;
+					case VMMA_GRAMA_M_E_ON:
+					case VMMA_GRAMA_M_D_ON:{
+							SDL_Rect retangulo = {j*tamanho_bloco[0], i*tamanho_bloco[1], tamanho_bloco[0], tamanho_bloco[1]};
+							if(jogador->retangulo_coli_v.y + jogador->retangulo_coli_v.h >= retangulo.y && jogador->retangulo_coli_v.y + jogador->retangulo_coli_v.h <= retangulo.y+retangulo.h && jogador->retangulo_coli_v.x + jogador->retangulo_coli_v.w >= retangulo.x && jogador->retangulo_coli_v.x + jogador->retangulo_coli_v.w <= retangulo.x+retangulo.w){
+									jogador->coli_v_m = true;
+									
+							}
+					}break;
 				}
 			}
 		}
@@ -571,6 +600,12 @@ void ColisaoPlayerMapaH(PlayerInJogo *jogador, Mapa mapa, int tamanho_bloco[2], 
 							SDL_Rect retangulo = {j*tamanho_bloco[0], i*tamanho_bloco[1], tamanho_bloco[0], tamanho_bloco[1]};
 							if(SDL_HasRectIntersection(&retangulo, &jogador->retangulo_coli_h))
 									jogador->coli_h = true;
+					}break;
+					case VMMA_GRAMA_M_E_ON:
+					case VMMA_GRAMA_M_D_ON:{
+							SDL_Rect retangulo = {j*tamanho_bloco[0], i*tamanho_bloco[1], tamanho_bloco[0], tamanho_bloco[1]};
+							if(jogador->retangulo_coli_h.y + jogador->retangulo_coli_h.h >= retangulo.y && jogador->retangulo_coli_h.y + jogador->retangulo_coli_h.h <= retangulo.y+retangulo.h && jogador->retangulo_coli_h.x + jogador->retangulo_coli_h.w >= retangulo.x && jogador->retangulo_coli_h.x + jogador->retangulo_coli_h.w <= retangulo.x+retangulo.w)
+									jogador->coli_v_m = true;
 					}break;
 				}
 			}
