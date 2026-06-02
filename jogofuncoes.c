@@ -110,8 +110,13 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
 	if(!movi_h) jogador->velocidade_x = 0;
 
 	// É necessario divirdir em dois para não ser possivel bugar nas quinas do blocos
+	
 	ColisaoPlayerMapaV(jogador, mapa, tamanho_bloco, tamanhos_tela, *camera);
 	if(jogador->coli_v ){
+		if(jogador->pulo){
+			jogador->pulo = false;
+			jogador->coli_v = false;
+		}
 		movi_v = false;
 		jogador->velocidade_y = false;
 		jogador->retangulo_coli_v = jogador->retangulo_coli;
@@ -178,7 +183,7 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
 				if (jogador->pulo < 0)
 					jogador->pulo = 0;
 			}
-			else if (jogador->coyote_time > 1)
+			else if (jogador->coyote_time > 3)
 			{
 				if (jogador->ataque)
 				{
@@ -191,9 +196,10 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
 				}
 				else
 				{
+					
 					jogador->frame = 0;
 					jogador->estado_passado = jogador->estado_atual;
-					jogador->estado_atual = VMM_PLAYER_CAIR;
+				
 				}
 			}
 			else
@@ -202,12 +208,12 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
 			}
 			if (jogador->estado_atual != VMM_PLAYER_CAIR)
 				jogador->coyote_time++;
-			jogador->velocidade_y += jogador->acelera * delta_frame * movi_v;
+			jogador->velocidade_y += jogador->acelera * delta_frame * movi_v*0.1;
 		}
 		else
 		{
 			jogador->coyote_time = false;
-			if (teclado[SDL_SCANCODE_SPACE] && jogador->estado_atual && !jogador->pulo)
+			if (teclado[SDL_SCANCODE_SPACE] && !jogador->pulo)
 			{
 				jogador->pulo = 50;
 			}
@@ -415,6 +421,7 @@ Inimigo InitInimigo(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL_Rec
 }
 
 void CalcularInimigo(Inimigo *inimigo, double delta_frame, Camera *camera, Mapa mapa, int tamanho_bloco[2], int tamanhos_tela[2]){
+	if(inimigo->retangulo_coli.x < camera->x ||  inimigo->retangulo_coli.x > camera->x + tamanhos_tela[0] || inimigo->retangulo_coli.y < camera->y ||  inimigo->retangulo_coli.y > camera->y + tamanhos_tela[1]) return;
 	double movi_v = 1, movi_h = 0;
 	inimigo->frame += delta_frame;
 
@@ -614,15 +621,14 @@ void ColisaoPlayerMapaH(PlayerInJogo *jogador, Mapa mapa, int tamanho_bloco[2], 
 }
 
 void ColisaoInimigoMapaV(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int tamanho_tela[2],Camera camera){
-	camera.x -= tamanho_tela[0]/2;
-	camera.y -= tamanho_tela[1]/2;
-	for(int i = camera.y/tamanho_bloco[1]; i*tamanho_bloco[1] < tamanho_tela[1]*2 + camera.y && i < TamanhosMapaY; i++){
-		for(int j = camera.x/tamanho_bloco[0]; j*tamanho_bloco[0] < tamanho_tela[0]*2 + camera.x && j < TamanhosMapaX; j++){
+	for(int i = (camera.y - tamanho_tela[1]*0.2)/tamanho_bloco[1]; i*tamanho_bloco[1] < tamanho_tela[1]*1.2 + camera.y && i < TamanhosMapaY; i++){
+		for(int j = (camera.x - tamanho_tela[0]*0.2)/tamanho_bloco[0]; j*tamanho_bloco[0] < tamanho_tela[0]*1.2 + camera.x && j < TamanhosMapaX; j++){
 			if(mapa.tiles[i][j]){ 
 				TiposVMMA tipo_de_coli = CalcularTipoVMMA(mapa.tiles[i][j]);
 				switch (tipo_de_coli){
 					case VMMA_GRAMA_ON:
-					case VMMA_PEDRA_ON:{
+					case VMMA_PEDRA_ON:
+					case VMMA_MADEIRA_ON:{
 							SDL_Rect retangulo = {j*tamanho_bloco[0], i*tamanho_bloco[1], tamanho_bloco[0], tamanho_bloco[1]};
 							if(SDL_HasRectIntersection(&retangulo, &inimigo->retangulo_coli_v))
 									inimigo->coli_v = true;
@@ -634,10 +640,8 @@ void ColisaoInimigoMapaV(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int 
 }
 
 void ColisaoInimigoMapaH(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int tamanho_tela[2],Camera camera){
-	camera.x -= tamanho_tela[0]/2;
-	camera.y -= tamanho_tela[1]/2;
-	for(int i = camera.y/tamanho_bloco[1]; i*tamanho_bloco[1] < tamanho_tela[1]*2 + camera.y && i < TamanhosMapaY; i++){
-		for(int j = camera.x/tamanho_bloco[0]; j*tamanho_bloco[0] < tamanho_tela[0]*2 + camera.x && j < TamanhosMapaX; j++){
+	for(int i = (camera.y - tamanho_tela[1]*0.2)/tamanho_bloco[1]; i*tamanho_bloco[1] < tamanho_tela[1]*1.2 + camera.y && i < TamanhosMapaY; i++){
+		for(int j = (camera.x - tamanho_tela[0]*0.2)/tamanho_bloco[0]; j*tamanho_bloco[0] < tamanho_tela[0]*1.2 + camera.x && j < TamanhosMapaX; j++){
 			if(mapa.tiles[i][j]){ 
 				TiposVMMA tipo_de_coli = CalcularTipoVMMA(mapa.tiles[i][j]);
 				switch (tipo_de_coli){

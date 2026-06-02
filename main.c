@@ -97,7 +97,7 @@ int main(void)
             geral.resolucao_antiga[1] = geral.resolucao_atual[1];
         }
         if (geral.carregar_mapa){
-            CalcularCenaJogo(&geral, &jogo, tamanhos);
+            jogo.mapa = mapa.mapa;
             geral.carregar_mapa = false;
         }
 
