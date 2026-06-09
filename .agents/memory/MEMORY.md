@@ -1,0 +1,1 @@
+- [Emscripten NixOS cache](emscripten-nix-cache.md) — bug de sanitizer symlink impede cópia automática do sysroot; usar setup_emcache.py + stamp file.

@@ -16,6 +16,7 @@ void InitCenaGeral(VariveisGerais *geral, Tamanhos *tamanhos){
     geral->fullscrean           = false;
     geral->troca_reso           = false;
     geral->debug                = false;
+    geral->carregar_mapa       = false;
     geral->botao_mouse_direito  = false;
     geral->botao_mouse_esquerdo = false;
     geral->botao_mouse_meio     = false;

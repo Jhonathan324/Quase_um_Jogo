@@ -30,7 +30,7 @@ OBJS_DEBUG   = $(patsubst %.c,$(OBJ_DEBUG)/%.o,$(SRCS))
 OBJS_RELEASE = $(patsubst %.c,$(OBJ_RELEASE)/%.o,$(SRCS))
 
 # ── WebAssembly (Emscripten) ──────────────────────────────────────────────
-EM_CACHE     = /home/runner/emcache
+EM_CACHE     = /tmp/emcache
 EMCC         = EM_CACHE=$(EM_CACHE) emcc
 
 IMG_SRC_INC  = wasm_deps/src/SDL3_image-3.2.4/include

@@ -31,6 +31,7 @@ static void frame(void)
         break;
 
     case CENA_JOGO:
+        printf("LoopCenaJogo\n");
         LoopCenaJogo(&geral, &jogo, tempo);
         DesenharCenaJogo(geral, jogo, tamanhos);
         break;
@@ -52,9 +53,9 @@ static void frame(void)
 
     case CENA_SAIR:
         geral.rodando = false;
-#ifdef __EMSCRIPTEN__
-        emscripten_cancel_main_loop();
-#endif
+        #ifdef __EMSCRIPTEN__
+            emscripten_cancel_main_loop();
+        #endif
         break;
 
     default:
@@ -72,16 +73,17 @@ static void frame(void)
         geral.resolucao_antiga[1] = geral.resolucao_atual[1];
     }
     if (geral.carregar_mapa) {
+        printf("CalcularCenaJogo\n");
         CalcularCenaJogo(&geral, &jogo, tamanhos);
         geral.carregar_mapa = false;
     }
 
     SDL_RenderPresent(geral.renderizador);
-#ifndef __EMSCRIPTEN__
+
     SDL_Delay(16);
-#endif
-    tempo = (double)(SDL_GetPerformanceCounter() - tempo_inicial)
-            / SDL_GetPerformanceFrequency();
+    tempo = (double)(SDL_GetPerformanceCounter() - tempo_inicial);
+
+    printf("%lf\n",tempo);
 }
 
 int main(void)
@@ -110,16 +112,16 @@ int main(void)
 
     tempo_inicial = SDL_GetPerformanceCounter();
 
-#ifdef __EMSCRIPTEN__
-    emscripten_set_main_loop(frame, 0, 1);
-#else
+    #ifdef __EMSCRIPTEN__
+        emscripten_set_main_loop(frame, 0, 1);
+    #else
     while (geral.rodando)
         frame();
 
     SDL_DestroyRenderer(geral.renderizador);
     SDL_DestroyWindow(geral.janela);
     SDL_Quit();
-#endif
+    #endif
 
     return 0;
 }

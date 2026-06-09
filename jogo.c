@@ -77,7 +77,6 @@ void InitCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, Tamanhos tamanhos){
 
 void CalcularCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, Tamanhos tamanhos){
     // Player
-    CarregarMapa(&jogo->mapa, jogo->mapa.n);
     double x = tamanhos.tela[0] * ( (double)jogo->jogador.retangulo_coli.x/geral->resolucao_antiga[0]);
     double y = tamanhos.tela[1] * ( (double)jogo->jogador.retangulo_coli.y/geral->resolucao_antiga[1]);
     SDL_FRect retangulo_img = {x,y,tamanhos.jogador[0],tamanhos.jogador[1]};
@@ -101,6 +100,8 @@ void CalcularCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, Tamanhos tamanh
 }
 
 void LoopCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, double delta_t){
+    printf("gato\n");
+    
     //teclado
     const bool *teclado = SDL_GetKeyboardState(NULL);
     if (teclado[SDL_SCANCODE_ESCAPE]){
