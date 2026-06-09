@@ -61,7 +61,7 @@ LDFLAGS_WASM = \
 	-s USE_WEBGL2=1 \
 	-s MIN_WEBGL_VERSION=2 \
 	-s EXIT_RUNTIME=0 \
-	-s STACK_SIZE=524288 \
+	-s STACK_SIZE=4194304 \
 	--preload-file assets \
 	--preload-file map
 

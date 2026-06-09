@@ -80,7 +80,9 @@ static void frame(void)
 
     SDL_RenderPresent(geral.renderizador);
 
+    #ifndef __EMSCRIPTEN__
     SDL_Delay(16);
+    #endif
     tempo = (double)(SDL_GetPerformanceCounter() - tempo_inicial);
 
     printf("%lf\n",tempo);

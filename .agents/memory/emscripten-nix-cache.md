@@ -25,3 +25,16 @@ Pré-popular `/tmp/emcache` com o sysroot do nix store antes de chamar `emcc`, c
 - SDL3: `--use-port=sdl3` (emscripten baixa e compila SDL3 na primeira execução)
 - SDL3_image: compilar do fonte com emcmake/emmake (porta não existe no emscripten)
 - SDL3_ttf: compilar do fonte com emcmake/emmake + freetype/plutosvg/plutovg vendorizados
+
+## Stack overflow em WASM (STACK_SIZE muito pequeno)
+SDL3 3.2.4 usa mais stack do que SDL3 3.2.14. Com 512KB (`-s STACK_SIZE=524288`) o jogo crasha em `LoopCenaJogo` com "Stack overflow detected" e "memory access out of bounds".
+
+**Fix:** Aumentar para 4MB (`-s STACK_SIZE=4194304`).
+
+## SDL_Delay no loop WASM
+`SDL_Delay(16)` dentro do callback de `emscripten_set_main_loop` causa chamada a `emscripten_sleep` que lança exceção sem Asyncify habilitado.
+
+**Fix:** Guardar com `#ifndef __EMSCRIPTEN__`.
+
+## Makefile TABs — CRÍTICO
+O `edit` e `write` do agent convertem TABs para espaços no Makefile, quebrando todas as receitas. SEMPRE reescrever o Makefile via `bash cat > Makefile << 'EOF'` (heredoc) que preserva TABs reais.
