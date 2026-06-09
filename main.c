@@ -18,7 +18,9 @@ static double         tempo;
 
 static void frame(void)
 {
-    tempo_inicial = SDL_GetPerformanceCounter();
+    Uint64 agora = SDL_GetPerformanceCounter();
+    tempo = (double)(agora - tempo_inicial);
+    tempo_inicial = agora;
 
     while (SDL_PollEvent(&geral.evento))
         ModuloEvento(&geral);
@@ -31,7 +33,6 @@ static void frame(void)
         break;
 
     case CENA_JOGO:
-        printf("LoopCenaJogo\n");
         LoopCenaJogo(&geral, &jogo, tempo);
         DesenharCenaJogo(geral, jogo, tamanhos);
         break;
@@ -83,9 +84,6 @@ static void frame(void)
     #ifndef __EMSCRIPTEN__
     SDL_Delay(16);
     #endif
-    tempo = (double)(SDL_GetPerformanceCounter() - tempo_inicial);
-
-    printf("%lf\n",tempo);
 }
 
 int main(void)

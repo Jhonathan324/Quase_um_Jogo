@@ -18,7 +18,7 @@ void InitCenaMenu(VariveisGerais *geral, VariveisMenu *menu, Tamanhos tamanhos)
     SDL_FRect rect_moldura = {tamanhos.menu[1]*0.1, geral->resolucao_atual[1]-tamanhos.menu[1]*0.9, tamanhos.menu[0], tamanhos.menu[1]};
 
     // obtenção do rect da janela
-    int janela_w, janela_h;
+    int janela_x, janela_y, janela_w, janela_h;
     SDL_GetWindowSize(geral->janela, &janela_w, &janela_h);
     //SDL_FRect rect_janela = {0, 20, janela_w, janela_h};
     //CentralizarRectInRect(&rect_janela, &rect_moldura); // centralização do menu com base na tela
@@ -114,7 +114,7 @@ void DesenharCenaMenu(VariveisGerais geral, VariveisMenu menu){
         &menu.botao_criacao,
         &menu.botao_conf,
         &menu.botao_sair};
-    
+
     // limpeza de tela
     SDL_SetRenderDrawColor(geral.renderizador, menu.cor_fundo.r, menu.cor_fundo.g, menu.cor_fundo.b, menu.cor_fundo.a);
     SDL_RenderClear(geral.renderizador);

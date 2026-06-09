@@ -24,6 +24,7 @@ typedef struct PlayerInJogo
 	bool costas;
 	bool coli_h;
 	bool coli_v;
+	bool coli_v_m;
 	float vida;
 	float dano;
 	float dano_sofrido;
@@ -56,6 +57,7 @@ typedef struct Inimigo
 	bool costas;
 	bool coli_h;
 	bool coli_v;
+	bool coli_v_m;
 	float vida;
 	float dano;
 	double frame;

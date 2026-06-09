@@ -12,7 +12,7 @@ void InitCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, Tamanhos tamanhos){
         .vida = 100,
         .coracoes = 3
     };
-    
+
     //Jogador da Cena Jogo
     jogo->jogador = InitPlayer(
         geral->renderizador, 
@@ -33,10 +33,10 @@ void InitCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, Tamanhos tamanhos){
         10,
         PORCO_NORMAL
     );
-    
+
     jogo->sprite_atlas_inimigos[0] = IMG_LoadTexture(geral->renderizador, "assets/imagens/entities/mobs/porco marron.png");
     if (jogo->sprite_atlas_inimigos[0]) SDL_SetTextureScaleMode(jogo->sprite_atlas_inimigos[0], SDL_SCALEMODE_NEAREST);
-    
+
 
     // Variaveis do Jogo
     jogo->tempo = 0;
@@ -70,13 +70,14 @@ void InitCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, Tamanhos tamanhos){
     jogo->mapa.tiles[7][5+i] = rand()%3+7;
     SalvarMapa(&jogo->mapa);
     */
- 
+
 }
 
 
 
 void CalcularCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, Tamanhos tamanhos){
     // Player
+    CarregarMapa(&jogo->mapa, jogo->mapa.n);
     double x = tamanhos.tela[0] * ( (double)jogo->jogador.retangulo_coli.x/geral->resolucao_antiga[0]);
     double y = tamanhos.tela[1] * ( (double)jogo->jogador.retangulo_coli.y/geral->resolucao_antiga[1]);
     SDL_FRect retangulo_img = {x,y,tamanhos.jogador[0],tamanhos.jogador[1]};
@@ -100,8 +101,6 @@ void CalcularCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, Tamanhos tamanh
 }
 
 void LoopCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, double delta_t){
-    printf("gato\n");
-    
     //teclado
     const bool *teclado = SDL_GetKeyboardState(NULL);
     if (teclado[SDL_SCANCODE_ESCAPE]){
@@ -158,14 +157,14 @@ void DesenharCenaJogo(VariveisGerais geral, VariveisJogo jogo, Tamanhos tamanhos
     DesenharPlayer(geral.renderizador, jogo.jogador, jogo.camera);
     DesenharHud(geral, jogo, tamanhos);
 
-    
+
     SDL_SetRenderDrawColor(geral.renderizador, 0, 155, 0, 122);
     SDL_RenderFillRect(geral.renderizador, &(SDL_FRect){
         jogo.mapa.area_vitoria.x-jogo.camera.x,
         jogo.mapa.area_vitoria.y-jogo.camera.y,
         jogo.mapa.area_vitoria.w,
         jogo.mapa.area_vitoria.h,
-        
+
     });
 }
 

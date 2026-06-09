@@ -194,6 +194,7 @@ void LoopCenaMapa(VariveisGerais *geral, VariaveisMapa *mapa){
 
 	if(VerificarBotao(&mapa->botao_salvar, geral->ponto_mouse, geral->botao_mouse_esquerdo)){
 		SalvarMapa(&mapa->mapa);
+		geral->carregar_mapa = true;
 	}
 	if(VerificarBotao(&mapa->botao_carregar, geral->ponto_mouse, geral->botao_mouse_esquerdo)){
 		CarregarMapa(&mapa->mapa, mapa->mapa.n);

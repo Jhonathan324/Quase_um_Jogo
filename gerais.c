@@ -16,19 +16,19 @@ void GetTamanhos(Tamanhos *tamanhos)
         tamanhos->tela[0] = 640;
         tamanhos->tela[1] = 360;
     }
-    
+
     tamanhos->menu[0]         = tamanhos->tela[0] * (float)CantoFixo          / 640 * 6;
     tamanhos->menu[1]         = tamanhos->tela[1] * (float)CantoFixo          / 360 * 6;
-    
+
     tamanhos->bloco1[0]       = tamanhos->tela[0] * (float)MedidaImgBloco     / 640 * 2;
     tamanhos->bloco1[1]       = tamanhos->tela[1] * (float)MedidaImgBloco     / 360 * 2;
-    
+
     tamanhos->botao1[0]       = tamanhos->tela[0] * (float)MedidaImgBloco     / 640 * 2;
     tamanhos->botao1[1]       = tamanhos->tela[1] * (float)MedidaImgBloco     / 360 * 2;
-    
+
     tamanhos->botao2[0]       = tamanhos->tela[0] * (float)MedidaImgBloco     / 640 * 2;
     tamanhos->botao2[1]       = tamanhos->tela[1] * (float)MedidaImgBloco     / 360 * 2;
-    
+
     tamanhos->barra_vida[0]   = tamanhos->tela[0] * (float)(EscalaHud*4)      / 640 * 2;
     tamanhos->barra_vida[1]   = tamanhos->tela[1] * (float)(EscalaHud*1)      / 360 * 2;
 
@@ -40,7 +40,7 @@ void GetTamanhos(Tamanhos *tamanhos)
 
     tamanhos->inimigo2[0]     = tamanhos->tela[0] * (float)MedidaImgInimigo2X / 640;
     tamanhos->inimigo2[1]     = tamanhos->tela[1] * (float)MedidaImgInimigo2Y / 360;
-    
+
     tamanhos->jogador_coli[0] = tamanhos->tela[0] * (float)MedidaImgPlayerColiX / 640 * 2;
     tamanhos->jogador_coli[1] = tamanhos->tela[1] * (float)MedidaImgPlayerColiY / 360 * 2;
 
@@ -177,7 +177,7 @@ void DesenharMoldura(SDL_Renderer *renderizador, Moldura moldura)
         2.0f,
         &moldura.retangulo
     );
-    
+
 }
 
 void DestruirMoldura(Moldura *moldura){
@@ -281,6 +281,12 @@ Botao InitBotao(SDL_Renderer *renderizador, SDL_FRect *retangulo, char *imagem, 
         textura_texto,                                              // textura texto
         imagem ? IMG_LoadTexture(renderizador, imagem) : NULL};    // textura da imagem
 
+    float tamanho_canto;
+    if (retangulo->h >= retangulo->w)
+        tamanho_canto = retangulo->w / 2;
+    else
+        tamanho_canto = retangulo->h / 2;
+
     // imagem
     if (botao.imagem) SDL_SetTextureScaleMode(botao.imagem, SDL_SCALEMODE_NEAREST);
     return botao;
@@ -303,7 +309,7 @@ void DesenharBotao(SDL_Renderer *renderizador, Botao botao)
     }
     else
     {
-        
+
         SDL_RenderTexture9Grid(
             renderizador,
             botao.imagem,
@@ -315,7 +321,7 @@ void DesenharBotao(SDL_Renderer *renderizador, Botao botao)
             3.0f,
             &botao.retangulo
         );
-        
+
 
         if(botao.sobre){
             SDL_SetRenderDrawBlendMode(renderizador,SDL_BLENDMODE_BLEND);
@@ -407,6 +413,12 @@ BotaoExpansivo InitBotaoExpansivo(SDL_Renderer *renderizador, SDL_FRect *retangu
         cor2,
         textura_texto,                                              // textura texto
         imagem ? IMG_LoadTexture(renderizador, imagem) : NULL};    // textura da imagem
+
+    float tamanho_canto;
+    if (retangulo->h >= retangulo->w)
+        tamanho_canto = retangulo->w / 2;
+    else
+        tamanho_canto = retangulo->h / 2;
 
     // imagem
     if (botao.imagem) SDL_SetTextureScaleMode(botao.imagem, SDL_SCALEMODE_NEAREST);
@@ -544,7 +556,7 @@ void ModuloEvento(VariveisGerais *geral)
     geral->ponto_mouse.x = geral->mouse_x;
     geral->ponto_mouse.y = geral->mouse_y;
 
-    
+
     if (geral->evento.type == SDL_EVENT_MOUSE_BUTTON_DOWN){
         if(geral->evento.button.button == SDL_BUTTON_LEFT)
             geral->botao_mouse_esquerdo = true;
@@ -565,6 +577,6 @@ void ModuloEvento(VariveisGerais *geral)
         geral->botao_mouse_meio = false;
     }
 
-    
-    
+
+
 }
