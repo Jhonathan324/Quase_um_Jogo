@@ -199,7 +199,7 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
 					
 					jogador->frame = 0;
 					jogador->estado_passado = jogador->estado_atual;
-				
+					jogador->estado_atual = VMM_PLAYER_CAIR;
 				}
 			}
 			else
@@ -661,7 +661,7 @@ void ColisaoInimigoMapaH(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int 
 void DesenharMapa(SDL_Renderer *renderizador, Mapa mapa, Camera camera, int tamanho_bloco[2], int tamanho_tela[2]){
 	int i = camera.y/tamanho_bloco[1];
 
-	if(i<0) i = 0;
+
 	for(; i*tamanho_bloco[1] < tamanho_tela[1] + camera.y && i < TamanhosMapaY; i++){
 		int j = camera.x/tamanho_bloco[0];
 		if(j<0) j = 0;

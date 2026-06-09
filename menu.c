@@ -11,7 +11,7 @@ void InitCenaMenu(VariveisGerais *geral, VariveisMenu *menu, Tamanhos tamanhos)
 
     // fundo
     if(menu->imagem) SDL_DestroyTexture(menu->imagem);
-    menu->imagem = IMG_LoadTexture(geral->renderizador, "assets/imagens/ui/background/menu inicial.png");
+    menu->imagem = IMG_LoadTexture(geral->renderizador, "assets/imagens/ui/background/menu Inicial.png");
     SDL_SetTextureScaleMode(menu->imagem, SDL_SCALEMODE_NEAREST);
 
     // Criação do menu para os botões
