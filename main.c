@@ -15,11 +15,12 @@ static VariveisConf   conf;
 static VariaveisMapa  mapa;
 static Uint64         tempo_inicial;
 static double         tempo;
+static double         nanos_por_tick;
 
 static void frame(void)
 {
     Uint64 agora = SDL_GetPerformanceCounter();
-    tempo = (double)(agora - tempo_inicial);
+    tempo = (double)(agora - tempo_inicial) * nanos_por_tick;
     tempo_inicial = agora;
 
     while (SDL_PollEvent(&geral.evento))
@@ -74,7 +75,6 @@ static void frame(void)
         geral.resolucao_antiga[1] = geral.resolucao_atual[1];
     }
     if (geral.carregar_mapa) {
-        printf("CalcularCenaJogo\n");
         CalcularCenaJogo(&geral, &jogo, tamanhos);
         geral.carregar_mapa = false;
     }
@@ -90,6 +90,8 @@ int main(void)
 {
     SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
+
+    nanos_por_tick = 1000000000.0 / (double)SDL_GetPerformanceFrequency();
 
     tamanhos.escala = 2;
     InitCenaGeral(&geral, &tamanhos);

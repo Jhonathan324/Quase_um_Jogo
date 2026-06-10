@@ -1,1 +1,2 @@
 - [Emscripten NixOS cache](emscripten-nix-cache.md) — bug de sanitizer symlink impede cópia automática do sysroot; usar setup_emcache.py + stamp file.
+- [SDL timing cross-platform](sdl-timing-cross-platform.md) — SDL_GetPerformanceFrequency difere 1000x entre Linux (ns) e WASM (µs); normalizar sempre para nanosegundos.

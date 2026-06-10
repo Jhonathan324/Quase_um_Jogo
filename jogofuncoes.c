@@ -69,7 +69,7 @@ PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL
 
 void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_frame, Camera *camera, Mapa mapa, int tamanho_bloco[2], int tamanhos_tela[2]){
         double movi_v = true, movi_h = 0;
-
+        printf("x%d y%d f%f",camera->x,camera->y,delta_frame);
         if(jogador->vida <= 0) {
                 jogador->vida = 100;
                 jogador->dano_sofrido = 0;
@@ -575,6 +575,11 @@ void ColisaoPlayerMapaV(PlayerInJogo *jogador, Mapa mapa, int tamanho_bloco[2], 
                         if(mapa.tiles[i][j]){ 
                                 TiposVMMA tipo_de_coli = CalcularTipoVMMA(mapa.tiles[i][j]);
                                 switch (tipo_de_coli){
+                                        case VMMA_SEM_COLI:
+                                        case VMMA_PEDRA_M_D_ON:
+                                        case VMMA_PEDRA_M_E_ON:
+                                        break;
+                                        
                                         case VMMA_GRAMA_ON:
                                         case VMMA_PEDRA_ON:
                                         case VMMA_MADEIRA_ON:{
@@ -582,6 +587,7 @@ void ColisaoPlayerMapaV(PlayerInJogo *jogador, Mapa mapa, int tamanho_bloco[2], 
                                                         if(SDL_HasRectIntersection(&retangulo, &jogador->retangulo_coli_v))
                                                                         jogador->coli_v = true;
                                         }break;
+                                        
                                         case VMMA_GRAMA_M_E_ON:
                                         case VMMA_GRAMA_M_D_ON:{
                                                         SDL_Rect retangulo = {j*tamanho_bloco[0], i*tamanho_bloco[1], tamanho_bloco[0], tamanho_bloco[1]};
@@ -602,8 +608,14 @@ void ColisaoPlayerMapaH(PlayerInJogo *jogador, Mapa mapa, int tamanho_bloco[2], 
                         if(mapa.tiles[i][j]){ 
                                 TiposVMMA tipo_de_coli = CalcularTipoVMMA(mapa.tiles[i][j]);
                                 switch (tipo_de_coli){
+                                        case VMMA_SEM_COLI:
+                                        case VMMA_PEDRA_M_D_ON:
+                                        case VMMA_PEDRA_M_E_ON:
+                                        break;
+                                        
                                         case VMMA_GRAMA_ON:
-                                        case VMMA_PEDRA_ON:{
+                                        case VMMA_PEDRA_ON:
+                                        case VMMA_MADEIRA_ON:{
                                                         SDL_Rect retangulo = {j*tamanho_bloco[0], i*tamanho_bloco[1], tamanho_bloco[0], tamanho_bloco[1]};
                                                         if(SDL_HasRectIntersection(&retangulo, &jogador->retangulo_coli_h))
                                                                         jogador->coli_h = true;
@@ -626,6 +638,11 @@ void ColisaoInimigoMapaV(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int 
                         if(mapa.tiles[i][j]){ 
                                 TiposVMMA tipo_de_coli = CalcularTipoVMMA(mapa.tiles[i][j]);
                                 switch (tipo_de_coli){
+                                        case VMMA_SEM_COLI:
+                                        case VMMA_PEDRA_M_D_ON:
+                                        case VMMA_PEDRA_M_E_ON:
+                                        break;
+                                        
                                         case VMMA_GRAMA_ON:
                                         case VMMA_PEDRA_ON:
                                         case VMMA_MADEIRA_ON:{
@@ -633,6 +650,10 @@ void ColisaoInimigoMapaV(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int 
                                                         if(SDL_HasRectIntersection(&retangulo, &inimigo->retangulo_coli_v))
                                                                         inimigo->coli_v = true;
                                         }break;
+                                        
+                                        case VMMA_GRAMA_M_E_ON:
+                                        case VMMA_GRAMA_M_D_ON:
+                                        break;
                                 }
                         }
                 }
@@ -645,12 +666,22 @@ void ColisaoInimigoMapaH(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int 
                         if(mapa.tiles[i][j]){ 
                                 TiposVMMA tipo_de_coli = CalcularTipoVMMA(mapa.tiles[i][j]);
                                 switch (tipo_de_coli){
+                                        case VMMA_SEM_COLI:
+                                        case VMMA_PEDRA_M_D_ON:
+                                        case VMMA_PEDRA_M_E_ON:
+                                        break;
+                                        
                                         case VMMA_GRAMA_ON:
-                                        case VMMA_PEDRA_ON:{
+                                        case VMMA_PEDRA_ON:
+                                        case VMMA_MADEIRA_ON:{
                                                         SDL_Rect retangulo = {j*tamanho_bloco[0], i*tamanho_bloco[1], tamanho_bloco[0], tamanho_bloco[1]};
                                                         if(SDL_HasRectIntersection(&retangulo, &inimigo->retangulo_coli_h))
                                                                         inimigo->coli_h = true;
                                         }break;
+                                        
+                                        case VMMA_GRAMA_M_E_ON:
+                                        case VMMA_GRAMA_M_D_ON:
+                                        break;
                                 }
                         }
                 }
@@ -660,11 +691,10 @@ void ColisaoInimigoMapaH(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int 
 
 void DesenharMapa(SDL_Renderer *renderizador, Mapa mapa, Camera camera, int tamanho_bloco[2], int tamanho_tela[2]){
         int i = camera.y/tamanho_bloco[1];
-
-        if(i<0) i = 0;
+        //if(i<0) i = 0;
         for(; i*tamanho_bloco[1] < tamanho_tela[1] + camera.y && i < TamanhosMapaY; i++){
                 int j = camera.x/tamanho_bloco[0];
-                if(j<0) j = 0;
+                //if(j<0) j = 0;
                 for(; j*tamanho_bloco[0] < tamanho_tela[0] + camera.x && j < TamanhosMapaX; j++){
                         if(mapa.tiles[i][j]){ 
                                 SDL_FRect src = MapaTiles(mapa.tiles[i][j]);
