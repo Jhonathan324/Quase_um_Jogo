@@ -69,7 +69,7 @@ PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL
 
 void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_frame, Camera *camera, Mapa mapa, int tamanho_bloco[2], int tamanhos_tela[2]){
         double movi_v = true, movi_h = 0;
-        printf("x%d y%d f%f",camera->x,camera->y,delta_frame);
+       
         if(jogador->vida <= 0) {
                 jogador->vida = 100;
                 jogador->dano_sofrido = 0;
