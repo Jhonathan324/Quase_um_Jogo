@@ -6,7 +6,7 @@
 #include <emscripten.h>
 #endif
 
-static Tamanhos      tamanhos;
+static Tamanhos       tamanhos;
 static VariveisGerais geral;
 static VariveisMenu   menu;
 static VariveisPause  pausa;
@@ -17,7 +17,7 @@ static Uint64         tempo_inicial;
 static double         tempo;
 static double         nanos_por_tick;
 
-static void frame(void)
+static void LoopPrincipal(void)
 {
     Uint64 agora = SDL_GetPerformanceCounter();
     tempo = (double)(agora - tempo_inicial) * nanos_por_tick;
@@ -117,10 +117,10 @@ int main(void)
     tempo_inicial = SDL_GetPerformanceCounter();
 
     #ifdef __EMSCRIPTEN__
-        emscripten_set_main_loop(frame, 0, 1);
+        emscripten_set_main_loop(LoopPrincipal, 0, 1);
     #else
     while (geral.rodando)
-        frame();
+        LoopPrincipal();
 
     SDL_DestroyRenderer(geral.renderizador);
     SDL_DestroyWindow(geral.janela);
