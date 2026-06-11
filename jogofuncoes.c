@@ -67,21 +67,24 @@ PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL
         return jogador;
 }
 
+void redimencionar_jogador(PlayerInJogo *jogador, SDL_Point local){
+        jogador->posicao_x        = local.x;
+        jogador->posicao_y        = local.y - jogador->retangulo_coli.h;
+        jogador->retangulo_coli.x = jogador->posicao_x;
+        jogador->retangulo_coli.y = jogador->posicao_y;
+        jogador->retangulo_coli_h = jogador->retangulo_coli;
+        jogador->retangulo_coli_v = jogador->retangulo_coli;
+}
+
 void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_frame, Camera *camera, Mapa mapa, int tamanho_bloco[2], int tamanhos_tela[2]){
         double movi_v = true, movi_h = 0;
-       
         if(jogador->vida <= 0) {
                 jogador->vida = 100;
-                jogador->dano_sofrido = 0;
                 jogador->coracoes--;
-                jogador->retangulo_coli.x = tamanho_bloco[0];
-                jogador->retangulo_coli.y = 62*tamanho_bloco[1] - jogador->retangulo_coli.h;
-                jogador->retangulo_coli_h = jogador->retangulo_coli;
-                jogador->retangulo_coli_v = jogador->retangulo_coli;
-                jogador->posicao_x = jogador->retangulo_coli.x;
-                jogador->posicao_y = jogador->retangulo_coli.y;
+                jogador->dano_sofrido = 0;
+                redimencionar_jogador(jogador, (SDL_Point){tamanho_bloco[0],62*tamanho_bloco[1]});
         }
-
+        //printf("%f\n",jogador->frame);
         jogador->frame += delta_frame;
 
         // Logica do Player
@@ -106,7 +109,6 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
 
         if(movi_h<0) jogador->costas = true;
         if(movi_h>0) jogador->costas = false;
-
         if(!movi_h) jogador->velocidade_x = 0;
 
         // É necessario divirdir em dois para não ser possivel bugar nas quinas do blocos
@@ -122,10 +124,12 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
                 jogador->retangulo_coli_v = jogador->retangulo_coli;
                 jogador->posicao_y = jogador->retangulo_coli.y;
         }
+        if (jogador->estado_atual != VMM_PLAYER_CAIR && jogador->retangulo_coli_v.y != jogador->retangulo_coli.y)
+        jogador->coyote_time++;
         jogador->retangulo_coli.y = jogador->retangulo_coli_v.y;
         jogador->retangulo_coli_v = jogador->retangulo_coli;
+        
         jogador->retangulo_coli_h.y = jogador->retangulo_coli_v.y;
-
         ColisaoPlayerMapaH(jogador, mapa, tamanho_bloco, tamanhos_tela, *camera);
         if(jogador->coli_h){
                 jogador->velocidade_x = false;
@@ -135,15 +139,15 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
         else {
                 jogador->velocidade_x += jogador->acelera * delta_frame * movi_h;
                 //if(jogador->coli_v_m){
-                //	jogador->velocidade_y -= jogador->acelera * delta_frame;
-                //}
-        }
-        jogador->retangulo_coli.x = jogador->retangulo_coli_h.x;
-        jogador->retangulo_coli_h = jogador->retangulo_coli;
-        jogador->retangulo_coli_v.x = jogador->retangulo_coli.x;
-
-
-        // eu poderia fazer de uma forma mais organizada, mais isso me custaria um tempo que eu não tenho. Fica para projetos futuros.
+                        //	jogador->velocidade_y -= jogador->acelera * delta_frame;
+                        //}
+                }
+                jogador->retangulo_coli.x = jogador->retangulo_coli_h.x;
+                jogador->retangulo_coli_h = jogador->retangulo_coli;
+                jogador->retangulo_coli_v.x = jogador->retangulo_coli_h.x;
+                
+                
+                // eu poderia fazer de uma forma mais organizada, mas isso me custaria um tempo que eu não tenho. Fica para projetos futuros.
         if (!jogador->tempo_hit)
         {
                 if (!jogador->coli_v)
@@ -206,8 +210,7 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
                         {
                                 jogador->estado_passado = jogador->estado_atual;
                         }
-                        if (jogador->estado_atual != VMM_PLAYER_CAIR)
-                                jogador->coyote_time++;
+                        
                         jogador->velocidade_y += jogador->acelera * delta_frame * movi_v*0.1;
                 }
                 else
@@ -691,10 +694,10 @@ void ColisaoInimigoMapaH(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int 
 
 void DesenharMapa(SDL_Renderer *renderizador, Mapa mapa, Camera camera, int tamanho_bloco[2], int tamanho_tela[2]){
         int i = camera.y/tamanho_bloco[1];
-        //if(i<0) i = 0;
+        if(i<0) i = 0;
         for(; i*tamanho_bloco[1] < tamanho_tela[1] + camera.y && i < TamanhosMapaY; i++){
                 int j = camera.x/tamanho_bloco[0];
-                //if(j<0) j = 0;
+                if(j<0) j = 0;
                 for(; j*tamanho_bloco[0] < tamanho_tela[0] + camera.x && j < TamanhosMapaX; j++){
                         if(mapa.tiles[i][j]){ 
                                 SDL_FRect src = MapaTiles(mapa.tiles[i][j]);

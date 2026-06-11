@@ -88,10 +88,12 @@ static void frame(void)
 
 int main(void)
 {
+    setbuf(stdout, NULL);
+
     SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
 
-    nanos_por_tick = 1000000000.0 / (double)SDL_GetPerformanceFrequency();
+    nanos_por_tick = 1.0 / (double)SDL_GetPerformanceFrequency();
 
     tamanhos.escala = 2;
     InitCenaGeral(&geral, &tamanhos);
@@ -127,3 +129,4 @@ int main(void)
 
     return 0;
 }
+
