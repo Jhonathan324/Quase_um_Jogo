@@ -91,8 +91,6 @@ void CalcularCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, Tamanhos tamanh
     jogo->jogador.posicao_x        = x;
     jogo->jogador.posicao_y        = y;
     jogo->jogador.retangulo_coli   = retangulo_coli;
-    jogo->jogador.retangulo_coli_h = retangulo_coli;
-    jogo->jogador.retangulo_coli_v = retangulo_coli;
     jogo->jogador.retangulo_img    = retangulo_img;
 
     //variaveis
@@ -102,7 +100,7 @@ void CalcularCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, Tamanhos tamanh
 
 void LoopCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, double delta_t){
     // BP1 — entrada da função
-    printf("[BP1] delta_t=%.0f  delta_t*100=%.0f\n", delta_t, delta_t*100);
+    //printf("[BP1] delta_t=%.0f  delta_t*100=%.0f\n", delta_t, delta_t*100);
 
     //teclado
     const bool *teclado = SDL_GetKeyboardState(NULL);
@@ -110,13 +108,13 @@ void LoopCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, double delta_t){
         geral->cena_continuar = geral->cena;
         geral->cena_passada = geral->cena;
         geral->cena = CENA_PAUSE;
-        printf("[BP2] ESCAPE pressionado -> CENA_PAUSE\n");
+        //printf("[BP2] ESCAPE pressionado -> CENA_PAUSE\n");
     }
 
     // Perda
     if(jogo->jogador.coracoes <= 0 ){
-        printf("[BP3] GAME OVER: coracoes=%d vida=%.1f -> CENA_MENU\n",
-               jogo->jogador.coracoes, jogo->jogador.vida);
+        //printf("[BP3] GAME OVER: coracoes=%d vida=%.1f -> CENA_MENU\n",
+        //       jogo->jogador.coracoes, jogo->jogador.vida);
         geral->cena_continuar = geral->cena;
         geral->cena_passada = geral->cena;
         geral->cena = CENA_MENU;
@@ -129,13 +127,13 @@ void LoopCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, double delta_t){
     }
 
     // BP5 — estado do jogador antes da física
-    printf("[BP5] PRE-FISICA  pos=(%.1f,%.1f)  vel=(%.4f,%.4f)  coli=(%d,%d,%d,%d)  estado=%d  coracoes=%d  vida=%.1f\n",
-           jogo->jogador.posicao_x, jogo->jogador.posicao_y,
-           jogo->jogador.velocidade_x, jogo->jogador.velocidade_y,
-           jogo->jogador.retangulo_coli.x, jogo->jogador.retangulo_coli.y,
-           jogo->jogador.retangulo_coli.w, jogo->jogador.retangulo_coli.h,
-           jogo->jogador.estado_atual,
-           jogo->jogador.coracoes, jogo->jogador.vida);
+    //printf("[BP5] PRE-FISICA  pos=(%.1f,%.1f)  vel=(%.4f,%.4f)  coli=(%d,%d,%d,%d)  estado=%d  coracoes=%d  vida=%.1f\n",
+    //       jogo->jogador.posicao_x, jogo->jogador.posicao_y,
+    //       jogo->jogador.velocidade_x, jogo->jogador.velocidade_y,
+    //       jogo->jogador.retangulo_coli.x, jogo->jogador.retangulo_coli.y,
+    //       jogo->jogador.retangulo_coli.w, jogo->jogador.retangulo_coli.h,
+    //       jogo->jogador.estado_atual,
+    //       jogo->jogador.coracoes, jogo->jogador.vida);
 
     // Logica da camera 
     if(-jogo->camera.x+jogo->jogador.retangulo_coli.x + jogo->jogador.retangulo_coli.w > geral->resolucao_atual[0]*0.6) jogo->camera.x = jogo->jogador.retangulo_coli.x  + jogo->jogador.retangulo_coli.w - geral->resolucao_atual[0]*0.6;
@@ -146,33 +144,33 @@ void LoopCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, double delta_t){
     if(jogo->camera.y<0)jogo->camera.y=0;
 
     // BP6 — camera
-    printf("[BP6] camera=(%d,%d)\n", jogo->camera.x, jogo->camera.y);
+    //printf("[BP6] camera=(%d,%d)\n", jogo->camera.x, jogo->camera.y);
 
     //player
     CalcularPlayer(teclado, &jogo->jogador, delta_t*100, &jogo->camera, jogo->mapa, jogo->tamanho_bloco, geral->resolucao_atual);
 
     // BP7 — estado do jogador depois da física
-    printf("[BP7] POS-FISICA  pos=(%.1f,%.1f)  vel=(%.4f,%.4f)  coli_v=%d  coli_h=%d  pulo=%.1f\n",
-           jogo->jogador.posicao_x, jogo->jogador.posicao_y,
-           jogo->jogador.velocidade_x, jogo->jogador.velocidade_y,
-           jogo->jogador.coli_v, jogo->jogador.coli_h,
-           jogo->jogador.pulo);
+    //printf("[BP7] POS-FISICA  pos=(%.1f,%.1f)  vel=(%.4f,%.4f)  coli_v=%d  coli_h=%d  pulo=%.1f\n",
+    //       jogo->jogador.posicao_x, jogo->jogador.posicao_y,
+    //       jogo->jogador.velocidade_x, jogo->jogador.velocidade_y,
+    //       jogo->jogador.coli_v, jogo->jogador.coli_h,
+    //       jogo->jogador.pulo);
 
     //inimigos
     SDL_Rect camera = {jogo->camera.x- geral->resolucao_atual[0]/2, jogo->camera.y - geral->resolucao_atual[1]/2, geral->resolucao_atual[0]*2, geral->resolucao_atual[1]*2};
     for(int i = 0; i<1; i++){
         if(jogo->inimigos[i].vida > 0 &&  SDL_HasRectIntersection(&camera, &jogo->inimigos[i].retangulo_coli)){
-        printf("[BP8] inimigo[%d]  pos=(%d,%d)  vida=%.1f  estado=%d\n",
-               i,
-               jogo->inimigos[i].retangulo_coli.x, jogo->inimigos[i].retangulo_coli.y,
-               jogo->inimigos[i].vida, jogo->inimigos[i].estado_atual);
+        //printf("[BP8] inimigo[%d]  pos=(%d,%d)  vida=%.1f  estado=%d\n",
+        //       i,
+        //       jogo->inimigos[i].retangulo_coli.x, jogo->inimigos[i].retangulo_coli.y,
+        //       jogo->inimigos[i].vida, jogo->inimigos[i].estado_atual);
         CalcularInimigo(&jogo->inimigos[i], delta_t*100, &jogo->camera, jogo->mapa, jogo->tamanho_bloco, geral->resolucao_atual);
         ColisaoPlayerInimigo(&jogo->jogador, &jogo->inimigos[i]);
     }
     }
 
     // BP9 — saída da função
-    printf("[BP9] fim do loop\n");
+    // printf("[BP9] fim do loop\n");
 }
 
 void DesenharCenaJogo(VariveisGerais geral, VariveisJogo jogo, Tamanhos tamanhos)

@@ -40,10 +40,10 @@ typedef struct PlayerInJogo
 	double velocidade_y;
 	double posicao_x;
 	double posicao_y;
+	double posicao_x_back;
+	double posicao_y_back;
 	SDL_Rect retangulo_dano;
 	SDL_Rect retangulo_coli;
-	SDL_Rect retangulo_coli_h;
-	SDL_Rect retangulo_coli_v;
 	SDL_FRect retangulo_img;
 	SDL_Texture *sprite_atlas;
 }PlayerInJogo;
@@ -132,8 +132,7 @@ void DesenharInimigo(SDL_Renderer *renderizador, Inimigo inimigo, SDL_Texture *s
 
 
 TiposVMMA CalcularTipoVMMA(int n);
-void ColisaoPlayerMapaH(PlayerInJogo *jogador, Mapa Mapa, int tamanho_bloco[2], int tamanho_tela[2], Camera camera);
-void ColisaoPlayerMapaV(PlayerInJogo *jogador, Mapa Mapa, int tamanho_bloco[2], int tamanho_tela[2], Camera camera);
+bool ColisaoPlayerMapa(PlayerInJogo *jogador, Mapa Mapa, int tamanho_bloco[2], int tamanho_tela[2], Camera camera);
 
 void ColisaoInimigoMapaH(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int tamanho_tela[2],Camera camera);
 void ColisaoInimigoMapaV(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int tamanho_tela[2],Camera camera);
