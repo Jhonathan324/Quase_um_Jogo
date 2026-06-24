@@ -72,6 +72,8 @@ void redimencionar_jogador(PlayerInJogo *jogador, SDL_Point local){
         jogador->retangulo_coli.y = jogador->posicao_y;
 }
 
+
+
 void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_frame, Camera *camera, Mapa mapa, int tamanho_bloco[2], int tamanhos_tela[2]){
         double movi_v = true, movi_h = 0;
         //reseta o jogador para o ponto inicial caso ele perca uma vida
@@ -91,47 +93,22 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
         if(movi_h>0) jogador->costas = false;
         if(!movi_h) jogador->velocidade_x = 0;
 
-        // Lógica de ataque
-        if(jogador->ataque){
-                jogador->ataque -= delta_frame;
-                if(jogador->ataque < 0) jogador->ataque = 0;
-                jogador->retangulo_dano.w = 0;
-        }
-        if(teclado[SDL_SCANCODE_F] && !jogador->ataque){
-                jogador->ataque = 40;
-                jogador->retangulo_dano.w = tamanho_bloco[0]*2;
-                jogador->retangulo_dano.h = tamanho_bloco[1]*2;
-                jogador->retangulo_dano.y = jogador->retangulo_coli.y;
-                if  ( jogador->costas)jogador->retangulo_dano.x = jogador->retangulo_coli.x - jogador->retangulo_dano.w*1.2;
-                else                  jogador->retangulo_dano.x = jogador->retangulo_coli.x + jogador->retangulo_coli.w*1.2;
-        }
+        
 
 
         // Colisão vertical
-        jogador->velocidade_y += jogador->acelera * delta_frame * movi_v;
-        
         jogador->pulo -= delta_frame;
         if (jogador->pulo < 0){
                 jogador->pulo = 0;
         }
-        jogador->velocidade_y -= jogador->acelera * delta_frame * (jogador->pulo / 6);
-        
-        if (jogador->velocidade_y < jogador->vel_max_y*-1)
-                jogador->velocidade_y = jogador->vel_max_y*-1;
-        
-        if (jogador->velocidade_y > jogador->vel_max_y)
-                jogador->velocidade_y = jogador->vel_max_y;
+        jogador->velocidade_y -=      jogador->acelera * delta_frame * (jogador->pulo / 6);
 
-        float velocidade_com_margem = jogador->velocidade_y * delta_frame;
-        if (velocidade_com_margem < jogador->vel_max_y*-1)
-                velocidade_com_margem = jogador->vel_max_y*-1;
-        
-        if (velocidade_com_margem > jogador->vel_max_y)
-                velocidade_com_margem = jogador->vel_max_y;
-        
+        jogador->velocidade_y +=      jogador->acelera * delta_frame * movi_v;
+        jogador->velocidade_y =       SDL_clamp(jogador->velocidade_y,               -jogador->vel_max_y, jogador->vel_max_y); 
+        float velocidade      =       SDL_clamp(jogador->velocidade_y * delta_frame, -jogador->vel_max_y, jogador->vel_max_y); 
 
         jogador->posicao_y_back = jogador->posicao_y;
-        jogador->posicao_y += velocidade_com_margem;
+        jogador->posicao_y += velocidade;
         jogador->retangulo_coli.y = jogador->posicao_y;
         jogador->coli_v = ColisaoPlayerMapa(jogador, mapa, tamanho_bloco, tamanhos_tela, *camera);
         if(jogador->coli_v ){
@@ -151,6 +128,7 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
                 jogador->posicao_y        = jogador->posicao_y_back;
                 jogador->retangulo_coli.y = jogador->posicao_y_back;
         }
+
         if (jogador->estado_atual != VMM_PLAYER_CAIR && jogador->posicao_y != jogador->posicao_y_back)
         jogador->coyote_time++;   
         
@@ -158,19 +136,11 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
 
         // Colisão horizontal
         jogador->velocidade_x += jogador->acelera * delta_frame * movi_h;
-        if (jogador->velocidade_x < jogador->vel_max_x*-1)
-                jogador->velocidade_x = jogador->vel_max_x*-1;
-        if (jogador->velocidade_x > jogador->vel_max_x)
-                jogador->velocidade_x = jogador->vel_max_x;
-
-        velocidade_com_margem = jogador->velocidade_x * delta_frame;
-        if (velocidade_com_margem < jogador->vel_max_x*-1)
-                velocidade_com_margem = jogador->vel_max_x*-1;
-        if (velocidade_com_margem > jogador->vel_max_x)
-                velocidade_com_margem = jogador->vel_max_x;
-
+        jogador->velocidade_x = SDL_clamp(jogador->velocidade_x,  -jogador->vel_max_y, jogador->vel_max_y); 
+        velocidade            = SDL_clamp(jogador->velocidade_x*delta_frame,  -jogador->vel_max_x, jogador->vel_max_x); 
         jogador->posicao_x_back = jogador->posicao_x;
-        jogador->posicao_x += velocidade_com_margem;
+
+        jogador->posicao_x += velocidade;
         jogador->retangulo_coli.x = jogador->posicao_x;
         jogador->coli_h = ColisaoPlayerMapa(jogador, mapa, tamanho_bloco, tamanhos_tela, *camera);
         if(jogador->coli_h){
@@ -180,83 +150,68 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
                 jogador->retangulo_coli.x = jogador->posicao_x_back;
         }
         
-             
-        if (!jogador->tempo_hit)
-        {
-                if (!jogador->coli_v)
-                {
-                        if (jogador->pulo)
-                        {
-                                if (jogador->ataque)
-                                {
-                                        if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2)
-                                        {
+        // Lógica de ataque
+        if(jogador->ataque){
+                jogador->ataque -= delta_frame;
+                if(jogador->ataque < 0) jogador->ataque = 0;
+                jogador->retangulo_dano.w = 0;
+        }
+        if(teclado[SDL_SCANCODE_F] && !jogador->ataque){
+                jogador->ataque = 40;
+                jogador->retangulo_dano.w = tamanho_bloco[0]*2;
+                jogador->retangulo_dano.h = tamanho_bloco[1]*2;
+                jogador->retangulo_dano.y = jogador->retangulo_coli.y;
+                if  ( jogador->costas)jogador->retangulo_dano.x = jogador->retangulo_coli.x - jogador->retangulo_dano.w*1.2;
+                else                  jogador->retangulo_dano.x = jogador->retangulo_coli.x + jogador->retangulo_coli.w*1.2;
+        }
+        if (!jogador->tempo_hit){
+                if (!jogador->coli_v){
+                        if (jogador->pulo){
+                                if (jogador->ataque){
+                                        if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2){
                                                 jogador->frame = 0;
                                         }
                                         jogador->estado_passado = jogador->estado_atual;
                                         jogador->estado_atual = VMM_PLAYER_ATAQUE2_MOVIMENTO;
-                                }
-                                else
-                                {
-                                        if (jogador->estado_atual != VMM_PLAYER_PULAR && jogador->estado_atual != VMM_PLAYER_PULO_TRANSICAO && jogador->estado_atual != VMM_PLAYER_CAIR)
-                                        {
+                                }else{
+                                        if (jogador->estado_atual != VMM_PLAYER_PULAR && jogador->estado_atual != VMM_PLAYER_PULO_TRANSICAO && jogador->estado_atual != VMM_PLAYER_CAIR){
                                                 jogador->frame = 0;
                                                 jogador->estado_passado = jogador->estado_atual;
                                                 jogador->estado_atual = VMM_PLAYER_PULAR;
-                                        }
-                                        else if (jogador->estado_atual == VMM_PLAYER_PULAR && jogador->pulo < 4)
-                                        {
+                                        }else if (jogador->estado_atual == VMM_PLAYER_PULAR && jogador->pulo < 4){
                                                 jogador->frame = 0;
                                                 jogador->estado_passado = jogador->estado_atual;
                                                 jogador->estado_atual = VMM_PLAYER_PULO_TRANSICAO;
-                                        }
-                                        else
-                                        {
+                                        }else{
                                                 jogador->estado_passado = jogador->estado_atual;
                                         }
                                 }
                                 
-                        }
-                        else if (jogador->coyote_time > 3)
-                        {
-                                if (jogador->ataque)
-                                {
-                                        if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2)
-                                        {
+                        }else if (jogador->coyote_time > 3){
+                                if (jogador->ataque){
+                                        if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2){
                                                 jogador->frame = 0;
                                         }
                                         jogador->estado_passado = jogador->estado_atual;
                                         jogador->estado_atual = VMM_PLAYER_ATAQUE2_MOVIMENTO;
-                                }
-                                else
-                                {
+                                }else{
 
                                         jogador->frame = 0;
                                         jogador->estado_passado = jogador->estado_atual;
                                         jogador->estado_atual = VMM_PLAYER_CAIR;
                                 }
-                        }
-                        else
-                        {
+                        }else{
                                 jogador->estado_passado = jogador->estado_atual;
                         }
-                }
-                else
-                {
-                        
-                        if (movi_h)
-                        {
-                                if (jogador->ataque)
-                                {
-                                        if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2)
-                                        {
+                }else{
+                        if (movi_h){
+                                if (jogador->ataque){
+                                        if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2){
                                                 jogador->frame = 0;
                                         }
                                         jogador->estado_passado = jogador->estado_atual;
                                         jogador->estado_atual = VMM_PLAYER_ATAQUE2_MOVIMENTO;
-                                }
-                                else
-                                {
+                                }else{
                                         if (jogador->estado_passado != VMM_PLAYER_CORRER)
                                         {
                                                 jogador->frame = 0;
@@ -264,22 +219,15 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
                                         jogador->estado_passado = jogador->estado_atual;
                                         jogador->estado_atual = VMM_PLAYER_CORRER;
                                 }
-                        }
-                        else
-                        {
-                                if (jogador->ataque)
-                                {
-                                        if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2)
-                                        {
+                        }else{
+                                if (jogador->ataque){
+                                        if (jogador->estado_passado != VMM_PLAYER_ATAQUE2_MOVIMENTO && jogador->estado_passado != VMM_PLAYER_ATAQUE2){
                                                 jogador->frame = 0;
                                         }
                                         jogador->estado_passado = jogador->estado_atual;
                                         jogador->estado_atual = VMM_PLAYER_ATAQUE2;
-                                }
-                                else
-                                {
-                                        if (jogador->estado_passado != VMM_PLAYER_IDLE)
-                                        {
+                                }else{
+                                        if (jogador->estado_passado != VMM_PLAYER_IDLE){
                                                 jogador->frame = 0;
                                         }
                                         jogador->estado_passado = jogador->estado_atual;
@@ -287,31 +235,24 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
                                 }
                         }
                 }
-        }
-        if (jogador->dano_sofrido)
-        {
-                if (jogador->dano_sofrido > 0)
-                {
+        
+        if (jogador->dano_sofrido){
+                if (jogador->dano_sofrido > 0){
                         // printf("frame: %f\n", delta_frame);
                         // printf("tempo: %f\n", jogador->tempo_safe);
-                        if (jogador->dano_sofrido > delta_frame && jogador->tempo_safe)
-                        {
+                        if (jogador->dano_sofrido > delta_frame && jogador->tempo_safe){
                                 jogador->dano_sofrido -= delta_frame;
                                 jogador->vida -= delta_frame;
                         }
-                        else
-                        {
+                        else{
                                 jogador->vida -= jogador->dano_sofrido;
                                 jogador->dano_sofrido = 0;
                         }
-                }
-                else
-                {
+                }else{
                         jogador->dano_sofrido = 0;
                 }
         }
-        if (jogador->tempo_hit)
-        {
+        if (jogador->tempo_hit){
                 movi_h = false;
                 movi_v = false;
                 jogador->velocidade_x = 0;
@@ -326,17 +267,16 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
         {
                 jogador->estado_atual = jogador->estado_passado;
         }
-        if (jogador->tempo_safe)
-        {
-                if (jogador->tempo_safe > delta_frame)
+        if (jogador->tempo_safe){
+                if (jogador->tempo_safe > delta_frame){
                         jogador->tempo_safe -= delta_frame;
-                else
+                }else
                         jogador->tempo_safe = 0;
         }
 
 
        
-
+        // Posicao da imagem do player
         jogador->retangulo_img.y = jogador->retangulo_coli.y + jogador->retangulo_coli.h-jogador->retangulo_img.h - camera->y;
         jogador->retangulo_img.x = jogador->retangulo_coli.x -  (jogador->retangulo_img.w * ((float)44/MedidaImgPlayerX)) - (jogador->costas)*(jogador->retangulo_img.w * ((float)11/MedidaImgPlayerX)) - camera->x; 
 }

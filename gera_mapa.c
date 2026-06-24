@@ -46,7 +46,7 @@ void CarregarMapa(Mapa *c, int n) {
 bool VerificarMarcadorBloco(MarcadorBloco *marcador, SDL_Point mouse, int rolada){
 		// Cria um retangulo para verificar as colisões como o mouse
 		SDL_Rect retangulo_colisao;
-		AtribuirFRectInRectA(&marcador->retangulo, &retangulo_colisao);
+		AtribuirFRectInRect(&marcador->retangulo, &retangulo_colisao);
 	retangulo_colisao.y += rolada;
 
 		// verifica se o mouse está emcima do botão

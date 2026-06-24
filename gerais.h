@@ -185,7 +185,7 @@ typedef struct VariveisConf
 void GetTamanhos(Tamanhos *tamanhos);
 
 // Funções desnecessarias
-void AtribuirFRectInRectA(SDL_FRect *fretangulo, SDL_Rect *retangulo);
+void AtribuirFRectInRect(SDL_FRect *fretangulo, SDL_Rect *retangulo);
 
 // Funções para ajustes dinamicos
 void CentralizarRectInRect(SDL_FRect *rect_pai, SDL_FRect *rect_filho);

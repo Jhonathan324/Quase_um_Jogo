@@ -5,50 +5,7 @@
 
 // Para eu não me perder as funções deste .c esta organizado na mesma ordem das funções do gerais.h
 
-void GetTamanhos(Tamanhos *tamanhos)
-{
-    if(tamanhos->escala >= 0 && tamanhos->escala <=6){
-        tamanhos->tela[0] = 320 * (tamanhos->escala + 2);
-        tamanhos->tela[1] = 180 * (tamanhos->escala + 2);
-    }
-    else{
-        tamanhos->escala = 0;
-        tamanhos->tela[0] = 640;
-        tamanhos->tela[1] = 360;
-    }
-
-    tamanhos->menu[0]         = tamanhos->tela[0] * (float)CantoFixo          / 640 * 6;
-    tamanhos->menu[1]         = tamanhos->tela[1] * (float)CantoFixo          / 360 * 6;
-
-    tamanhos->bloco1[0]       = tamanhos->tela[0] * (float)MedidaImgBloco     / 640 * 2;
-    tamanhos->bloco1[1]       = tamanhos->tela[1] * (float)MedidaImgBloco     / 360 * 2;
-
-    tamanhos->botao1[0]       = tamanhos->tela[0] * (float)MedidaImgBloco     / 640 * 2;
-    tamanhos->botao1[1]       = tamanhos->tela[1] * (float)MedidaImgBloco     / 360 * 2;
-
-    tamanhos->botao2[0]       = tamanhos->tela[0] * (float)MedidaImgBloco     / 640 * 2;
-    tamanhos->botao2[1]       = tamanhos->tela[1] * (float)MedidaImgBloco     / 360 * 2;
-
-    tamanhos->barra_vida[0]   = tamanhos->tela[0] * (float)(EscalaHud*4)      / 640 * 2;
-    tamanhos->barra_vida[1]   = tamanhos->tela[1] * (float)(EscalaHud*1)      / 360 * 2;
-
-    tamanhos->jogador[0]      = tamanhos->tela[0] * (float)MedidaImgPlayerX   / 640 * 2;
-    tamanhos->jogador[1]      = tamanhos->tela[1] * (float)MedidaImgPlayerY   / 360 * 2;
-
-    tamanhos->inimigo1[0]     = tamanhos->tela[0] * (float)MedidaImgInimigo1X / 640 * 2;
-    tamanhos->inimigo1[1]     = tamanhos->tela[1] * (float)MedidaImgInimigo1Y / 360 * 2;
-
-    tamanhos->inimigo2[0]     = tamanhos->tela[0] * (float)MedidaImgInimigo2X / 640;
-    tamanhos->inimigo2[1]     = tamanhos->tela[1] * (float)MedidaImgInimigo2Y / 360;
-
-    tamanhos->jogador_coli[0] = tamanhos->tela[0] * (float)MedidaImgPlayerColiX / 640 * 2;
-    tamanhos->jogador_coli[1] = tamanhos->tela[1] * (float)MedidaImgPlayerColiY / 360 * 2;
-
-}
-
-
-
-void AtribuirFRectInRectA(SDL_FRect *fretangulo, SDL_Rect *retangulo)
+void AtribuirFRectInRect(SDL_FRect *fretangulo, SDL_Rect *retangulo)
 {
     retangulo->x = fretangulo->x;
     retangulo->y = fretangulo->y;
@@ -217,7 +174,7 @@ bool VerificarMarcador(Marcador *marcador, SDL_Point mouse, bool click){
 
     // Cria um retangulo para verificar as colisões como o mouse
     SDL_Rect retangulo_colisao;
-    AtribuirFRectInRectA(&marcador->retangulo, &retangulo_colisao);
+    AtribuirFRectInRect(&marcador->retangulo, &retangulo_colisao);
 
     // verifica se o mouse está emcima do botão
     if (SDL_PointInRect(&mouse, &retangulo_colisao))
@@ -356,7 +313,7 @@ bool VerificarBotao(Botao *botao, SDL_Point mouse, bool click)
 
     // Cria um retangulo para verificar as colisões como o mouse
     SDL_Rect retangulo_colisao;
-    AtribuirFRectInRectA(&botao->retangulo, &retangulo_colisao);
+    AtribuirFRectInRect(&botao->retangulo, &retangulo_colisao);
 
     // verifica se o mouse está emcima do botão
     if (SDL_PointInRect(&mouse, &retangulo_colisao))
@@ -545,38 +502,4 @@ void DestruirBotaoExpansivo(BotaoExpansivo *botao){
     }
 }
 
-void ModuloEvento(VariveisGerais *geral)
-{
-    if (geral->evento.type == SDL_EVENT_QUIT)
-    {
-        geral->rodando = false;
-    }
-    //mouse 
-    SDL_GetMouseState(&geral->mouse_x, &geral->mouse_y);
-    geral->ponto_mouse.x = geral->mouse_x;
-    geral->ponto_mouse.y = geral->mouse_y;
 
-
-    if (geral->evento.type == SDL_EVENT_MOUSE_BUTTON_DOWN){
-        if(geral->evento.button.button == SDL_BUTTON_LEFT)
-            geral->botao_mouse_esquerdo = true;
-
-        if(geral->evento.button.button == SDL_BUTTON_RIGHT)
-            geral->botao_mouse_direito = true;
-
-        if(geral->evento.button.button == SDL_BUTTON_MIDDLE){
-            geral->botao_mouse_meio = true;
-        }
-    }
-    else if(geral->evento.type == SDL_EVENT_MOUSE_WHEEL){
-        geral->botao_mouse_gira = geral->evento.wheel.y;
-    }
-    else if(geral->evento.type == SDL_EVENT_MOUSE_BUTTON_UP){
-        geral->botao_mouse_esquerdo = false;
-        geral->botao_mouse_direito = false;
-        geral->botao_mouse_meio = false;
-    }
-
-    
-
-}
