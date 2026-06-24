@@ -551,8 +551,8 @@ void ModuloEvento(VariveisGerais *geral)
     {
         geral->rodando = false;
     }
-    //mouse
-        SDL_GetMouseState(&geral->mouse_x, &geral->mouse_y);
+    //mouse 
+    SDL_GetMouseState(&geral->mouse_x, &geral->mouse_y);
     geral->ponto_mouse.x = geral->mouse_x;
     geral->ponto_mouse.y = geral->mouse_y;
 
@@ -577,6 +577,6 @@ void ModuloEvento(VariveisGerais *geral)
         geral->botao_mouse_meio = false;
     }
 
-
+    
 
 }

@@ -49,8 +49,8 @@ PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL
                 .tempo_safe       = 0,
                 .tempo_hit        = 0,
                 .acelera          = (float)retangulo_coli.w/100,
-                .vel_max_x        = (float)retangulo_coli.w/32,
-                .vel_max_y        = (float)retangulo_coli.h/32,
+                .vel_max_x        = (float)retangulo_coli.w/20,
+                .vel_max_y        = (float)retangulo_coli.h/20,
                 .velocidade_x     = 0,
                 .velocidade_y     = 0,
                 .posicao_x        = retangulo_coli.x,
@@ -74,6 +74,7 @@ void redimencionar_jogador(PlayerInJogo *jogador, SDL_Point local){
 
 void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_frame, Camera *camera, Mapa mapa, int tamanho_bloco[2], int tamanhos_tela[2]){
         double movi_v = true, movi_h = 0;
+        //reseta o jogador para o ponto inicial caso ele perca uma vida
         if(jogador->vida <= 0) {
                 jogador->vida = 100;
                 jogador->coracoes--;
@@ -84,7 +85,13 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
         jogador->frame += delta_frame;
 
         // Logica do Player
+        // teclas do movimento horizontal
         movi_h = (teclado[SDL_SCANCODE_D] - teclado[SDL_SCANCODE_A]);
+        if(movi_h<0) jogador->costas = true;
+        if(movi_h>0) jogador->costas = false;
+        if(!movi_h) jogador->velocidade_x = 0;
+
+        // Lógica de ataque
         if(jogador->ataque){
                 jogador->ataque -= delta_frame;
                 if(jogador->ataque < 0) jogador->ataque = 0;
@@ -100,31 +107,31 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
         }
 
 
-
-        if(movi_h<0) jogador->costas = true;
-        if(movi_h>0) jogador->costas = false;
-        if(!movi_h) jogador->velocidade_x = 0;
-
-        // É necessario divirdir em dois para não ser possivel bugar nas quinas do blocos
-
-         // vericando para a velocidade não passar do maximo
-        if (jogador->velocidade_x < jogador->vel_max_x*-1)
-                jogador->velocidade_x = jogador->vel_max_x*-1;
-
-        if (jogador->velocidade_x > jogador->vel_max_x)
-                jogador->velocidade_x = jogador->vel_max_x;
-
+        // Colisão vertical
+        jogador->velocidade_y += jogador->acelera * delta_frame * movi_v;
+        
+        jogador->pulo -= delta_frame;
+        if (jogador->pulo < 0){
+                jogador->pulo = 0;
+        }
+        jogador->velocidade_y -= jogador->acelera * delta_frame * (jogador->pulo / 6);
+        
         if (jogador->velocidade_y < jogador->vel_max_y*-1)
                 jogador->velocidade_y = jogador->vel_max_y*-1;
-
+        
         if (jogador->velocidade_y > jogador->vel_max_y)
                 jogador->velocidade_y = jogador->vel_max_y;
 
+        float velocidade_com_margem = jogador->velocidade_y * delta_frame;
+        if (velocidade_com_margem < jogador->vel_max_y*-1)
+                velocidade_com_margem = jogador->vel_max_y*-1;
+        
+        if (velocidade_com_margem > jogador->vel_max_y)
+                velocidade_com_margem = jogador->vel_max_y;
+        
 
-        // Colisão vertical
-        jogador->velocidade_y += jogador->acelera * delta_frame * movi_v*0.1;
         jogador->posicao_y_back = jogador->posicao_y;
-        jogador->posicao_y += jogador->velocidade_y * delta_frame;
+        jogador->posicao_y += velocidade_com_margem;
         jogador->retangulo_coli.y = jogador->posicao_y;
         jogador->coli_v = ColisaoPlayerMapa(jogador, mapa, tamanho_bloco, tamanhos_tela, *camera);
         if(jogador->coli_v ){
@@ -132,18 +139,38 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
                         jogador->pulo = false;
                         jogador->coli_v = false;
                 }
+                else{
+                        jogador->coyote_time = false;
+                        if (teclado[SDL_SCANCODE_SPACE] && !jogador->pulo)
+                        {
+                                jogador->pulo = 50;
+                        }
+                }
                 movi_v = false;
                 jogador->velocidade_y = false;
                 jogador->posicao_y        = jogador->posicao_y_back;
                 jogador->retangulo_coli.y = jogador->posicao_y_back;
         }
+        if (jogador->estado_atual != VMM_PLAYER_CAIR && jogador->posicao_y != jogador->posicao_y_back)
+        jogador->coyote_time++;   
         
 
 
         // Colisão horizontal
         jogador->velocidade_x += jogador->acelera * delta_frame * movi_h;
+        if (jogador->velocidade_x < jogador->vel_max_x*-1)
+                jogador->velocidade_x = jogador->vel_max_x*-1;
+        if (jogador->velocidade_x > jogador->vel_max_x)
+                jogador->velocidade_x = jogador->vel_max_x;
+
+        velocidade_com_margem = jogador->velocidade_x * delta_frame;
+        if (velocidade_com_margem < jogador->vel_max_x*-1)
+                velocidade_com_margem = jogador->vel_max_x*-1;
+        if (velocidade_com_margem > jogador->vel_max_x)
+                velocidade_com_margem = jogador->vel_max_x;
+
         jogador->posicao_x_back = jogador->posicao_x;
-        jogador->posicao_x += jogador->velocidade_x * delta_frame;
+        jogador->posicao_x += velocidade_com_margem;
         jogador->retangulo_coli.x = jogador->posicao_x;
         jogador->coli_h = ColisaoPlayerMapa(jogador, mapa, tamanho_bloco, tamanhos_tela, *camera);
         if(jogador->coli_h){
@@ -153,8 +180,7 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
                 jogador->retangulo_coli.x = jogador->posicao_x_back;
         }
         
-        if (jogador->estado_atual != VMM_PLAYER_CAIR && jogador->posicao_y != jogador->posicao_y_back)
-        jogador->coyote_time++;        
+             
         if (!jogador->tempo_hit)
         {
                 if (!jogador->coli_v)
@@ -189,10 +215,7 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
                                                 jogador->estado_passado = jogador->estado_atual;
                                         }
                                 }
-                                jogador->velocidade_y -= jogador->acelera * delta_frame * (jogador->pulo / 6);
-                                jogador->pulo -= delta_frame;
-                                if (jogador->pulo < 0)
-                                        jogador->pulo = 0;
+                                
                         }
                         else if (jogador->coyote_time > 3)
                         {
@@ -220,11 +243,7 @@ void CalcularPlayer(const bool *teclado, PlayerInJogo *jogador, double delta_fra
                 }
                 else
                 {
-                        jogador->coyote_time = false;
-                        if (teclado[SDL_SCANCODE_SPACE] && !jogador->pulo)
-                        {
-                                jogador->pulo = 50;
-                        }
+                        
                         if (movi_h)
                         {
                                 if (jogador->ataque)

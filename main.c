@@ -23,8 +23,9 @@ static void LoopPrincipal(void)
     tempo = (double)(agora - tempo_inicial) * nanos_por_tick;
     tempo_inicial = agora;
 
-    while (SDL_PollEvent(&geral.evento))
+    while (SDL_PollEvent(&geral.evento)){
         ModuloEvento(&geral);
+    }
 
     switch (geral.cena)
     {
