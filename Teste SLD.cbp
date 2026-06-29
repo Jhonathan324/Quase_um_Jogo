@@ -42,34 +42,38 @@
 			<Add directory="SDL3_ttf/lib" />
 			<Add directory="SDL3_image/lib" />
 		</Linker>
-		<Unit filename="conf.c">
+		<Unit filename="hdr/desumano.h" />
+		<Unit filename="hdr/gerais.h" />
+		<Unit filename="hdr/jogo.h" />
+		<Unit filename="hdr/mapa.h" />
+		<Unit filename="src/conf.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="gera_mapa.c">
+		<Unit filename="src/gera_mapa.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="gerais.c">
+		<Unit filename="src/gerais.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="gerais.h" />
-		<Unit filename="geral.c">
+		<Unit filename="src/geral.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="jogo.c">
+		<Unit filename="src/jogo.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="jogo.h" />
-		<Unit filename="jogofuncoes.c">
+		<Unit filename="src/jogofuncoes.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="main.c">
+		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="mapa.h" />
-		<Unit filename="menu.c">
+		<Unit filename="src/menu.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="pause.c">
+		<Unit filename="src/pause.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/texto.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

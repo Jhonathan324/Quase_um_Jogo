@@ -5,7 +5,7 @@ if not exist bin\debug mkdir bin\debug
 "C:\Program Files\CodeBlocks\MinGW\bin\gcc.exe" ^
 -fdiagnostics-color=always ^
 -g ^
-*.c ^
+src/*.c ^
 -ISDL3/include ^
 -ISDL3_image/include ^
 -ISDL3_ttf/include ^
