@@ -3,34 +3,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-
-void DesenharHud(VariveisGerais geral, VariveisJogo jogo, Tamanhos tamanhos){
-        SDL_FRect barra = {CantoFixo/3,CantoFixo/3,tamanhos.barra_vida[0],tamanhos.barra_vida[1]};
-        SDL_RenderTexture(
-                geral.renderizador,
-                geral.textura_hud,
-                &geral.barra_de_vida,
-                &barra);
-
-        SDL_FRect vida  = geral.barra_de_vida;
-        vida.y = EscalaHud * 5;
-        SDL_RenderTexture(
-                geral.renderizador,
-                geral.textura_hud,
-                &vida,
-                &barra);
-
-        vida.y = EscalaHud * 7;
-        vida.w *= (jogo.jogador.vida/100);
-        barra.w *= (jogo.jogador.vida/100);
-        SDL_RenderTexture(
-                geral.renderizador,
-                geral.textura_hud,
-                &vida,
-                &barra);
-}
-
-
 PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL_Rect retangulo_coli,  char *img, float vida, int coracoes){
         PlayerInJogo jogador = {
                 .coracoes         = coracoes,
@@ -490,12 +462,6 @@ void ColisaoPlayerInimigo(PlayerInJogo *jogador, Inimigo *inimigo){
         }
 }
 
-void InitInimigosinMap(VariveisJogo jogo);
-
-void DesenharBloco(SDL_Renderer *renderizador, Bloco bloco){
-        SDL_RenderTexture(renderizador, bloco.textura, &bloco.loc, &bloco.retangulo);
-
-}
 
 bool ColisaoPlayerMapa(PlayerInJogo *jogador, Mapa mapa, int tamanho_bloco[2], int tamanho_tela[2],Camera camera){
         for(int i = camera.y/tamanho_bloco[1]; i*tamanho_bloco[1] < tamanho_tela[1] + camera.y && i < TamanhosMapaY; i++){
@@ -587,43 +553,6 @@ void ColisaoInimigoMapaH(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int 
                         }
                 }
         }
-}
-
-
-void DesenharMapa(SDL_Renderer *renderizador, Mapa mapa, Camera camera, int tamanho_bloco[2], int tamanho_tela[2]){
-        int i = camera.y/tamanho_bloco[1];
-        if(i<0) i = 0;
-        for(; i*tamanho_bloco[1] < tamanho_tela[1] + camera.y && i < TamanhosMapaY; i++){
-                int j = camera.x/tamanho_bloco[0];
-                if(j<0) j = 0;
-                for(; j*tamanho_bloco[0] < tamanho_tela[0] + camera.x && j < TamanhosMapaX; j++){
-                        if(mapa.tiles[i][j]){
-                                SDL_FRect src = MapaTiles(mapa.tiles[i][j]);
-                                SDL_RenderTexture(renderizador, mapa.textura, &src , &(SDL_FRect){j*tamanho_bloco[0] - camera.x, i*tamanho_bloco[1] - camera.y, tamanho_bloco[0],tamanho_bloco[1]});
-                        }
-                }
-        }
-}
-
-SDL_FRect MapaTiles(int n){
-        SDL_FRect rect = {
-                .w = MedidaImgBloco,
-                .h = MedidaImgBloco
-        };
-
-        #define X(index, x_loc, y_loc, tipo) \
-                case(index):{ \
-                        rect.x = x_loc * MedidaImgBloco; \
-                        rect.y = y_loc * MedidaImgBloco;  \
-                }break;
-
-        switch(n-1){
-                TabelaBlocoAtlas
-        }
-
-        #undef X
-
-        return rect;
 }
 
 TiposVMMA CalcularTipoVMMA(int n)

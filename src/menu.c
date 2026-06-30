@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include "../hdr/gerais.h"
+#include "../hdr/geral.h"
+#include "../hdr/ui_cenas.h"
 
 #define QuantBotao 4
 

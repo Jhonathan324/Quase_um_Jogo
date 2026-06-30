@@ -1,6 +1,6 @@
+#include "../hdr/geral.h"
+#include "../hdr/ui_cenas.h"
 #include <stdio.h>
-#include <stdbool.h>
-#include "../hdr/gerais.h"
 
 void InitCenaConf(VariveisGerais *geral, VariveisConf *conf, Tamanhos tamanhos)
 {

@@ -5,6 +5,31 @@
 #include "../hdr/mapa.h"
 
 
+void DesenharHud(VariveisGerais geral, VariveisJogo jogo, Tamanhos tamanhos){
+        SDL_FRect barra = {CantoFixo/3,CantoFixo/3,tamanhos.barra_vida[0],tamanhos.barra_vida[1]};
+        SDL_RenderTexture(
+                geral.renderizador,
+                geral.textura_hud,
+                &geral.barra_de_vida,
+                &barra);
+
+        SDL_FRect vida  = geral.barra_de_vida;
+        vida.y = EscalaHud * 5;
+        SDL_RenderTexture(
+                geral.renderizador,
+                geral.textura_hud,
+                &vida,
+                &barra);
+
+        vida.y = EscalaHud * 7;
+        vida.w *= (jogo.jogador.vida/100);
+        barra.w *= (jogo.jogador.vida/100);
+        SDL_RenderTexture(
+                geral.renderizador,
+                geral.textura_hud,
+                &vida,
+                &barra);
+}
 
 void InitCenaJogo(VariveisGerais *geral, VariveisJogo *jogo, Tamanhos tamanhos){
     // Jogador do Geral

@@ -568,10 +568,10 @@
 	<SDL3/SDL_begin_code.h>
 	<SDL3/SDL_close_code.h>
 
-1782706944 source:c:\users\17898981\projetos\quase_um_jogo\src\conf.c
+1782831888 source:c:\users\17898981\projetos\quase_um_jogo\src\conf.c
+	"../hdr/geral.h"
+	"../hdr/ui_cenas.h"
 	<stdio.h>
-	<stdbool.h>
-	"../hdr/gerais.h"
 
 1782706581 c:\users\17898981\projetos\quase_um_jogo\hdr\gerais.h
 	<SDL3/SDL.h>
@@ -1083,11 +1083,13 @@
 	<stdbool.h>
 	"../hdr/mapa.h"
 
-1782706581 c:\users\17898981\projetos\quase_um_jogo\hdr\mapa.h
-	"jogo.h"
+1782832278 c:\users\17898981\projetos\quase_um_jogo\hdr\mapa.h
+	"types.h"
+	"ui.h"
 
-1782706581 c:\users\17898981\projetos\quase_um_jogo\hdr\jogo.h
-	"gerais.h"
+1782831818 c:\users\17898981\projetos\quase_um_jogo\hdr\jogo.h
+	"types.h"
+	"mapa.h"
 
 1782706950 source:c:\users\17898981\projetos\quase_um_jogo\src\gerais.c
 	<stdio.h>
@@ -1095,34 +1097,80 @@
 	<stdbool.h>
 	"../hdr/gerais.h"
 
-1782706952 source:c:\users\17898981\projetos\quase_um_jogo\src\geral.c
+1782831739 source:c:\users\17898981\projetos\quase_um_jogo\src\geral.c
 	<stdio.h>
 	<stdbool.h>
-	"../hdr/gerais.h"
+	"../hdr/geral.h"
 
-1782706955 source:c:\users\17898981\projetos\quase_um_jogo\src\jogo.c
+1782834056 source:c:\users\17898981\projetos\quase_um_jogo\src\jogo.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	"../hdr/jogo.h"
 	"../hdr/mapa.h"
 
-1782706966 source:c:\users\17898981\projetos\quase_um_jogo\src\main.c
+1782831857 source:c:\users\17898981\projetos\quase_um_jogo\src\main.c
 	<stdio.h>
 	<stdbool.h>
+	"../hdr/geral.h"
+	"../hdr/jogo.h"
 	"../hdr/mapa.h"
+	"../hdr/ui_cenas.h"
 	<emscripten.h>
 
-1782706970 source:c:\users\17898981\projetos\quase_um_jogo\src\menu.c
-	<stdio.h>
-	<stdbool.h>
-	"../hdr/gerais.h"
+1782831904 source:c:\users\17898981\projetos\quase_um_jogo\src\menu.c
+	"../hdr/geral.h"
+	"../hdr/ui_cenas.h"
 
-1782706968 source:c:\users\17898981\projetos\quase_um_jogo\src\pause.c
-	<stdio.h>
-	<stdbool.h>
-	"../hdr/gerais.h"
+1782831914 source:c:\users\17898981\projetos\quase_um_jogo\src\pause.c
+	"../hdr/geral.h"
+	"../hdr/ui_cenas.h"
 
 1782706974 source:c:\users\17898981\projetos\quase_um_jogo\src\texto.c
 	"../hdr/gerais.h"
+
+1782831022 c:\users\17898981\projetos\quase_um_jogo\hdr\geral.h
+	"types.h"
+	"utils.h"
+
+1782831605 c:\users\17898981\projetos\quase_um_jogo\hdr\types.h
+	<SDL3/SDL.h>
+	<SDL3/SDL_ttf.h>
+	<SDL3_image/SDL_image.h>
+	"desumano.h"
+
+1782831146 c:\users\17898981\projetos\quase_um_jogo\hdr\utils.h
+	"types.h"
+
+1782830924 c:\users\17898981\projetos\quase_um_jogo\hdr\ui_cenas.h
+	"types.h"
+	"ui.h"
+
+1782831090 c:\users\17898981\projetos\quase_um_jogo\hdr\ui.h
+	"utils.h"
+
+1782833860 source:c:\users\17898981\projetos\quase_um_jogo\src\entidades.c
+	"../hdr/jogo.h"
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
+1782832495 source:c:\users\17898981\projetos\quase_um_jogo\src\mapa.c
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<stdbool.h>
+	"../hdr/mapa.h"
+
+1782834022 source:c:\users\17898981\projetos\quase_um_jogo\src\ui.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"../hdr/geral.h"
+
+1782834031 source:c:\users\17898981\projetos\quase_um_jogo\src\utils.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"../hdr/geral.h"
 

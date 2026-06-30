@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "../hdr/gerais.h"
+#include "../hdr/geral.h"
 
 void GetTamanhos(Tamanhos *tamanhos)
 {

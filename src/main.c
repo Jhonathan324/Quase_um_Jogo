@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include "../hdr/geral.h"
+#include "../hdr/jogo.h"
 #include "../hdr/mapa.h"
+#include "../hdr/ui_cenas.h"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>

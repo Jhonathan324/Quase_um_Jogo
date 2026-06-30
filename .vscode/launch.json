@@ -6,8 +6,8 @@
             "type": "cppdbg",
             "request": "launch",
 
-            "program": "${fileDirname}\\bin\\debug\\main.exe",
-            "cwd": "${fileDirname}",
+            "program": "${workspaceFolder}\\bin\\debug\\main.exe",
+            "cwd": "${workspaceFolder}",
 
             "stopAtEntry": false,
             "externalConsole": false,

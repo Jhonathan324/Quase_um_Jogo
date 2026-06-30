@@ -43,6 +43,50 @@ void CarregarMapa(Mapa *c, int n) {
 }
 
 
+void DesenharBloco(SDL_Renderer *renderizador, Bloco bloco){
+        SDL_RenderTexture(renderizador, bloco.textura, &bloco.loc, &bloco.retangulo);
+
+}
+
+
+
+
+void DesenharMapa(SDL_Renderer *renderizador, Mapa mapa, Camera camera, int tamanho_bloco[2], int tamanho_tela[2]){
+        int i = camera.y/tamanho_bloco[1];
+        if(i<0) i = 0;
+        for(; i*tamanho_bloco[1] < tamanho_tela[1] + camera.y && i < TamanhosMapaY; i++){
+                int j = camera.x/tamanho_bloco[0];
+                if(j<0) j = 0;
+                for(; j*tamanho_bloco[0] < tamanho_tela[0] + camera.x && j < TamanhosMapaX; j++){
+                        if(mapa.tiles[i][j]){
+                                SDL_FRect src = MapaTiles(mapa.tiles[i][j]);
+                                SDL_RenderTexture(renderizador, mapa.textura, &src , &(SDL_FRect){j*tamanho_bloco[0] - camera.x, i*tamanho_bloco[1] - camera.y, tamanho_bloco[0],tamanho_bloco[1]});
+                        }
+                }
+        }
+}
+
+SDL_FRect MapaTiles(int n){
+        SDL_FRect rect = {
+                .w = MedidaImgBloco,
+                .h = MedidaImgBloco
+        };
+
+        #define X(index, x_loc, y_loc, tipo) \
+                case(index):{ \
+                        rect.x = x_loc * MedidaImgBloco; \
+                        rect.y = y_loc * MedidaImgBloco;  \
+                }break;
+
+        switch(n-1){
+                TabelaBlocoAtlas
+        }
+
+        #undef X
+
+        return rect;
+}
+
 bool VerificarMarcadorBloco(MarcadorBloco *marcador, SDL_Point mouse, int rolada){
 		// Cria um retangulo para verificar as colisões como o mouse
 		SDL_Rect retangulo_colisao;
@@ -314,14 +358,70 @@ void LoopCenaMapa(VariveisGerais *geral, VariaveisMapa *mapa){
 
 void DesenharCenaMapa(VariveisGerais geral, VariaveisMapa mapa){
 	// Limpeza de Tela
-		SDL_SetRenderDrawColor(geral.renderizador, mapa.cor_fundo.r, mapa.cor_fundo.g, mapa.cor_fundo.b, mapa.cor_fundo.a);
-		SDL_RenderClear(geral.renderizador);
+	SDL_SetRenderDrawColor(geral.renderizador, mapa.cor_fundo.r, mapa.cor_fundo.g, mapa.cor_fundo.b, mapa.cor_fundo.a);
+	SDL_RenderClear(geral.renderizador);
 
-		// Elementos
-		DesenharMapa(geral.renderizador, mapa.mapa, mapa.camera, mapa.tamanho_bloco, geral.resolucao_atual);
+	// Mapa
+	DesenharMapa(geral.renderizador, mapa.mapa, mapa.camera, mapa.tamanho_bloco, geral.resolucao_atual);
+
+	// Desenhar o no mapa o bloco selecionado
 	SDL_Color cor = SEMI_PRETO;
 	SDL_SetRenderDrawColor(geral.renderizador, cor.r, cor.g, cor.b, cor.a);
 	SDL_RenderFillRect(geral.renderizador, &mapa.selecao);
+
+	// Se o modo de precencer esiver ativo
+	if (mapa.preencher){
+			int modulo_x = mapa.selecao_coli_preencimento.x-mapa.selecao_coli_back.x;
+			int modulo_y = mapa.selecao_coli_preencimento.y-mapa.selecao_coli_back.y;
+			if(modulo_y < 0){
+				for(int i = mapa.selecao_coli_back.y; i >= mapa.selecao_coli_back.y + modulo_y; i--){
+					if(modulo_x < 0)
+					for(int j = mapa.selecao_coli_back.x; j >= mapa.selecao_coli_back.x + modulo_x; j--){
+						SDL_SetRenderDrawColor(geral.renderizador, cor.r, cor.g, cor.b, cor.a);
+						SDL_RenderFillRect(geral.renderizador, &(SDL_FRect){
+							j*mapa.tamanho_bloco[0]-mapa.camera.x, 
+							i*mapa.tamanho_bloco[1]-mapa.camera.y, 
+							mapa.tamanho_bloco[0], 
+							mapa.tamanho_bloco[1]});;
+					}
+					else
+					for(int j = mapa.selecao_coli_back.x; j <= mapa.selecao_coli_back.x + modulo_x; j++){
+						SDL_SetRenderDrawColor(geral.renderizador, cor.r, cor.g, cor.b, cor.a);
+						SDL_RenderFillRect(geral.renderizador, &(SDL_FRect){
+							j*mapa.tamanho_bloco[0]-mapa.camera.x, 
+							i*mapa.tamanho_bloco[1]-mapa.camera.y, 
+							mapa.tamanho_bloco[0], 
+							mapa.tamanho_bloco[1]});;
+					}
+				}
+			}
+			else{
+				//printf("banana2\n");
+				for(int i = mapa.selecao_coli_back.y; i <= mapa.selecao_coli_back.y + modulo_y; i++){
+					if(modulo_x < 0)
+					for(int j = mapa.selecao_coli_back.x; j >= mapa.selecao_coli_back.x + modulo_x; j--){
+						SDL_SetRenderDrawColor(geral.renderizador, cor.r, cor.g, cor.b, cor.a);
+						SDL_RenderFillRect(geral.renderizador, &(SDL_FRect){
+							j*mapa.tamanho_bloco[0]-mapa.camera.x, 
+							i*mapa.tamanho_bloco[1]-mapa.camera.y, 
+							mapa.tamanho_bloco[0], 
+							mapa.tamanho_bloco[1]});;
+					}
+					else
+					for(int j = mapa.selecao_coli_back.x; j <= mapa.selecao_coli_back.x + modulo_x; j++){
+						SDL_SetRenderDrawColor(geral.renderizador, cor.r, cor.g, cor.b, cor.a);
+						SDL_RenderFillRect(geral.renderizador, &(SDL_FRect){
+							j*mapa.tamanho_bloco[0]-mapa.camera.x, 
+							i*mapa.tamanho_bloco[1]-mapa.camera.y, 
+							mapa.tamanho_bloco[0], 
+							mapa.tamanho_bloco[1]});;
+					}
+				}
+			}
+	}
+	
+
+	// Tabela de seleção de bloco
 	DesenharMoldura(geral.renderizador, mapa.moldura_bloco);
 
 	#define X(index, x_loc, y_loc, tipo)                         \

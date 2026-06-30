@@ -4,9 +4,9 @@
         {
             "label": "build SDL3",
             "type": "shell",
-            "command": ".\\build.bat",
+            "command": "${workspaceFolder}\\build.bat",
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [
                 "$gcc"

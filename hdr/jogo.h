@@ -1,9 +1,9 @@
 #ifndef JOGO_H_INCLUDED
 #define JOGO_H_INCLUDED
-#include "gerais.h"
 
-#define TamanhosMapaX 512
-#define TamanhosMapaY 128
+#include "types.h"
+#include "mapa.h"
+
 
 
 //animação, quantidade de frames, tempo de execução
@@ -77,23 +77,7 @@ typedef struct Inimigo
 	TiposInimigo index;
 }Inimigo;
 
-typedef struct Bloco{
-	SDL_Texture *textura;
-	SDL_FRect loc;
-	SDL_FRect retangulo;
-} Bloco;
 
-typedef struct Mapa{
-	int n;
-	uint16_t tiles[TamanhosMapaY][TamanhosMapaX];
-	SDL_Texture *textura;
-	SDL_Rect area_vitoria;
-} Mapa;
-
-typedef struct Camera {
-	int x;
-	int y;
-} Camera;
 
 typedef struct VariveisJogo
 {
@@ -117,10 +101,8 @@ void LoopCenaJogo    (VariveisGerais *geral, VariveisJogo *jogo, double delta_t)
 void DesenharCenaJogo(VariveisGerais  geral, VariveisJogo  jogo, Tamanhos tamanhos);
 
 
-void DesenharBloco(SDL_Renderer *renderizador, Bloco bloco);
-void DesenharMapa(SDL_Renderer *renderizador, Mapa mapa, Camera camera, int tamanho_bloco[2], int tamanhos_tela[2]);
 void DesenharHud(VariveisGerais geral, VariveisJogo jogo, Tamanhos tamanhos);
-SDL_FRect MapaTiles(int n);
+
 
 PlayerInJogo InitPlayer(SDL_Renderer *renderizador, SDL_FRect retangulo_img, SDL_Rect retangulo_coli,  char *img, float vida, int coracoes);
 void CalcularPlayer(const bool *teclado, PlayerInJogo *player, double delta_frame, Camera *camera, Mapa mapa, int tamanho_bloco[2], int tamanhos_tela[2]);
@@ -133,15 +115,11 @@ void DesenharInimigo(SDL_Renderer *renderizador, Inimigo inimigo, SDL_Texture *s
 
 TiposVMMA CalcularTipoVMMA(int n);
 bool ColisaoPlayerMapa(PlayerInJogo *jogador, Mapa Mapa, int tamanho_bloco[2], int tamanho_tela[2], Camera camera);
-
 void ColisaoInimigoMapaH(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int tamanho_tela[2],Camera camera);
 void ColisaoInimigoMapaV(Inimigo *inimigo, Mapa mapa, int tamanho_bloco[2], int tamanho_tela[2],Camera camera);
-
 void ColisaoPlayerInimigo(PlayerInJogo *jogador, Inimigo *Inimigo);
 
 
-//Criação de Mapa
-void SalvarMapa(Mapa *c);
-void CarregarMapa(Mapa *c, int n);
+
 
 #endif // JOGO_H_INCLUDED
