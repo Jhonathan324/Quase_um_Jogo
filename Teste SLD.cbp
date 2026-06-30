@@ -43,16 +43,17 @@
 			<Add directory="SDL3_image/lib" />
 		</Linker>
 		<Unit filename="hdr/desumano.h" />
-		<Unit filename="hdr/gerais.h" />
+		<Unit filename="hdr/geral.h" />
 		<Unit filename="hdr/jogo.h" />
 		<Unit filename="hdr/mapa.h" />
+		<Unit filename="hdr/types.h" />
+		<Unit filename="hdr/ui.h" />
+		<Unit filename="hdr/ui_cenas.h" />
+		<Unit filename="hdr/utils.h" />
 		<Unit filename="src/conf.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/gera_mapa.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/gerais.c">
+		<Unit filename="src/entidades.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/geral.c">
@@ -61,10 +62,10 @@
 		<Unit filename="src/jogo.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/jogofuncoes.c">
+		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/main.c">
+		<Unit filename="src/mapa.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/menu.c">
@@ -73,7 +74,10 @@
 		<Unit filename="src/pause.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/texto.c">
+		<Unit filename="src/ui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>
